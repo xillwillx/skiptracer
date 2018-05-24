@@ -8,7 +8,7 @@ Initial attack vectors for recon usually involve utilizing pay-for-data/API (Rec
 Example:
 ----
 
-[![asciicast](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ.png)](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ&speed=2)
+[![asciicast](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ.png)](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ)
 
 
 Installation
