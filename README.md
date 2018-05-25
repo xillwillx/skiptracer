@@ -1,4 +1,4 @@
-## Skiptracer 
+## Skiptracer - OSINT scraping framework
 ![python](https://img.shields.io/badge/python-2.7-green.svg) ![version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg) ![licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg) 
 
 ![screen](https://i.imgur.com/gG0KZ0F.png)
