@@ -66,9 +66,8 @@ class TruePeopleGrabber(PageGrabber):
             # Added city state and zip lookup
             agerange = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter an age range, ex: 18-120 "+bc.CEND)
             citystatezip = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL|Alabama|12345) "+bc.CEND)
-            if str(information).split(' ')[1]:
-                self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
-                email = False
+            self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
+            email = False
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)
         if self.check_for_captcha() == True:  # Check responce for sign of captcha
