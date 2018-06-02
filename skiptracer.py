@@ -36,8 +36,10 @@ def banner():
     print ("\t\t\t      {}▀ ▀ ▀ ▀   ▀ {}▀▀▀▀ {}▀▀▀ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND)
     print ("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW,bc.CEND)
 
+
+
 @click.command()  # Gets arguments supplied at CLI STDIN
-@click.option('--lookup', '-l', type=click.Choice(['email', 'phone', 'name', 'sn', 'plate']), help='Lookup type to perform:\n\t[\'email\',\'phone\',\'name\',\'sn\',\'plate\']')
+@click.option('--lookup', '-l', prompt=True, type=click.Choice(['email', 'phone', 'name', 'sn', 'plate']), help='Lookup type to perform:\n\t[\'email\',\'phone\',\'name\',\'sn\',\'plate\']')
 @click.option('--search_string', '-s', prompt=True, help='Search string for lookup type:\n\t[\'user@domain.tld\',\'123-456-7890\',\'bill gates\',\'hacker1\']')
 @click.option('--output', '-o', default='', help='Output results to given filename')
 @click.option('--webproxy', '-p' ,default=False, is_flag=True, help='Enable web proxied request, edit proxy.txt')

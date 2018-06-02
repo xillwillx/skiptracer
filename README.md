@@ -28,4 +28,10 @@ $ python skiptracer.py
 
 Usage
 ----
+skiptracer allows you to perform OSINT on a target using the following search types: phone | email | real name | username | plate
+
+Example phone number lookup: 
+
+         python skyptracer.py -l phone -s 2123456789
+
 Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
