@@ -36,26 +36,28 @@ class TruePeopleGrabber(PageGrabber):
         address_list = []
         if lookup == "phone":
             phonere = re.compile('(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
+
             def makephone(information):  # Find user supplied data format, adjust as needed for URL
                 try:
                     if str(information).split("-")[1]:  # Can it be split bu a "-", everything is ok
                         dashphone = '({})-{}-{}'.format(information[0:3], information[5:8], information[9:])
                         return dashphone
-                except:
+                except Exception as e:
                     pass
                 try:
                     if str(information).split(" ")[1]:  # Can it be split by a whitespace, if so, break and format as needed for the URL
                         dashphone = '({})-{}-{}'.format(information[0:3], information[5:8], information[9:])
                         return dashphone
-                except:
+                except Exception as e:
                     pass
                 try:
                     if len(information)== 10:  # If len of data is 10 and is an integer, break and format as needed for URL
                         dashphone = '({})-{}-{}'.format(information[0:3], information[3:6], information[6:])
                         return dashphone
-                except:
+                except Exception as e:
                     print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Did not detect a phone number\n"+bc.CEND)
                     return
+
             if phonere.findall(information):  # Make the URL for a phone lookup, set email to False
                 try:
                     self.url = 'https://www.truepeoplesearch.com/results?phoneno={}'.format(makephone(information))
@@ -66,14 +68,12 @@ class TruePeopleGrabber(PageGrabber):
             # Added city state and zip lookup
             agerange = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter an age range, ex: 18-120 "+bc.CEND)
             citystatezip = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL|Alabama|12345) "+bc.CEND)
-            if str(information).split(" "):
+            if str(information).split(' ')[1]:
                 self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
-            else:
-                information = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a name to search, ex: (Stephen Hawking)"+bc.CEND)
-                self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
-            email = False
-        self.source = self.get_source(self.url)
-        self.soup = self.get_dom(self.source)
+                email = False
+        if lookup in ['name','phone']:
+            self.source = self.get_source(self.url)
+            self.soup = self.get_dom(self.source)
         if self.check_for_captcha() == True:  # Check responce for sign of captcha
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Goto: {}"+bc.CEND).format(self.url)
             self.iscomplete = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Have you completed the CAPTCHA? "+bc.CEND)
@@ -98,10 +98,12 @@ class TruePeopleGrabber(PageGrabber):
             plist = "Unknown"
             rellist = "Unknown"
             asso = "Unknown"
-
             for x in sorted(set(deep)):
                 try:
-                    rid = str(x).split(";")[3].split('"')[0]
+                    if lookup == 'name':
+                        rid = str(x).split(";")[3].split('"')[0]
+                    if lookup == 'phone':
+                        rid = str(x).split(";")[1].split('"')[0]
                     self.url2 = self.url+"&"+rid
                     self.source2 = self.get_source(self.url2)
                     self.soup2 = self.get_dom(self.source2)
