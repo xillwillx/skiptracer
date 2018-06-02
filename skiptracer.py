@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
+from __future__ import print_function
 import click
 from plugins.fouroneone_info import FourOneOneGrabber
 from plugins.who_call_id import WhoCallIdGrabber
@@ -30,11 +31,11 @@ def banner():
     print ("\t\t▐█ ▀. █▌▄▌▪██ ▐█ ▄█•██  ▀▄ █·▐█ ▀█ ▐█ ▌▪▀▄.▀·▀▄ █·")
     print ("\t\t▄▀▀▀█▄▐▀▀▄·▐█· ██▀· ▐█.▪▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▪▄▐▀▀▄ ")
     print ("\t\t▐█▄▪▐█▐█.█▌▐█▌▐█▪·• ▐█▌·▐█•█▌▐█ ▪▐▌▐███▌▐█▄▄▌▐█•█▌")
-    print ("\t\t       {},.-~*´¨¯¨`*·~-.¸{}-({}by{})-{},.-~*´¨¯¨`*·~-.¸{} \n").format(bc.CRED,bc.CYLW,bc.CCYN,bc.CYLW,bc.CRED,bc.CEND)
-    print ("\t\t\t      {}▀ █ █ █▀▄▀█ {}█▀▀█ {}█▀▀▄ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND)
-    print ("\t\t\t      {}█ █ █ █ ▀ █ {}█  █ {}█▀▀▄{}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND)
-    print ("\t\t\t      {}▀ ▀ ▀ ▀   ▀ {}▀▀▀▀ {}▀▀▀ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND)
-    print ("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW,bc.CEND)
+    print(("\t\t       {},.-~*´¨¯¨`*·~-.¸{}-({}by{})-{},.-~*´¨¯¨`*·~-.¸{} \n").format(bc.CRED,bc.CYLW,bc.CCYN,bc.CYLW,bc.CRED,bc.CEND))
+    print(("\t\t\t      {}▀ █ █ █▀▄▀█ {}█▀▀█ {}█▀▀▄ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
+    print(("\t\t\t      {}█ █ █ █ ▀ █ {}█  █ {}█▀▀▄{}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
+    print(("\t\t\t      {}▀ ▀ ▀ ▀   ▀ {}▀▀▀▀ {}▀▀▀ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
+    print(("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW,bc.CEND))
 
 @click.command()  # Gets arguments supplied at CLI STDIN
 @click.option('--lookup', '-l', type=click.Choice(['email', 'phone', 'name', 'sn', 'plate']), help='Lookup type to perform:\n\t[\'email\',\'phone\',\'name\',\'sn\',\'plate\']')
@@ -54,13 +55,13 @@ def main(lookup, search_string, output, webproxy):
         print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
         bi.proxy = pg.new_proxy()
     if lookup == "phone":  # If true, run phone modules
-        print
+        print()
         TruePeopleGrabber().get_info(lookup,search_string)
         WhoCallIdGrabber().get_info(search_string)
         FourOneOneGrabber().get_info(search_string)
         AdvanceBackgroundGrabber().get_info(lookup,search_string)
     if lookup == "email":  # If true, run email modules
-        print
+        print()
         HackedEmailGrabber().get_info(search_string)
         LinkedInSalesGrabber().get_info(search_string)
         MySpaceGrabber().get_info(search_string)
@@ -68,16 +69,16 @@ def main(lookup, search_string, output, webproxy):
         WhoisMindGrabber().get_info(search_string)
         AdvanceBackgroundGrabber().get_info(lookup,search_string)
     if lookup == "name":  # If true, run name modules
-        print
+        print()
         TruthFinderGrabber().get_info(lookup,search_string)
         TruePeopleGrabber().get_info(lookup,search_string)
         AdvanceBackgroundGrabber().get_info(lookup,search_string)
     if lookup == "sn":  # If true, run screename modules
-        print
+        print()
         KnowemGrabber().get_info(search_string)
         NameChkGrabber().get_info(search_string)
     if lookup == "plate":  # If true, run plate modules
-        print
+        print()
         VinGrabber().get_info(search_string)
     else:  # Still in the works
         "Still working on rest"
@@ -85,9 +86,9 @@ def main(lookup, search_string, output, webproxy):
         import json
         try:
             pg.write_file(json.dumps(bi.outdata), output)
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % output
+            print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % output)
         except Exception as nowriteJSON:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON
+            print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
 
 if __name__ == "__main__":  # If true, run main function of framework
     main()

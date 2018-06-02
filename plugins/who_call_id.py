@@ -1,9 +1,11 @@
 """Whocallid.com search module"""
+from __future__ import print_function
+from __future__ import absolute_import
 
 import re
 import logging
 from plugins.base import PageGrabber
-from colors import BodyColors as bc
+from .colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:
@@ -98,5 +100,5 @@ class WhoCallIdGrabber(PageGrabber):  # WhoCallID sales scraper for reverse tele
             "time": time
         })
         bi.outdata['whocallid'] = self.info_dict
-        print
+        print()
         return
