@@ -70,7 +70,7 @@ class TruePeopleGrabber(PageGrabber):
                 self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
             else:
                 information = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a name to search, ex: (Stephen Hawking)"+bc.CEND)
-                    self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
+                self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
             email = False
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)
