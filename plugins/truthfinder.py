@@ -83,15 +83,15 @@ class TruthFinderGrabber(PageGrabber):
                 except:
                     self.gndr = "&gender="
                 try:
-                    if len(str(information).split(' ')) in [2,3]:
-                        if len(str(information).split(' ')) == 2:
-                            self.fname = str(information).split(" ")[0]
-                            self.lname = str(information).split(" ")[1]
-                        if len(str(information).split(' ')) == 3:
-                            self.fname = str(information).split(" ")[0]
-                            self.lname = str(information).split(" ")[2]
+                    if str(information).split(" "):
+                        self.fname = str(information).split(" ")[0]
+                        self.lname = str(information).split(" ")[-1]
+                    else:
+                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Requires First and Last name to conduct this search.\n"+bc.CEND)
                 except:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed to parse serarch string, lookup name.\n"+bc.CEND)
+                    information = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a name to search for - ex: (Stephen Hawking) "+bc.CEND)
+                    self.fname = str(information).split(" ")[0]
+                    self.lname = str(information).split(" ")[-1]
             getlocal(citystatezip,gender,age)
             self.url = "https://www.truthfinder.com/results/?utm_source=VOTER&traffic%5Bsource%5D=VOTER&utm_medium=pre-pop&traffic%5Bmedium%5D=pre-pop&utm_campaign=&traffic%5Bcampaign%5D=srapi%3A&utm_term=1&traffic%5Bterm%5D=1&utm_content=&traffic%5Bcontent%5D=&s1=&s2=srapi&s3=1&s4=&s5=&city=&firstName={}&lastName={}&page=r&state={}{}&qLocation=true&qRelatives=true&qOver30={}".format(self.fname, self.lname, self.state, self.gndr, self.age)
             email = False
