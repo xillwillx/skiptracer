@@ -82,14 +82,12 @@ class TruthFinderGrabber(PageGrabber):
                         self.gndr = "&gender={}".format(gender)
                 except:
                     self.gndr = "&gender="
-                try:
-                    if str(information).split(" "):
-                        self.fname = str(information).split(" ")[0]
-                        self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
-                        print 
-                    else:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Requires First and Last name to conduct this search.\n"+bc.CEND)
-                except:
+                if str(information).split(" "):
+                    self.fname = str(information).split(" ")[0]
+                    self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
+                    print 
+                else:
+                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Requires First and Last name required to conduct this search.\n"+bc.CEND)
                     information = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a name to search for - ex: (Stephen Hawking) "+bc.CEND)
                     self.fname = str(information).split(" ")[0]
                     self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
