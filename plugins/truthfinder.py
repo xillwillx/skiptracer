@@ -82,6 +82,7 @@ class TruthFinderGrabber(PageGrabber):
                         self.gndr = "&gender={}".format(gender)
                 except:
                     self.gndr = "&gender="
+                print information
                 if str(information).split(" "):
                     self.fname = str(information).split(" ")[0]
                     self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
