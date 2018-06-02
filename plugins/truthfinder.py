@@ -85,13 +85,15 @@ class TruthFinderGrabber(PageGrabber):
                 try:
                     if str(information).split(" "):
                         self.fname = str(information).split(" ")[0]
-                        self.lname = str(information).split(" ")[-1]
+                        self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
+                        print 
                     else:
                         print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Requires First and Last name to conduct this search.\n"+bc.CEND)
                 except:
                     information = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a name to search for - ex: (Stephen Hawking) "+bc.CEND)
                     self.fname = str(information).split(" ")[0]
-                    self.lname = str(information).split(" ")[-1]
+                    self.lname = str(information).split(" ")[len(str(information).split(" "))-1]
+                    print
             getlocal(citystatezip,gender,age)
             self.url = "https://www.truthfinder.com/results/?utm_source=VOTER&traffic%5Bsource%5D=VOTER&utm_medium=pre-pop&traffic%5Bmedium%5D=pre-pop&utm_campaign=&traffic%5Bcampaign%5D=srapi%3A&utm_term=1&traffic%5Bterm%5D=1&utm_content=&traffic%5Bcontent%5D=&s1=&s2=srapi&s3=1&s4=&s5=&city=&firstName={}&lastName={}&page=r&state={}{}&qLocation=true&qRelatives=true&qOver30={}".format(self.fname, self.lname, self.state, self.gndr, self.age)
             email = False
