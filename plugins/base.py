@@ -1,15 +1,17 @@
 """Base Scraping Class"""
+from __future__ import print_function
+from __future__ import absolute_import
 import requests
 import random
 import requests
 from lxml import etree
 from bs4 import BeautifulSoup
-import proxygrabber
+from . import proxygrabber
 try:
     import __builtin__ as bi
 except Exception as e:
     import builtins as bi
-    print e
+    print(e)
 import json
 
 def random_line():  # Gets random User-Agent string from local DB file

@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 #
 # Advancedbackgroundchecks.com scraper"""
 #
@@ -5,10 +7,10 @@
 import re
 import logging
 import json
-import proxygrabber
+from . import proxygrabber
 from plugins.base import PageGrabber
 import base64 as b64
-from colors import BodyColors as bc
+from .colors import BodyColors as bc
 from time import sleep
 try:
     import __builtin__ as bi
@@ -148,7 +150,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                                    "related_to": [item.get("name") for item in person.get("relatedTo")]})
             pnext += 1
         bi.outdata['advancedbackground'] = self.info_list  # Build out the dataset
-        print
+        print()
         return
 
     def get_info(self, lookup, information):  # Uniform call for framework to launch function in a way to single out the calls per URL

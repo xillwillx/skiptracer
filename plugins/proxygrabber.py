@@ -1,9 +1,11 @@
+from __future__ import print_function
+from __future__ import absolute_import
 from lxml.html import fromstring
 import requests
 from itertools import cycle
 import traceback
 import os, random, time, random
-from colors import BodyColors as bc
+from .colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:
@@ -61,7 +63,7 @@ def new_proxy():  # Select random proxy form list, if no list, generate a new on
             proxy = random.choice(list(proxies))
             for xproto in ['http','https']:
                 try:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Testing %s proxy: %s"+bc.CEND) % (str(xproto).strip(),str(proxy).strip())
+                    print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Testing %s proxy: %s"+bc.CEND) % (str(xproto).strip(),str(proxy).strip()))
                     response = requests.get(url,proxies={xproto : proxy}, timeout=2)
                     if response:
                         write_file(str(xproto)+"://"+str(proxy) + "\n", output_file)

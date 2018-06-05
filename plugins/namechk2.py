@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # NameChk scraper: no1special
 #
@@ -117,10 +118,10 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
                     if jload['callback_url'] == "":
                         pass
                     else:
-                        print "  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Acct Exists: "+bc.CEND+ "{}".format(jload['callback_url'])
+                        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Acct Exists: "+bc.CEND+ "{}".format(jload['callback_url']))
 
             except Exception as e:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find required datasets.\n"+bc.CEND)
                 return #pass
-        print
+        print()
         return

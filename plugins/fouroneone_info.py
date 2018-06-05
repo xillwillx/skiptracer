@@ -1,7 +1,9 @@
+from __future__ import print_function
+from __future__ import absolute_import
 import re
 import logging
 from plugins.base import PageGrabber
-from colors import BodyColors as bc
+from .colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:
@@ -61,5 +63,5 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
-            print
+            print()
             return

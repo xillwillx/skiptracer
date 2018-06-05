@@ -1,33 +1,39 @@
+from __future__ import absolute_import, print_function
+
 #
 # TruePeopleSearch.com scraper
 #
 import re
-import logging
-import json
-import proxygrabber
+
 from plugins.base import PageGrabber
-import base64 as b64
-from colors import BodyColors as bc
-from time import sleep
+
+from . import proxygrabber
+from .colors import BodyColors as bc
+
 try:
     import __builtin__ as bi
-except:
+except ImportError:
     import builtins as bi
-import sys
+
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
+
 
 class TruePeopleGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
         if bi.webproxy and captcha != None:
             try:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.true_try(lookup,information)
                 return True
             except Exception as badproxy:
                 pass
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
             return True
         else:
             return False
@@ -55,7 +61,7 @@ class TruePeopleGrabber(PageGrabber):
                         dashphone = '({})-{}-{}'.format(information[0:3], information[3:6], information[6:])
                         return dashphone
                 except Exception as e:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Did not detect a phone number\n"+bc.CEND)
+                    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Did not detect a phone number\n"+bc.CEND)
                     return
 
             if phonere.findall(information):  # Make the URL for a phone lookup, set email to False
@@ -63,7 +69,7 @@ class TruePeopleGrabber(PageGrabber):
                     self.url = 'https://www.truepeoplesearch.com/results?phoneno={}'.format(makephone(information))
                     email = False
                 except Exception as e:
-                    print e
+                    print(e)
         if lookup == "name":  # Make the URL for name lookup, set email to False
             # Added city state and zip lookup
             agerange = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter an age range, ex: 18-120 "+bc.CEND)
@@ -75,18 +81,18 @@ class TruePeopleGrabber(PageGrabber):
             self.source = self.get_source(self.url)
             self.soup = self.get_dom(self.source)
         if self.check_for_captcha() == True:  # Check responce for sign of captcha
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Goto: {}"+bc.CEND).format(self.url)
+            print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Goto: {}"+bc.CEND).format(self.url))
             self.iscomplete = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Have you completed the CAPTCHA? "+bc.CEND)
             if str(self.iscomplete).lower() in ['no',False,0]:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"User has not completed the CAPTCHA\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"User has not completed the CAPTCHA\n"+bc.CEND)
                 return
             else:
                 pass
         try:
             if self.soup.find(text="We could not find any records for that search criteria."):
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
         except:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                 return
         try:
             deep = self.soup.find_all('a',{'class':['btn','btn-success','btn-lg','detail-link','shadow-form']})
@@ -111,14 +117,14 @@ class TruePeopleGrabber(PageGrabber):
                         nc = self.soup2.find('span',{'class':'h2'})
                         nc1 = str(nc).split(">")[3]
                         name = str(" ".join(str(nc1).split())).split("<")[0]
-                        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+"%s") % (name)
+                        print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+"%s") % (name))
                     except:
                         name = "Unknown"
                     try:
                         age1 = self.soup2.find('span',{'class':'content-value'})
                         age2 = " ".join(str(age1).split())
                         age = age2.split(">")[1].split("<")[0].split()[1]
-                        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age)
+                        print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age))
                     except:
                         age = "Unknown"
                     try:
@@ -130,7 +136,7 @@ class TruePeopleGrabber(PageGrabber):
                             for xaka in aka:
                                 xakas = str(xaka).split('>')[1].split('<')[0]
                                 aklist.append(xakas)
-                                print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+"%s") % (xakas)
+                                print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+"%s") % (xakas))
                     except:
                         aklist = "Unknown"
                     try:
@@ -147,7 +153,7 @@ class TruePeopleGrabber(PageGrabber):
                             xrels = str(xrelate).split(">")[1].split("<")[0]
                             rellist.append(xrels)
                         for xrel in sorted(set(relllist)):
-                            print("      ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Known Relative: "+bc.CEND+"%s") % xrel
+                            print(("      ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Known Relative: "+bc.CEND+"%s") % xrel)
                     except:
                         rellist = "Unknown" 
                     try:
@@ -158,7 +164,7 @@ class TruePeopleGrabber(PageGrabber):
                         for xassociate in associate:
                             assoc = str(xassociate).split(">")[1].split("<")[0]
                             asso.append(assoc)
-                            print("      ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Known Associate: "+bc.CEND+"%s") % assoc
+                            print(("      ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Known Associate: "+bc.CEND+"%s") % assoc)
                     except:
                         asso = "Unknown"
                     try:
@@ -170,10 +176,10 @@ class TruePeopleGrabber(PageGrabber):
                             adrs = " ".join(adr.split(">")[1::])
                             addr = adrs.replace("<br/ ","").replace("</a","").strip()
                             if curaddr == 0:
-                                print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Current: "+bc.CEND+"%s") % addr
+                                print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Current: "+bc.CEND+"%s") % addr)
                                 lives = addr
                             else:
-                                print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Previous: "+bc.CEND+"%s") % addr
+                                print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Previous: "+bc.CEND+"%s") % addr)
                                 prev.append(addr)
                             curaddr += 1
                     except:
@@ -187,7 +193,7 @@ class TruePeopleGrabber(PageGrabber):
                                 try:
                                     xnums = str(xnum).split(">")[1].split("<")[0]
                                     plist.append(xnums)
-                                    print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"#: "+bc.CEND+"%s") % xnums
+                                    print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"#: "+bc.CEND+"%s") % xnums)
                                 except Exception as w:
                                     pass
                     except:
@@ -204,9 +210,9 @@ class TruePeopleGrabber(PageGrabber):
                                        "associate": asso}
                                      })
         except Exception as e:
-            print e
+            print(e)
         bi.outdata['truepeoplesearch'] = self.info_dict  # Build out the dataset
-        print
+        print()
         return
 
     def get_info(self, lookup, information):  # Uniform call for framework to launch function in a way to single out the calls per URL
