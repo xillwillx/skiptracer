@@ -76,8 +76,8 @@ def main(lookup, search_string, output, webproxy):
         AdvanceBackgroundGrabber().get_info(lookup,search_string)
     if lookup == "sn":  # If true, run screename modules
         print()
-       # KnowemGrabber().get_info(search_string)
-       # NameChkGrabber().get_info(search_string)
+        KnowemGrabber().get_info(search_string)
+        NameChkGrabber().get_info(search_string)
         TinderGrabber().get_info(search_string)
     if lookup == "plate":  # If true, run plate modules
         print()
