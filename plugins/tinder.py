@@ -18,16 +18,16 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
     def get_info(self, username):  # returns information about given hndle
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "Tinder" + bc.CEND)
         url = "https://www.gotinder.com/@%s" % (username)
-        source = self.get_source(url)
+        source = self.get_source(url) 
         soup = self.get_dom(source)
-        print('Looking up Tinder user: %s' % username)
+        prgit push origin masterint("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+ "User: "+bc.CEND+"%s" % username)
         if soup.body.findAll(text='Looking for Someone?'):                     #check if CAPTCHA was triggered
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Profile Found.\n"+bc.CEND)
             return
         try:
             photo = soup.find("img", id="user-photo")
             if photo:
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+(photo['src']))
+                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Photo: "+bc.CEND+(photo['src']))
             else:
                 photo = "unknown"
         except:
@@ -43,7 +43,7 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
         try:
             teaser = soup.find("span", id="teaser")
             if name:
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+teaser.text)
+                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Bio: "+bc.CEND+teaser.text)
             else:
                 photo = "unknown"
         except:
@@ -52,19 +52,22 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
             age = soup.find("span", id="age")
             if name:
                 age = (age.text).replace(',','')
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+age.strip())
+                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+age.strip())
             else:
                 photo = "unknown"
         except:
             pass
 
-        #             self.info_dict.update({
-        #                 "Account": social
-        #             })
-        # bi.outdata['knowem'] = self.info_dict
-        # if len(self.info_dict) == 0:
-        #     print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
-        #     return
-        # else:
-        #     print()
+        self.info_dict.update({
+            "photo": photo,
+            "name": name,
+            "bio": teaser,
+            "age": age
+        })
+        bi.outdata['knowem'] = self.info_dict
+        if len(self.info_dict) == 0:
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            return
+        else:
+            print()
         return
