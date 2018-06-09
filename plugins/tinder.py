@@ -20,7 +20,7 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
         url = "https://www.gotinder.com/@%s" % (username)
         source = self.get_source(url) 
         soup = self.get_dom(source)
-        prgit push origin masterint("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+ "User: "+bc.CEND+"%s" % username)
+        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+ "User: "+bc.CEND+"%s" % username)
         if soup.body.findAll(text='Looking for Someone?'):                     #check if CAPTCHA was triggered
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Profile Found.\n"+bc.CEND)
             return
