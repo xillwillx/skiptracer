@@ -15,6 +15,7 @@ from plugins.hackedemails import HackedEmailGrabber
 from plugins.namechk2 import NameChkGrabber
 from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
+from plugins.tinder import TinderGrabber
 import plugins.proxygrabber as pg
 try:
     import __builtin__ as bi
@@ -75,8 +76,9 @@ def main(lookup, search_string, output, webproxy):
         AdvanceBackgroundGrabber().get_info(lookup,search_string)
     if lookup == "sn":  # If true, run screename modules
         print()
-        KnowemGrabber().get_info(search_string)
-        NameChkGrabber().get_info(search_string)
+       # KnowemGrabber().get_info(search_string)
+       # NameChkGrabber().get_info(search_string)
+        TinderGrabber().get_info(search_string)
     if lookup == "plate":  # If true, run plate modules
         print()
         VinGrabber().get_info(search_string)

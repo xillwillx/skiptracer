@@ -33,7 +33,7 @@ class TruthFinderGrabber(PageGrabber):
             except Exception as badproxy:
                 pass
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
             return True
         else:
             return False
