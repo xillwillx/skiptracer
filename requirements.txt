@@ -7,3 +7,4 @@ click
 cfscrape
 numpy
 simplejson
+tqdm
