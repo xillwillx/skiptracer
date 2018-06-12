@@ -90,13 +90,14 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                 return
             checkres = self.soup.findAll("h1")
-            for xcheck in checkres:
-                if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
-                    return
+            if lookup == "phone":
+                for xcheck in checkres:
+                    if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
+                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                        return
             script_html = self.soup.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
         except Exception as findallfail:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found2.\n"+bc.CEND)
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
             return
         if len(script_html) == 2:  # Check len on results
             script_html = script_html[1]  # Set the desired value to iterate over
