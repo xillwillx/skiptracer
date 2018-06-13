@@ -3,7 +3,8 @@
 from __future__ import print_function
 import click
 # [Experimental]
-#from plugins.twitter import TwitterGrabber
+from plugins.twitter import TwitterGrabber
+# [Experimental]
 from plugins.fouroneone_info import FourOneOneGrabber
 from plugins.who_call_id import WhoCallIdGrabber
 from plugins.advance_background_checks import AdvanceBackgroundGrabber
@@ -28,6 +29,7 @@ from plugins.colors import BodyColors as bc
 bi.outdata = dict()
 bi.webproxy = ""
 bi.proxy = ""
+bi.debug = False
 def banner():
     print ("")
     print ("\t\t.▄▄ · ▄ •▄ ▪   ▄▄▄·▄▄▄▄▄▄▄▄   ▄▄▄·  ▄▄· ▄▄▄ .▄▄▄  ")
@@ -41,15 +43,18 @@ def banner():
     print(("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW,bc.CEND))
 
 @click.command()  # Gets arguments supplied at CLI STDIN
-@click.option('--lookup', '-l', type=click.Choice(['email', 'phone', 'name', 'sn', 'plate']), help='Lookup type to perform:\n\t[\'email\',\'phone\',\'name\',\'sn\',\'plate\']')
+@click.option('--lookup', '-l', prompt=True,type=click.Choice(['email', 'phone', 'name', 'sn', 'plate']), help='Lookup type to perform:\n\t[\'email\',\'phone\',\'name\',\'sn\',\'plate\']')
 @click.option('--search_string', '-s', prompt=True, help='Search string for lookup type:\n\t[\'user@domain.tld\',\'123-456-7890\',\'bill gates\',\'hacker1\']')
 @click.option('--output', '-o', default='', help='Output results to given filename')
 @click.option('--webproxy', '-p' ,default=False, is_flag=True, help='Enable web proxied request, edit proxy.txt')
+@click.option("--debug", "-d", default=False, is_flag=True, help="enables debugging feature")
 
-def main(lookup, search_string, output, webproxy):
+def main(lookup, search_string, output, webproxy,debug):
     """Main logic of the application, interfacing with supplied user arguments"""
     banner()  # Display app banner function
     try:
+        if debug:
+            bi.debug = debug
         if webproxy:
             bi.webproxy = webproxy  # Test to see if web proxy argument was supplied, set builtin with value
     except:
@@ -58,33 +63,61 @@ def main(lookup, search_string, output, webproxy):
         print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
         bi.proxy = pg.new_proxy()
     if lookup == "phone":  # If true, run phone modules
-        print()
-        TruePeopleGrabber().get_info(lookup,search_string)
-        WhoCallIdGrabber().get_info(search_string)
-        FourOneOneGrabber().get_info(search_string)
-        AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        try:
+            print()
+            TruePeopleGrabber().get_info(lookup,search_string)
+            WhoCallIdGrabber().get_info(search_string)
+            FourOneOneGrabber().get_info(search_string)
+            AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        except Exception as phonefail:
+            if bi.debug: print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Phone lookups failed %s\n"+bc.CEND) % phonefail)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Phone lookups failed\n"+bc.CEND)
+
     if lookup == "email":  # If true, run email modules
-        print()
-        HackedEmailGrabber().get_info(search_string)
-        LinkedInSalesGrabber().get_info(search_string)
-        MySpaceGrabber().get_info(search_string)
-        HaveIBeenPwwnedGrabber().get_info(search_string)
-        WhoisMindGrabber().get_info(search_string)
-        AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        try:
+            print()
+            HackedEmailGrabber().get_info(search_string)
+            LinkedInSalesGrabber().get_info(search_string)
+            MySpaceGrabber().get_info(search_string)
+            HaveIBeenPwwnedGrabber().get_info(search_string)
+            WhoisMindGrabber().get_info(search_string)
+            AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        except Exception as emailfail:
+            if bi.debug: print ("Test")  # print(("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Email lookups failed %s\n"+bc.CEND) % emailfail)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Email lookups failed\n"+bc.CEND)
+
     if lookup == "name":  # If true, run name modules
-        print()
-        TruthFinderGrabber().get_info(lookup,search_string)
-        TruePeopleGrabber().get_info(lookup,search_string)
-        AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        try:
+            print()
+            TruthFinderGrabber().get_info(lookup,search_string)
+            TruePeopleGrabber().get_info(lookup,search_string)
+            AdvanceBackgroundGrabber().get_info(lookup,search_string)
+        except Exception as namefail:
+            if bi.debug: print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Name lookups failed %s\n"+bc.CEND) % namefail)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Name lookups failed %s\n"+bc.CEND)
+
     if lookup == "sn":  # If true, run screename modules
         print()
-        #TwitterGrabber().get_info(search_string)
-        KnowemGrabber().get_info(search_string)
-        NameChkGrabber().get_info(search_string)
-        TinderGrabber().get_info(search_string)
+        try:
+            TwitterGrabber().get_info(search_string)
+            KnowemGrabber().get_info(search_string)
+            NameChkGrabber().get_info(search_string)
+            TinderGrabber().get_info(search_string)
+        except Exception as snfail:
+            if bi.debug: print(("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Screenname lookups failed %s\n"+bc.CEND) % snfail)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Screenname lookups failed\n"+bc.CEND)
     if lookup == "plate":  # If true, run plate modules
-        print()
-        VinGrabber().get_info(search_string)
+        try:
+            print()
+            VinGrabber().get_info(search_string)
+        except Exception as platefail:
+            if bi.debug: print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Plate lookups failed %s\n"+bc.CEND) % platefail)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Plate lookups failed %s\n"+bc.CEND)
     else:  # Still in the works
         "Still working on rest"
     if output:  # If true, import JSON, dump data, write bi.outdata to given file name -o FILENAME
@@ -94,6 +127,9 @@ def main(lookup, search_string, output, webproxy):
             print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % output)
         except Exception as nowriteJSON:
             print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
-
+            if bi.debug: print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
+            else:
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
 if __name__ == "__main__":  # If true, run main function of framework
     main()
+
