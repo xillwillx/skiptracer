@@ -114,7 +114,6 @@ class TwitterGrabber(PageGrabber):
     print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to find content: {}\n"+bc.CEND).format(e)
     pass
   try:
-   for xproc in os.popen('ps -A xf | grep -v grep | grep "/usr/bin/firefox -marionette --headless -profile /" | cut -d " " -f2'):
-    os.popen('kill -9 '+str(xproc))
+   os.popen('ps -A xf | grep firefox | grep marionette | sed -r "s/^[ ]{1,4}([0-9]{1,7})(.*)/\1/g" | xargs kill -9 2>/dev/null')
   except Exception as e:
    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to kill Firefox headless: {}\n"+bc.CEND).format(e)
