@@ -21,6 +21,12 @@ from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 import plugins.proxygrabber as pg
 import sys
+import signal
+
+def signal_handler(signal, frame):
+ print("")
+ sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
 try:
     import __builtin__ as bi
 except:
@@ -114,6 +120,7 @@ def emailmenu():
    print(("  [-] %s: %s") % (xmd, moddict[xmd]))
   try:
    selection = int(raw_input(" [!] Select a number to continue: "))
+   gselect = str(moddict[int(selection)].split()[0]).lower()
   except Exception as failselect:
    print(("Please use an integer value for your selection!: %s") % failselect)
    emailmenu()
@@ -168,7 +175,7 @@ def namemenu():
   for xmod in range(1,len(nmodules)+1):
    keylist.append(xmod)
   moddict = dict(zip(keylist,nmodules))
-  print(" [!] E-Mail search menu - Please select a number")
+  print(" [!] Name search menu - Please select a number")
   for xmd in moddict.keys():
    print(("  [-] %s: %s") % (xmd, moddict[xmd]))
   try:
@@ -217,7 +224,7 @@ def phonemenu():
   for xmod in range(1,len(pmodules)+1):
    keylist.append(xmod)
   moddict = dict(zip(keylist,pmodules))
-  print(" [!] E-Mail search menu - Please select a number")
+  print(" [!] Phone search menu - Please select a number")
   for xmd in moddict.keys():
    print(("  [-] %s: %s") % (xmd, moddict[xmd]))
   try:
@@ -271,7 +278,7 @@ def snmenu():
   for xmod in range(1,len(snmodules)+1):
    keylist.append(xmod)
   moddict = dict(zip(keylist,snmodules))
-  print(" [!] E-Mail search menu - Please select a number")
+  print(" [!] ScreenName search menu - Please select a number")
   for xmd in moddict.keys():
    print(("  [-] %s: %s") % (xmd, moddict[xmd]))
   try:
@@ -321,7 +328,7 @@ def platemenu():
   for xmod in range(1,len(plmodules)+1):
    keylist.append(xmod)
   moddict = dict(zip(keylist,plmodules))
-  print(" [!] E-Mail search menu - Please select a number")
+  print(" [!] Plate search menu - Please select a number")
   for xmd in moddict.keys():
    print(("  [-] %s: %s") % (xmd, moddict[xmd]))
   try:
@@ -347,18 +354,18 @@ def platemenu():
   platemenu()
 
 def profiler():
-  fname = raw_input("Whats the users first name? - ex: Alice")
-  lname = raw_input("Whats the users last name? - ex: Smith")
+  fname = raw_input("\t[Whats the users first name? - ex: Alice]: ")
+  lname = raw_input("\t[Whats the users last name? - ex: Smith]: ")
   bi.name = fname+" "+lname
-  bi.agerange = raw_input("\t[Whats the marks age range? - ex: 18-100] ")
-  bi.apprage = raw_input("\t[Whats the marks suspected age? - ex: 18] ")
-  bi.state = raw_input("\t[Whats state does the mark live in? - ex: (FL|Florida)] ")
-  bi.city = raw_input("\t[Whats city does the mark live in? - ex: Orlando] ")
-  bi.zip = raw_input("\t[Whats the zipcode the mark lives in? - ex: 12345] ")
-  bi.phone = raw_input("\t[What is a known phone number for the mark? - ex: 1234567890] ")
-  bi.screenname = raw_input("\t[What are the known aliasis of the mark? - ex: (Ac1dBurn|Zer0cool)] ")
-  bi.plate = raw_input("\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)] ")
-  bi.email = raw_input("\t[What is the marks email address? -ex: username@domain.tld] ")
+  bi.agerange = raw_input("\t[Whats the marks age range? - ex: 18-100]: ")
+  bi.apprage = raw_input("\t[Whats the marks suspected age? - ex: 18]: ")
+  bi.state = raw_input("\t[Whats state does the mark live in? - ex: (FL|Florida)]: ")
+  bi.city = raw_input("\t[Whats city does the mark live in? - ex: Orlando]: ")
+  bi.zip = raw_input("\t[Whats the zipcode the mark lives in? - ex: 12345]: ")
+  bi.phone = raw_input("\t[What is a known phone number for the mark? - ex: 1234567890]: ")
+  bi.screenname = raw_input("\t[What are the known aliasis of the mark? - ex: (Ac1dBurn|Zer0cool)]: ")
+  bi.plate = raw_input("\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)]: ")
+  bi.email = raw_input("\t[What is the marks email address? - ex: username@domain.tld]: ")
 
 def writeout():
  if str(bi.output).lower() == "y":  # If true, import JSON, dump data, write bi.outdata to given file name -o FILENAME
