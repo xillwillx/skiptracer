@@ -51,8 +51,11 @@ if __name__ == "__main__":  # If true, run main function of framework
       print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
      else:
       print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
- menus().intromenu()
- try:
-  writout()
+  menus().intromenu()
+  try:
+   writout()
+  except:
+   pass
  except:
   pass
+
