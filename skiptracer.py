@@ -133,25 +133,19 @@ def emailmenu():
    intromenu()
   if not bi.search_string:
    bi.search_string = raw_input("[What is the marks email address? - ex: username@domain.tld]: ")
-  bi.lookup = lookup
+  bi.lookup = "email"
   print()
   if gselect == "hacked":
-   print("Hacked Email Module")
    HackedEmailGrabber().get_info(bi.search_string)
   if gselect == "linkedin-sales":
-   print("LinkedIn Module")
    LinkedInSalesGrabber().get_info(bi.search_string)
   if gselect == "haveibeenpwned":
-   print("HaveIBeenPwned Module")
    HaveIBeenPwwnedGrabber().get_info(bi.search_string)
   if gselect == "myspace":
-   print("Myspace Module")
    MySpaceGrabber().get_info(bi.search_string)
   if gselect == "whoismind":
-   print("WhoisMind Module")
    WhoisMindGrabber().get_info(bi.search_string)
   if gselect == "advancedbackgroundchecks":
-   print("AdvancedBackgroundChecks Module")
    AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
   if gselect == "all":
    HackedEmailGrabber().get_info(bi.search_string)
