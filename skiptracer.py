@@ -35,26 +35,24 @@ def banner():
 
 banner()
 
-def writeout():
- if str(bi.output).lower() == "y":  # If true, import JSON, dump data, write bi.outdata to given file name -o FILENAME
-  import json
-  try:
-   pg.write_file(json.dumps(bi.outdata), bi.filename)
-   print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % bi.filename)
-  except Exception as nowriteJSON:
-   if bi.debug: 
-    print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
-   else:
-    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
-
 if __name__ == "__main__":  # If true, run main function of framework
  try:
   bi.webproxy = raw_input("[Do we wish to enable proxy support? (Y/n)]: ")
   bi.output = raw_input("[Do we wish to save returned data to disk? (Y/n)]: ")
   if str(bi.output).lower() == "y":
    bi.filename = raw_input("[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
- except:
-   pass
+   def writeout():
+    import json
+    try:
+     pg.write_file(json.dumps(bi.outdata), bi.filename)
+     print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % bi.filename)
+    except Exception as nowriteJSON:
+     if bi.debug: 
+      print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
+     else:
+      print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
  menus().intromenu()
- writout()
-
+ try:
+  writout()
+ except:
+  pass
