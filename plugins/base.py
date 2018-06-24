@@ -13,7 +13,14 @@ except Exception as e:
     import builtins as bi
     print(e)
 import json
+# monkey patch socket to use only IPv4
+import socket
+og = socket.getaddrinfo
+def ng(*args, **kwargs):
+ res = og(*args, **kwargs)
+ return [r for r in res if r[0] == socket.AF_INET]
 
+socket.getaddrinfo = ng
 def random_line():  # Gets random User-Agent string from local DB file
     afile = open("storage/user-agents.db")
     line = next(afile)
