@@ -13,7 +13,6 @@ from plugins.linkedin import LinkedInSalesGrabber
 from plugins.true_people import TruePeopleGrabber
 from plugins.truthfinder import TruthFinderGrabber
 from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
-from plugins.hackedemails import HackedEmailGrabber
 from plugins.namechk2 import NameChkGrabber
 from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
@@ -26,7 +25,7 @@ except:
     import builtins as bi
 import sys
 
-bi.funclist = {'hacked':HackedEmailGrabber,
+bi.funclist = {
 	'linkedin-sales':LinkedInSalesGrabber,
 	'myspace':MySpaceGrabber,
 	'haveibeenpwned':HaveIBeenPwwnedGrabber,
@@ -130,7 +129,6 @@ class menus():
      except:
       bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
     if gselect == "all":
-     HackedEmailGrabber().get_info(bi.search_string)
      LinkedInSalesGrabber().get_info(bi.search_string)
      MySpaceGrabber().get_info(bi.search_string)
      HaveIBeenPwwnedGrabber().get_info(bi.search_string)
