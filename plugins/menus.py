@@ -100,7 +100,7 @@ class menus():
   def emailmenu(self):
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
-    emodules = ['Hacked Email - Check email against known compromised networks',
+    emodules = [
 	'LinkedIn-Sales - Check if user exposes information through LinkedIn',
 	'HaveIBeenPwned - Check email against known compromised networks',
 	'Myspace - Check if users account has a registered account',
