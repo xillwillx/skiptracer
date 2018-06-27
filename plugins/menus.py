@@ -242,28 +242,27 @@ class menus():
   def platemenu(self):
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
-    print("Test1")
-    plmodules = [
+    try:
+        platemenu = [
         'Plate Search - Run known vehicle plates against a database',
         'All - Run all modules associated to the email module group',
         'Back - Return to main menu',
         'Exit - Terminate the application']
-    gselect = self.printfun(platemenu)
-    print("Test2")
+        gselect = self.printfun(platemenu)
+    except Exception as e:
+        print(e)
     if gselect == "":
      self.platemenu()
     if gselect == "exit":
      sys.exit()
     if gselect == "back":
      self.intromenu()
-    print("Test3")
     if not bi.search_string:
      bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if bi.search_string == '':
      bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if gselect == "exit":
      sys.exit()
-    print("Test4")
     bi.lookup = 'plate'
     print()
     if gselect in ["plate","all"]:
