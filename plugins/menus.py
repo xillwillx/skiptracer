@@ -98,7 +98,7 @@ class menus():
      self.helpmenu()
 
   def emailmenu(self):
-    if bi.webproxy":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
+    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     emodules = [
 	'LinkedIn-Sales - Check if user exposes information through LinkedIn',
@@ -137,7 +137,7 @@ class menus():
     self.emailmenu()
 
   def namemenu(self):
-    if bi.webproxy":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
+    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     nmodules = ['Truth Finder - Run name through public page of paid access',
 	'True People - Run email through public page of paid access',
@@ -170,7 +170,7 @@ class menus():
     self.namemenu()
 
   def phonemenu(self):
-    if bi.webproxy":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
+    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     pmodules = ['True People - Run email through public page of paid access',
 	'Who Called - Reverse telehone trace on given number',
@@ -205,7 +205,7 @@ class menus():
     self.phonemenu()
 
   def snmenu(self):
-    if bi.webproxy":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
+    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     snmodules = ['Twitter - Run screenname and grab tweets',
 	'Knowem - Run screenname through to determin registered sites',
@@ -240,7 +240,7 @@ class menus():
     self.snmenu()
 
   def platemenu(self):
-    if bi.webproxy":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
+    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     plmodules = [
         'Plate Search - Run known vehicle plates against a database',
