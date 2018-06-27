@@ -169,7 +169,7 @@ class menus():
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
     self.namemenu()
 
-  def phonemenu():
+  def phonemenu(self):
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     pmodules = ['True People - Run email through public page of paid access',
@@ -204,7 +204,7 @@ class menus():
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
     self.phonemenu()
 
-  def snmenu():
+  def snmenu(self):
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     snmodules = ['Twitter - Run screenname and grab tweets',
@@ -239,7 +239,7 @@ class menus():
      TinderGrabber().get_info(bi.search_string)
     self.snmenu()
 
-  def platemenu():
+  def platemenu(self):
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     plmodules = ['Plate Search - Run known vehicle plates against a database',
@@ -265,7 +265,7 @@ class menus():
       VinGrabber().get_info(bi.search_string)
     self.platemenu()
 
-  def profiler():
+  def profiler(self):
     fname = raw_input("\t[Whats the users first name? - ex: Alice]: ")
     lname = raw_input("\t[Whats the users last name? - ex: Smith]: ")
     bi.name = fname+" "+lname
