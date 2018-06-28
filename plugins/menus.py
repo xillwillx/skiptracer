@@ -19,6 +19,7 @@ from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
 import plugins.proxygrabber as pg
+import re
 try:
     import __builtin__ as bi
 except:
@@ -54,10 +55,12 @@ class menus():
       keylist.append(xmod)
      moddict = dict(zip(keylist,modules))
      for xmd in moddict.keys():
-      print("  [-]{} {}{}{}: {}".format(bc.CEND, bc.CRED, bc.CEND, xmd, moddict[xmd]))
+      print("  [-] {}{}{}: {}".format( bc.CRED, bc.CEND, xmd, moddict[xmd]))
      selection = int(raw_input(" [!] Select a number to continue: "))
-     gselect = str(moddict[int(selection)].split()[0]).lower()
-     return gselect #.split('m')[1].split('\')[0]
+     aegselect = str(moddict[int(selection)].split()[0]).lower()
+     aere = re.complie(r'\x1B\[[0-?]*[ -/]([@-~]')
+     gselect = aere.sub('',argselect)
+     return gselect
     except Exception as failselect:
      print((" [!] Please use an integer value for your selection: %s") % failselect)
      pass
@@ -65,37 +68,33 @@ class menus():
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
-    ltypes = [
-	'Email - {}Search targets by email address{}'.format(bc.CYLW, bc.CEND),
-	'Name - {}Search targets by First Last name combination{}'.format(bc.CYLW, bc.CEND),
-	'Phone - {}Search targets by telephone number{}'.format(bc.CYLW, bc.CEND),
-	'Screen Name - {}Search targets by known alias{}'.format(bc.CYLW, bc.CEND),
-	'License Plate - {}Search targets by license plate{}'.format(bc.CYLW, bc.CEND),
-	'Profiler - {}Interactive Q&A for bulk lookups{}'.format(bc.CYLW, bc.CEND),
-	'Help - {}Details the application and use cases{}'.format(bc.CYLW, bc.CEND),
-	'Exit - {}Terminate the application{}'.format(bc.CYLW, bc.CEND)]
+    print(' [1] {}Email{} - {}Search targets by email address{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [2] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [3] {}Phone{} - {}Search targets by telephone number{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [4] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [5] {}Plate{} - {}Search targets by license plate{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [6] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [7] {}Help{} - {}Details the application and use cases{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print(' [8] {}Exit{} - {}Terminate the application{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print(" [!] Lookup menu - Please select a number")
-    try:
-     gselect = self.printfun(ltypes)
-    except Exception as failedselection:
-     print ("Failed Selection %s: " % failedselection)
+    gselect = int(raw_input(" [!] Select a number to continue: "))
     if gselect == "":
      self.intromenu()
-    if gselect == "exit":
+    if gselect == 8:
      sys.exit()
-    if gselect == "email":
+    if gselect == 1:
      self.emailmenu()
-    if gselect == "name":
+    if gselect == 2:
      self.namemenu()
-    if gselect == "phone":
+    if gselect == 3:
      self.phonemenu()
-    if gselect == "screen":
+    if gselect == 4:
      self.snmenu()
-    if gselect == "license":
+    if gselect == 5:
      self.platemenu()
-    if gselect == "profiler":
+    if gselect == 6:
      self.profiler()
-    if gselect == "help":
+    if gselect == 7:
      self.helpmenu()
 
   def emailmenu(self):
