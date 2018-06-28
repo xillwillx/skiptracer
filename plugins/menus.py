@@ -26,7 +26,7 @@ except:
 import sys
 
 bi.funclist = {
-	'linkedin-sales':LinkedInSalesGrabber,
+	'linkedin':LinkedInSalesGrabber,
 	'myspace':MySpaceGrabber,
 	'haveibeenpwned':HaveIBeenPwwnedGrabber,
 	'whoismind':WhoisMindGrabber,
@@ -68,12 +68,13 @@ class menus():
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
      bi.proxy = pg.new_proxy()
-    ltypes = ['Email - Search targets by email address',
+    ltypes = [
+  'Email - Search targets by email address',
 	'Name - Search targets by First Last name combination',
 	'Phone - Search targets by telephone number',
 	'Screen Name - Search targets by known alias',
 	'License Plate - Search targets by license plate',
-	'Profiler - A "Guess Who" Q&A interactive user interface',
+	'Profiler - Interactive Q&A for bulk lookups',
 	'Help - Details the application and use cases',
 	'Exit - Terminate the application']
     print(" [!] Lookup menu - Please select a number")
@@ -101,12 +102,12 @@ class menus():
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
     emodules = [
-	'LinkedIn-Sales - Check if user exposes information through LinkedIn',
+  'All - Run all modules associated to the email module group',
+	'LinkedIn - Check if user exposes information through LinkedIn',
 	'HaveIBeenPwned - Check email against known compromised networks',
 	'Myspace - Check if users account has a registered account',
 	'WhoisMind - Check email to registered domains',
 	'AdvancedBackgroundChecks - Run email through public page of paid access',
-	'All - Run all modules associated to the email module group',
 	'Back - Return to main menu',
 	'Exit - Terminate the application']
     print(" [!] E-Mail search menu - Please select a number")
@@ -118,9 +119,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks email address? - ex: username@domain.tld]: ")
+     bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks email address? - ex: username@domain.tld]: ")
+     bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
     bi.lookup = "email"
     print()
     if gselect != "all":
@@ -139,10 +140,11 @@ class menus():
   def namemenu(self):
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
-    nmodules = ['Truth Finder - Run name through public page of paid access',
+    nmodules = [
+  'All - Run all modules associated to the email module group',
+  'Truth Finder - Run name through public page of paid access',
 	'True People - Run email through public page of paid access',
 	'AdvancedBackgroundChecks - Run email through public page of paid access',
-	'All - Run all modules associated to the email module group',
 	'Back - Return to main menu',
 	'Exit - Terminate the application']
     gselect = self.printfun(nmodules)
@@ -153,9 +155,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks name? - ex: First Lastname]: ")
+     bi.search_string = raw_input("[What is the target's name? - ex: FirstName LastName]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks name? - ex: First Lastname]: ")
+     bi.search_string = raw_input("[What is the target's name? - ex: FirstName LastName]: ")
     bi.lookup = 'name'
     print()
     if gselect != "all":
@@ -172,11 +174,12 @@ class menus():
   def phonemenu(self):
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
-    pmodules = ['True People - Run email through public page of paid access',
-	'Who Called - Reverse telehone trace on given number',
-	'Four One One - Reverse telehone trace on given number',
+    pmodules = [
+  'All - Run all modules associated to the phone module group',
+  'TruePeopleSearch - Run email through public page of paid access',
+	'WhoCalld - Reverse phone trace on given number',
+	'411 - Reverse phone trace on given number',
 	'AdvancedBackgroundChecks - Run number through public page of paid access',
-	'All - Run all modules associated to the phone module group',
 	'Back - Return to main menu',
 	'Exit - Terminate the application']
     gselect = self.printfun(pmodules)
@@ -207,11 +210,12 @@ class menus():
   def snmenu(self):
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
      bi.proxy = pg.new_proxy()
-    snmodules = ['Twitter - Run screenname and grab tweets',
+    snmodules = [
+  'All - Run all modules associated to the email module group',
+  'Twitter - Run screenname and grab tweets',
 	'Knowem - Run screenname through to determin registered sites',
 	'NameChk - Run screenname through to determin registered sites',
 	'Tinder - Run screenname and grab information if registered',
-	'All - Run all modules associated to the email module group',
 	'Back - Return to main menu',
 	'Exit - Terminate the application']
     gselect = self.printfun(snmodules)
@@ -222,9 +226,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
     bi.lookup = 'sn'
     print()
     if gselect != "all":
@@ -244,8 +248,8 @@ class menus():
      bi.proxy = pg.new_proxy()
     try:
         platemenu = [
-        'Plate Search - Run known vehicle plates against a database',
         'All - Run all modules associated to the email module group',
+        'Plate Search - Run known vehicle plates against a database',
         'Back - Return to main menu',
         'Exit - Terminate the application']
         gselect = self.printfun(platemenu)
@@ -258,9 +262,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
+     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
+     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if gselect == "exit":
      sys.exit()
     bi.lookup = 'plate'
@@ -270,16 +274,16 @@ class menus():
     self.platemenu()
 
   def profiler(self):
-    fname = raw_input("\t[Whats the users first name? - ex: Alice]: ")
-    lname = raw_input("\t[Whats the users last name? - ex: Smith]: ")
+    fname = raw_input("\t[Whats the target's first name? - ex: Alice]: ")
+    lname = raw_input("\t[Whats the target's last name? - ex: Smith]: ")
     bi.name = fname+" "+lname
-    bi.agerange = raw_input("\t[Whats the marks age range? - ex: 18-100]: ")
-    bi.apprage = raw_input("\t[Whats the marks suspected age? - ex: 18]: ")
-    bi.state = raw_input("\t[Whats state does the mark live in? - ex: (FL|Florida)]: ")
-    bi.city = raw_input("\t[Whats city does the mark live in? - ex: Orlando]: ")
-    bi.zip = raw_input("\t[Whats the zipcode the mark lives in? - ex: 12345]: ")
-    bi.phone = raw_input("\t[What is a known phone number for the mark? - ex: 1234567890]: ")
-    bi.screenname = raw_input("\t[What are the known aliasis of the mark? - ex: (Ac1dBurn|Zer0cool)]: ")
-    bi.plate = raw_input("\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)]: ")
-    bi.email = raw_input("\t[What is the marks email address? - ex: username@domain.tld]: ")
+    bi.agerange = raw_input("\t[Whats the target's age range? - ex: 18-100]: ")
+    bi.apprage = raw_input("\t[Whats the target's suspected age? - ex: 18]: ")
+    bi.state = raw_input("\t[Whats state does the target's live in? - ex: (FL|Florida)]: ")
+    bi.city = raw_input("\t[Whats city does the target's live in? - ex: Orlando]: ")
+    bi.zip = raw_input("\t[Whats the zipcode the target's lives in? - ex: 12345]: ")
+    bi.phone = raw_input("\t[What is a known phone number for the target's? - ex: 1234567890]: ")
+    bi.screenname = raw_input("\t[What are the known aliasis of the target's? - ex: (Ac1dBurn|Zer0cool)]: ")
+    bi.plate = raw_input("\t[Does the target's have a known license plate? - ex: (ABC1234|XYZ123)]: ")
+    bi.email = raw_input("\t[What is the target's email address? - ex: username@domain.tld]: ")
     self.intromenu()
