@@ -105,15 +105,20 @@ class menus():
     print('\t[{}4{}] {}Myspace{} - {}Check if users account has a registered account{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}5{}] {}WhoisMind{} - {}Check email to registered domains{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}6{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Reset Target{} - {}Rest the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}8{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}9{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.emailmenu()
-    if not bi.search_string:
+    if gselect == 7:
      bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
-    if bi.search_string == '':
+     self.emailmenu()
+    if gselect == 8:
+     self.intromenu()
+    if gselect == 9:
+     sys.exit()
+    if not bi.search_string or bi.search_string == '':
      bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
     bi.lookup = "email"
     print()
@@ -133,140 +138,146 @@ class menus():
      WhoisMindGrabber().get_info(bi.search_string)
     if gselect == 6:
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-    if gselect == 7:
-     bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
-    if gselect == 8:
-     self.intromenu()
-    if gselect == 9:
-     sys.exit()
     self.emailmenu()
 
   def namemenu(self):
-    nmodules = [
-	'All - Run all modules associated to the email module group',
-	'Truth Finder - Run name through public page of paid access',
-	'True People - Run email through public page of paid access',
-	'AdvancedBackgroundChecks - Run email through public page of paid access',
-	'Back - Return to main menu',
-	'Exit - Terminate the application']
-    gselect = self.printfun(nmodules)
+    print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Truth Finder{} - {}Run name through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}True People{} - {}Run email through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.namemenu()
-    if gselect == "exit":
-     sys.exit()
-    if gselect == "back":
-     self.intromenu()
-    if not bi.search_string:
+    if gselect == 5:
      bi.search_string = raw_input("[What is the target's name? - ex: FirstName LastName]: ")
-    if bi.search_string == '':
+     self.namemenu()
+    if gselect == 6:
+     self.intromenu()
+    if gselect == 7:
+     sys.exit()
+    if not bi.search_string or bi.search_string == '':
      bi.search_string = raw_input("[What is the target's name? - ex: FirstName LastName]: ")
     bi.lookup = 'name'
     print()
-    if gselect != "all":
-     try:
-      bi.funclist[gselect]().get_info(bi.search_string)
-     except:
-      bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
-    if gselect == "all":
+    if gselect == 1:
      TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 2:
+     TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 3:
+     TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 4:
+     AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
     self.namemenu()
 
+
   def phonemenu(self):
-    pmodules = [
-	'All - Run all modules associated to the phone module group',
-	'TruePeopleSearch - Run email through public page of paid access',
-	'WhoCalld - Reverse phone trace on given number',
-	'411 - Reverse phone trace on given number',
-	'AdvancedBackgroundChecks - Run number through public page of paid access',
-	'Back - Return to main menu',
-	'Exit - Terminate the application']
-    gselect = self.printfun(pmodules)
+    print(" [{}!{}] {}Phone search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the phone module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}TruePeopleSearch{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}WhoCalld{} - {}Reverse phone trace on given number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}411{} - {}Reverse phone trace on given number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}AdvancedBackgroundChecks{} - {}Run number through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.phonemenu()
-    if gselect == "exit":
-     sys.exit()
-    if gselect == "back":
+    if gselect == 7:
      self.intromenu()
-    if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks phone number? - ex: 1234567890]: ")
-    if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks phone number? - ex: 1234567890]: ")
+    if gselect == 8:
+     sys.exit()
+    if not bi.search_string or bi.search_string == '':
+     bi.search_string = raw_input("[What is the target phone number? - ex: 1234567890]: ")
     bi.lookup = 'phone'
     print()
-    if gselect != "all":
-     try:
-      bi.funclist[gselect]().get_info(bi.search_string)
-     except:
-      bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
-    if gselect == "all":
+    if gselect == 1:
      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
      WhoCallIdGrabber().get_info(bi.search_string)
      FourOneOneGrabber().get_info(bi.search_string)
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 2:
+     TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 3:
+     WhoCallIdGrabber().get_info(bi.search_string)
+    if gselect == 4:
+     FourOneOneGrabber().get_info(bi.search_string)
+    if gselect == 5:
+     AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 6:
+     bi.search_string = raw_input("[What is the target phone number? - ex: 1234567890]: ")
+     self.phonemenu()
     self.phonemenu()
 
   def snmenu(self):
-    snmodules = [
-	'All - Run all modules associated to the email module group',
-	'Twitter - Run screenname and grab tweets',
-	'Knowem - Run screenname through to determin registered sites',
-	'NameChk - Run screenname through to determin registered sites',
-	'Tinder - Run screenname and grab information if registered',
-	'Back - Return to main menu',
-	'Exit - Terminate the application']
-    gselect = self.printfun(snmodules)
+    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Twitter{} - {}Run screenname and grab tweets{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}Knowem{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}NameChk{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}Tinder{} - {}Run screenname and grab information if registered{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.snmenu()
-    if gselect == "exit":
-     sys.exit()
-    if gselect == "back":
+    if gselect == 7:
      self.intromenu()
-    if not bi.search_string:
-     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
-    if bi.search_string == '':
-     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+    if gselect == 8:
+     sys.exit()
     bi.lookup = 'sn'
     print()
-    if gselect != "all":
-     try:
-      bi.funclist[gselect]().get_info(bi.search_string)
-     except:
-      bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
-    if gselect == "all":
+    if not bi.search_string or bi.search_string == '':
+     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+    if gselect == 1:
      TwitterGrabber().get_info(bi.search_string)
      KnowemGrabber().get_info(bi.search_string)
      NameChkGrabber().get_info(bi.search_string)
      TinderGrabber().get_info(bi.search_string)
+    if gselect == 2:
+     TwitterGrabber().get_info(bi.search_string)
+    if gselect == 3:
+     KnowemGrabber().get_info(bi.search_string)
+    if gselect == 4:
+     NameChkGrabber().get_info(bi.search_string)
+    if gselect == 5:
+     TinderGrabber().get_info(bi.search_string)
+    if gselect == 6:
+     bi.search_string = raw_input("[What is the target's screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
     self.snmenu()
 
   def platemenu(self):
-    try:
-        platemenu = [
-        'All - Run all modules associated to the email module group',
-        'Plate Search - Run known vehicle plates against a database',
-        'Back - Return to main menu',
-        'Exit - Terminate the application']
-        gselect = self.printfun(platemenu)
-    except Exception as e:
-        print(e)
+    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Plate Search{} - {}Run known vehicle plates against a database{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.platemenu()
-    if gselect == "exit":
-     sys.exit()
-    if gselect == "back":
+    if gselect == 4:
      self.intromenu()
-    if not bi.search_string:
-     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
-    if bi.search_string == '':
-     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
-    if gselect == "exit":
+    if gselect == 5:
      sys.exit()
+    if not bi.search_string or bi.search_string == '':
+     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
     bi.lookup = 'plate'
     print()
-    if gselect in ["plate","all"]:
+    if gselect == 1:
       VinGrabber().get_info(bi.search_string)
+    if gselect == 2:
+      VinGrabber().get_info(bi.search_string)
+    if gselect == 3:
+     bi.search_string = raw_input("[What is the target's vehicle plate number? - ex: (XYZ123|0U812)]: ")
+     self.platemenu()
     self.platemenu()
 
   def profiler(self):
