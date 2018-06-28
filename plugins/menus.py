@@ -68,16 +68,16 @@ class menus():
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
-    print(' [1] {}Email{} - {}Search targets by email address{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [2] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [3] {}Phone{} - {}Search targets by telephone number{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [4] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [5] {}Plate{} - {}Search targets by license plate{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [6] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [7] {}Help{} - {}Details the application and use cases{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(' [8] {}Exit{} - {}Terminate the application{}'.format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print(" [!] Lookup menu - Please select a number")
-    gselect = int(raw_input(" [!] Select a number to continue: "))
+    print(" [{}!{}] {}Lookup menu:{}".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}Phone{} - {}Search targets by telephone number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.intromenu()
     if gselect == 8:
