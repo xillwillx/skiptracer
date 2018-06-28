@@ -54,7 +54,7 @@ class menus():
       keylist.append(xmod)
      moddict = dict(zip(keylist,modules))
      for xmd in moddict.keys():
-      print("  [-] {}{}{}: {}".format(bc.CRED, bc.CEND, xmd, moddict[xmd]))
+      print("  [-]{} {}{}{}: {}".format(bc.CEND, bc.CRED, bc.CEND, xmd, moddict[xmd]))
      selection = int(raw_input(" [!] Select a number to continue: "))
      gselect = str(moddict[int(selection)].split()[0]).lower()
      return gselect #.split('m')[1].split('\')[0]
