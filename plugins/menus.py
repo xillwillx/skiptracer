@@ -48,34 +48,37 @@ class menus():
     print("Describe application here")
 
   def printfun(self,modules):
-    keylist = list()
-    for xmod in range(1,len(modules)+1):
-     keylist.append(xmod)
-    moddict = dict(zip(keylist,modules))
-    for xmd in moddict.keys():
-     print(("  [%s-%s] %s: %s") % (bc.CRED, bc.CEND, xmd, moddict[xmd]))
     try:
-     selection = int(raw_input((" [{}!{}] Select a number to continue: ").format(bc.CRED,bc.CEND)))
+     keylist = list()
+     for xmod in range(1,len(modules)+1):
+      keylist.append(xmod)
+     moddict = dict(zip(keylist,modules))
+     for xmd in moddict.keys():
+      print("  [-] {}{}{}: {}".format(bc.CRED, bc.CEND, xmd, moddict[xmd]))
+     selection = int(raw_input(" [!] Select a number to continue: "))
      gselect = str(moddict[int(selection)].split()[0]).lower()
-     return gselect
+     return gselect #.split('m')[1].split('\')[0]
     except Exception as failselect:
-     print((" [{}!{}] Please use an integer value for your selection").format(bc.CRED,bc.CEND))
+     print((" [!] Please use an integer value for your selection: %s") % failselect)
      pass
 
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
     ltypes = [
-	'{}Email{} - {}Search targets by email address{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Name{} - {}Search targets by First Last name combination{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Phone{} - {}Search targets by telephone number{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Screen Name{} - {}Search targets by known alias{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}License Plate{} - {}Search targets by license plate{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Help{} - {}Details the application and use cases{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
-	'{}Exit{} - {}Terminate the application{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND)]
+	'Email - {}Search targets by email address{}'.format(bc.CYLW, bc.CEND),
+	'Name - {}Search targets by First Last name combination{}'.format(bc.CYLW, bc.CEND),
+	'Phone - {}Search targets by telephone number{}'.format(bc.CYLW, bc.CEND),
+	'Screen Name - {}Search targets by known alias{}'.format(bc.CYLW, bc.CEND),
+	'License Plate - {}Search targets by license plate{}'.format(bc.CYLW, bc.CEND),
+	'Profiler - {}Interactive Q&A for bulk lookups{}'.format(bc.CYLW, bc.CEND),
+	'Help - {}Details the application and use cases{}'.format(bc.CYLW, bc.CEND),
+	'Exit - {}Terminate the application{}'.format(bc.CYLW, bc.CEND)]
     print(" [!] Lookup menu - Please select a number")
-    gselect = self.printfun(ltypes)
+    try:
+     gselect = self.printfun(ltypes)
+    except Exception as failedselection:
+     print ("Failed Selection %s: " % failedselection)
     if gselect == "":
      self.intromenu()
     if gselect == "exit":
