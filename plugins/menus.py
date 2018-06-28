@@ -53,27 +53,27 @@ class menus():
      keylist.append(xmod)
     moddict = dict(zip(keylist,modules))
     for xmd in moddict.keys():
-     print(("  [-] %s: %s") % (xmd, moddict[xmd]))
+     print(("  [%s-%s] %s: %s") % (bc.CRED, bc.CEND, xmd, moddict[xmd]))
     try:
-     selection = int(raw_input(" [!] Select a number to continue: "))
+     selection = int(raw_input((" [{}!{}] Select a number to continue: ").format(bc.CRED,bc.CEND)))
      gselect = str(moddict[int(selection)].split()[0]).lower()
      return gselect
     except Exception as failselect:
-     print("Please use an integer value for your selection!")
+     print((" [{}!{}] Please use an integer value for your selection").format(bc.CRED,bc.CEND))
      pass
 
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
     ltypes = [
-	'Email - Search targets by email address',
-	'Name - Search targets by First Last name combination',
-	'Phone - Search targets by telephone number',
-	'Screen Name - Search targets by known alias',
-	'License Plate - Search targets by license plate',
-	'Profiler - Interactive Q&A for bulk lookups',
-	'Help - Details the application and use cases',
-	'Exit - Terminate the application']
+	'{}Email{} - {}Search targets by email address{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Name{} - {}Search targets by First Last name combination{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Phone{} - {}Search targets by telephone number{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Screen Name{} - {}Search targets by known alias{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}License Plate{} - {}Search targets by license plate{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Help{} - {}Details the application and use cases{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND),
+	'{}Exit{} - {}Terminate the application{}'.format(bc.CRED, bc.CEND, bc.CYLW, bc.CEND)]
     print(" [!] Lookup menu - Please select a number")
     gselect = self.printfun(ltypes)
     if gselect == "":
