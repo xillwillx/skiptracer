@@ -1,11 +1,13 @@
+from __future__ import print_function
+from __future__ import absolute_import
 #
 # LinkedIn Sales Module
 #
 import requests
 from bs4 import BeautifulSoup
 import logging
-from base import PageGrabber
-from colors import BodyColors as bc
+from .base import PageGrabber
+from .colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:
@@ -35,14 +37,32 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
             'loginCsrfParam': csrf,
         }
         if login_information['session_key'] == '':
+            print("Test1")
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly.\n"+bc.CEND)
-                return
+                print("Test2")
+                savecreds = raw_input("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No stored account found, would you like to add credentials?\nThis could produce a trail and identify the used account."+bc.CEND)
+                if str(savecreds).lower() in ['y','yes']:
+                    print("Test3")
+                    luser = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin username:\n"+bc.CEND)
+                    print("Test4")
+                    lpass = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin password:\n"+bc.CEND)
+                    login_information = {
+                         'session_key':luser,
+                         'session_password':lpass,
+                         'loginCsrfParam': csrf,
+                    }
+                    print("Test5")
+                else:
+                    print("Test6")
+                    return
+            else:
+                pass
         try:
              client.post(LOGIN_URL, data=login_information)
              results = client.get('https://linkedin.com/sales/gmail/profile/viewByEmail/'+str(email)).text
         except Exception as failedlinkedinauth:
-             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module did not properly authenticate: %s"+bc.CEND) % failedlinkedinauth
+             print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module did not properly authenticate: %s"+bc.CEND) % failedlinkedinauth)
         soup = self.get_dom(results)
         self.get_source(LOGOUT_URL)  # Log out of LinkedIn, kills sessionID
         try:  # Search and set from results
@@ -92,5 +112,5 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
             "email":email
         })
         bi.outdata['linkedin'] = self.info_dict
-        print
+        print()
         return
