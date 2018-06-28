@@ -9,7 +9,7 @@ from plugins.who_call_id import WhoCallIdGrabber
 from plugins.advance_background_checks import AdvanceBackgroundGrabber
 from plugins.myspace import MySpaceGrabber
 from plugins.whoismind import WhoisMindGrabber
-from plugins.linkedin import LinkedInSalesGrabber
+from plugins.linkedin import LinkedInGrabber
 from plugins.true_people import TruePeopleGrabber
 from plugins.truthfinder import TruthFinderGrabber
 from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
@@ -26,7 +26,7 @@ except:
 import sys
 
 bi.funclist = {
-	'linkedin':LinkedInSalesGrabber,
+	'linkedin':LinkedInGrabber,
 	'myspace':MySpaceGrabber,
 	'haveibeenpwned':HaveIBeenPwwnedGrabber,
 	'whoismind':WhoisMindGrabber,
@@ -65,11 +65,8 @@ class menus():
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
-    if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
-     bi.proxy = pg.new_proxy()
     ltypes = [
-  'Email - Search targets by email address',
+	'Email - Search targets by email address',
 	'Name - Search targets by First Last name combination',
 	'Phone - Search targets by telephone number',
 	'Screen Name - Search targets by known alias',
@@ -99,10 +96,8 @@ class menus():
      self.helpmenu()
 
   def emailmenu(self):
-    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     bi.proxy = pg.new_proxy()
     emodules = [
-  'All - Run all modules associated to the email module group',
+	'All - Run all modules associated to the email module group',
 	'LinkedIn - Check if user exposes information through LinkedIn',
 	'HaveIBeenPwned - Check email against known compromised networks',
 	'Myspace - Check if users account has a registered account',
@@ -130,7 +125,7 @@ class menus():
      except:
       bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
     if gselect == "all":
-     LinkedInSalesGrabber().get_info(bi.search_string)
+     LinkedInGrabber().get_info(bi.search_string)
      MySpaceGrabber().get_info(bi.search_string)
      HaveIBeenPwwnedGrabber().get_info(bi.search_string)
      WhoisMindGrabber().get_info(bi.search_string)
@@ -138,11 +133,9 @@ class menus():
     self.emailmenu()
 
   def namemenu(self):
-    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     bi.proxy = pg.new_proxy()
     nmodules = [
-  'All - Run all modules associated to the email module group',
-  'Truth Finder - Run name through public page of paid access',
+	'All - Run all modules associated to the email module group',
+	'Truth Finder - Run name through public page of paid access',
 	'True People - Run email through public page of paid access',
 	'AdvancedBackgroundChecks - Run email through public page of paid access',
 	'Back - Return to main menu',
@@ -172,11 +165,9 @@ class menus():
     self.namemenu()
 
   def phonemenu(self):
-    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     bi.proxy = pg.new_proxy()
     pmodules = [
-  'All - Run all modules associated to the phone module group',
-  'TruePeopleSearch - Run email through public page of paid access',
+	'All - Run all modules associated to the phone module group',
+	'TruePeopleSearch - Run email through public page of paid access',
 	'WhoCalld - Reverse phone trace on given number',
 	'411 - Reverse phone trace on given number',
 	'AdvancedBackgroundChecks - Run number through public page of paid access',
@@ -208,11 +199,9 @@ class menus():
     self.phonemenu()
 
   def snmenu(self):
-    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     bi.proxy = pg.new_proxy()
     snmodules = [
-  'All - Run all modules associated to the email module group',
-  'Twitter - Run screenname and grab tweets',
+	'All - Run all modules associated to the email module group',
+	'Twitter - Run screenname and grab tweets',
 	'Knowem - Run screenname through to determin registered sites',
 	'NameChk - Run screenname through to determin registered sites',
 	'Tinder - Run screenname and grab information if registered',
@@ -244,8 +233,6 @@ class menus():
     self.snmenu()
 
   def platemenu(self):
-    if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     bi.proxy = pg.new_proxy()
     try:
         platemenu = [
         'All - Run all modules associated to the email module group',

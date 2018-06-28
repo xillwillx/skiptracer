@@ -14,7 +14,7 @@ except:
     import builtins as bi
 
 
-class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email lookups
+class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email lookups
     def get_info(self,email):  # Requires AUTH, login and request AUTHENTICATED pages from linkedin
         client = requests.Session()  # Establish the session()
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "LinkedIn" + bc.CEND)
@@ -39,7 +39,20 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
         if login_information['session_key'] == '':
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly.\n"+bc.CEND)
-                return
+                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This could produce a trail and identify the used account."+bc.CEND)
+                savecreds = raw_input("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No stored account found, would you like to add credentials?\n"+bc.CEND)
+                if str(savecreds).lower() in ['y','yes']:
+                    luser = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin username:\n"+bc.CEND)
+                    lpass = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin password:\n"+bc.CEND)
+                    login_information = {
+                         'session_key':luser,
+                         'session_password':lpass,
+                         'loginCsrfParam': csrf,
+                    }
+                else:
+                    return
+            else:
+                pass
         try:
              client.post(LOGIN_URL, data=login_information)
              results = client.get('https://linkedin.com/sales/gmail/profile/viewByEmail/'+str(email)).text

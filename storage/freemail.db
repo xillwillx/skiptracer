@@ -1,6 +1,6 @@
-^(.*)comcast(.*)$
-^(.*)gmail(.*)$
-^(.*)yahoo(.*)$
-^(.*)aol(.*)$
-^(.*)hotmail(.*)$
-^(.*)outlook(.*)$
+comcast
+gmail
+yahoo
+aol
+hotmail
+outlook

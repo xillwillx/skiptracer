@@ -29,7 +29,8 @@ class PageGrabber:  # base function to import request functionality in modules
         self.info_dict = {}
         self.info_list = []
         self.ua = random_line()
-        if bi.proxy != '':
+        if bi.webproxy == True:
+            bi.proxy = proxygrabber()
             proxy = str(bi.proxy).split(":")[1].strip()
             xproto = str(bi.proxy).split(":")[0].strip()
             self.proxy = {str(xproto): str(proxy).strip()}
@@ -41,7 +42,8 @@ class PageGrabber:  # base function to import request functionality in modules
         requests.packages.urllib3.disable_warnings()
         while reqcom == 0:
             try:
-                if bi.proxy != '':
+                if bi.webproxy == True:
+                    bi.proxy = proxygrabber()
                     proxy = str(bi.proxy).split(":")[1].strip()
                     xproto = str(bi.proxy).split(":")[0].strip()
                     self.proxy = {str(xproto): str(proxy).strip()}
@@ -72,10 +74,24 @@ class PageGrabber:  # base function to import request functionality in modules
         requests.packages.urllib3.disable_warnings()
         while reqcom == 0:
             try:
-                results = requests.post(
+                if bi.webproxy == True:
+                    bi.proxy = proxygrabber()
+                    proxy = str(bi.proxy).split(":")[1].strip()
+                    xproto = str(bi.proxy).split(":")[0].strip()
+                    self.proxy = {str(xproto): str(proxy).strip()}
+                    results = requests.post(
                                 url,
                                 headers=headers,
                                 proxies=self.proxy,
+                                timeout=10,
+                                verify=False,
+                                allow_redirects=True,
+                                data=postdata
+                                ).text
+                else:
+                    results = requests.post(
+                                url,
+                                headers=headers,
                                 timeout=10,
                                 verify=False,
                                 allow_redirects=True,
