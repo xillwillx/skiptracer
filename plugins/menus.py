@@ -98,40 +98,47 @@ class menus():
      self.helpmenu()
 
   def emailmenu(self):
-    emodules = [
-	'All - Run all modules associated to the email module group',
-	'LinkedIn - Check if user exposes information through LinkedIn',
-	'HaveIBeenPwned - Check email against known compromised networks',
-	'Myspace - Check if users account has a registered account',
-	'WhoisMind - Check email to registered domains',
-	'AdvancedBackgroundChecks - Run email through public page of paid access',
-	'Back - Return to main menu',
-	'Exit - Terminate the application']
-    print(" [!] E-Mail search menu - Please select a number")
-    gselect = self.printfun(emodules)
+    print(" [{}!{}] {}E-Mail search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}LinkedIn{} - {}Check if user exposes information through LinkedIn{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}HaveIBeenPwned{} - {}Check email against known compromised networks{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}Myspace{} - {}Check if users account has a registered account{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}WhoisMind{} - {}Check email to registered domains{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Reset Target{} - {}Rest the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}8{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}9{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     if gselect == "":
      self.emailmenu()
-    if gselect == "exit":
-     sys.exit()
-    if gselect == "back":
-     self.intromenu()
     if not bi.search_string:
      bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
     if bi.search_string == '':
      bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
     bi.lookup = "email"
     print()
-    if gselect != "all":
-     try:
-      bi.funclist[gselect]().get_info(bi.search_string)
-     except:
-      bi.funclist[gselect]().get_info(bi.lookup,bi.search_string)
-    if gselect == "all":
+    if gselect == 1:
      LinkedInGrabber().get_info(bi.search_string)
      MySpaceGrabber().get_info(bi.search_string)
      HaveIBeenPwwnedGrabber().get_info(bi.search_string)
      WhoisMindGrabber().get_info(bi.search_string)
      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 2:
+     LinkedInGrabber().get_info(bi.search_string)
+    if gselect == 3:
+     HaveIBeenPwwnedGrabber().get_info(bi.search_string)
+    if gselect == 4:
+     MySpaceGrabber().get_info(bi.search_string)
+    if gselect == 5:
+     WhoisMindGrabber().get_info(bi.search_string)
+    if gselect == 6:
+     AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+    if gselect == 7:
+     bi.search_string = raw_input("[What is the target's email address? - ex: username@domain.tld]: ")
+    if gselect == 8:
+     self.intromenu()
+    if gselect == 9:
+     sys.exit()
     self.emailmenu()
 
   def namemenu(self):
