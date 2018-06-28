@@ -11,7 +11,7 @@ except:
     import builtins as bi
 
 class MySpaceGrabber(PageGrabber):  # Myspace.com scraper for email lookups
-    def get_info(self,email):  # Looksup user accounts by given email
+    def get_info(self,email):  # Looks up user accounts by given email
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "Myspace" + bc.CEND)
         url = 'https://myspace.com/search/people?q={}'.format(email)
         source = self.get_source(url)

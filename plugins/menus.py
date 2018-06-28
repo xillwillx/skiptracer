@@ -18,7 +18,6 @@ from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
-import plugins.proxygrabber as pg
 import re
 try:
     import __builtin__ as bi
@@ -43,41 +42,47 @@ bi.funclist = {
 	'vin':VinGrabber
 }
 
-class menus():
+class menus:
 
-  def help(self):
+  def __init__(self):
+      pass
+
+  @staticmethod
+  def helpmenu():
     print("Describe application here")
 
-  def printfun(self,modules):
-    try:
-     keylist = list()
-     for xmod in range(1,len(modules)+1):
-      keylist.append(xmod)
-     moddict = dict(zip(keylist,modules))
-     for xmd in moddict.keys():
-      print("  [-] {}{}{}: {}".format( bc.CRED, bc.CEND, xmd, moddict[xmd]))
-     selection = int(raw_input(" [!] Select a number to continue: "))
-     aegselect = str(moddict[int(selection)].split()[0]).lower()
-     aere = re.complie(r'\x1B\[[0-?]*[ -/]([@-~]')
-     gselect = aere.sub('',argselect)
-     return gselect
-    except Exception as failselect:
-     print((" [!] Please use an integer value for your selection: %s") % failselect)
-     pass
 
   def intromenu(self):
     bi.search_string = ''
     bi.lookup = ''
     print(" [{}!{}] {}Lookup menu:{}".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
-    print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}Phone{} - {}Search targets by telephone number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}Name{} - {}Search targets by First Last name combination{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}Phone{} - {}Search targets by telephone number{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}ScreenName{} - {}Search targets by known alias{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}6{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.intromenu()
     if gselect == 8:
@@ -98,17 +103,39 @@ class menus():
      self.helpmenu()
 
   def emailmenu(self):
-    print(" [{}!{}] {}E-Mail search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
-    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}LinkedIn{} - {}Check if user exposes information through LinkedIn{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}HaveIBeenPwned{} - {}Check email against known compromised networks{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}Myspace{} - {}Check if users account has a registered account{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}WhoisMind{} - {}Check email to registered domains{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}9{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print(" [{}!{}] {}E-Mail search menu: Target info{} - {}{}".format(
+        bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND)
+    )
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}LinkedIn{} - {}Check if user exposes information through LinkedIn{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}HaveIBeenPwned{} - {}Check email against known compromised networks{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}Myspace{} - {}Check if users account has a registered account{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}WhoisMind{} - {}Check email to registered domains{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}6{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}7{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}8{}] {}Back{} - {}Return to main menu{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}9{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.emailmenu()
     if gselect == 7:
@@ -141,15 +168,33 @@ class menus():
     self.emailmenu()
 
   def namemenu(self):
-    print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
-    print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}Truth Finder{} - {}Run name through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}True People{} - {}Run email through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(
+        bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND)
+    )
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}Truth Finder{} - {}Run name through public page of paywall{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}True People{} - {}Run email through public page of paywall{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paywall{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}6{}] {}Back{} - {}Return to main menu{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}7{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.namemenu()
     if gselect == 5:
@@ -177,16 +222,36 @@ class menus():
 
 
   def phonemenu(self):
-    print(" [{}!{}] {}Phone search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
-    print('\t[{}1{}] {}All{} - {}Run all modules associated to the phone module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}TruePeopleSearch{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}WhoCalld{} - {}Reverse phone trace on given number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}411{} - {}Reverse phone trace on given number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}AdvancedBackgroundChecks{} - {}Run number through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print(" [{}!{}] {}Phone search menu: Target info{} - {}{}".format(
+        bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND)
+    )
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the phone module group{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}TruePeopleSearch{} - {}Run email through public page of paid access{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}WhoCalld{} - {}Reverse phone trace on given number{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}411{} - {}Reverse phone trace on given number{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}AdvancedBackgroundChecks{} - {}Run number through public page of paid access{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.phonemenu()
     if gselect == 7:
@@ -216,16 +281,36 @@ class menus():
     self.phonemenu()
 
   def snmenu(self):
-    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
-    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}Twitter{} - {}Run screenname and grab tweets{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}Knowem{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}NameChk{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}Tinder{} - {}Run screenname and grab information if registered{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(
+        bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND)
+    )
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}Twitter{} - {}Run screenname and grab tweets{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}Knowem{} - {}Run screenname through to determin registered sites{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}NameChk{} - {}Run screenname through to determin registered sites{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}Tinder{} - {}Run screenname and grab information if registered{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.snmenu()
     if gselect == 7:
@@ -254,13 +339,27 @@ class menus():
     self.snmenu()
 
   def platemenu(self):
-    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
-    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}Plate Search{} - {}Run known vehicle plates against a database{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(
+        bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND)
+    )
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}2{}] {}Plate Search{} - {}Run known vehicle plates against a database{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}3{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}4{}] {}Back{} - {}Return to main menu{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    print('\t[{}5{}] {}Exit{} - {}Terminate the application{}'.format(
+        bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND)
+    )
+    gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(
+        bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+    )
     if gselect == "":
      self.platemenu()
     if gselect == 4:
