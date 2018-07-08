@@ -69,8 +69,8 @@ class TruePeopleGrabber(PageGrabber):
                     pass
         if lookup == "name":  # Make the URL for name lookup, set email to False
             # Added city state and zip lookup
-            agerange = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter an age range, ex: 18-120 "+bc.CEND)
-            citystatezip = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL|Alabama|12345) "+bc.CEND)
+            agerange = raw_input("[{}?{}] {}Please enter an age range:{} [ex: 18-100{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+            citystatezip = raw_input("[{}?{}] {}Please enter a city,state,or zip?{} [ex:(AL|Alabama|12345){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
             if str(information).split(' ')[1]:
                 self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(str(information).replace(' ','%20'), agerange, citystatezip)
                 email = False
