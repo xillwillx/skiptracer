@@ -38,12 +38,12 @@ class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email look
         }
         if login_information['session_key'] == '':
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly.\n"+bc.CEND)
+                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly."+bc.CEND)
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This could produce a trail and identify the used account."+bc.CEND)
-                savecreds = raw_input("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No stored account found, would you like to add credentials?\n"+bc.CEND)
+                savecreds = raw_input("[{}?{}] {}Would you like to enter credentials now? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
                 if str(savecreds).lower() in ['y','yes']:
-                    luser = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin username:\n"+bc.CEND)
-                    lpass = raw_input("   ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin password:\n"+bc.CEND)
+                    luser = raw_input("  ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin username: "+bc.CEND)
+                    lpass = raw_input("  ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin password: "+bc.CEND)
                     login_information = {
                          'session_key':luser,
                          'session_password':lpass,

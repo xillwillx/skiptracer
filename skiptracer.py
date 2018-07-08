@@ -11,10 +11,13 @@ except:
     import builtins as bi
 import ast
 from plugins.colors import BodyColors as bc
+
 def signal_handler(signal, frame):
  print("")
  sys.exit(0)
+
 signal.signal(signal.SIGINT, signal_handler)
+
 bi.search_string = ''
 bi.lookup = ''
 bi.outdata = dict()
