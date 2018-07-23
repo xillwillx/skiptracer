@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 from __future__ import print_function
+import sys
+sys.dont_write_bytecode = True
 import click
 # [Experimental]
 from plugins.twitter import TwitterGrabber
@@ -14,7 +16,7 @@ from plugins.linkedin import LinkedInSalesGrabber
 from plugins.true_people import TruePeopleGrabber
 from plugins.truthfinder import TruthFinderGrabber
 from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
-from plugins.hackedemails import HackedEmailGrabber
+#from plugins.hackedemails import HackedEmailGrabber
 from plugins.namechk2 import NameChkGrabber
 from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
