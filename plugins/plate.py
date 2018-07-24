@@ -26,17 +26,17 @@ class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
         source = self.get_source(url)
         soup = self.get_html(source)
         if soup.body.find_all(string=re.compile('.*{0}.*'.format('Sorry, the plate your currently looking for is not available.')), recursive=True):
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No plate found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No plate found.\n"+bc.CEND)
             return
         try:
             table = soup.find('table', attrs={'class': 'tableinfo'})
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         try:
             cells = table.findAll("td")
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found ...\n"+bc.CEND)
             return
         vin = cells[0].b.text
         make = cells[1].b.text
@@ -74,7 +74,7 @@ class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
         })
         bi.outdata['faxvin'] = self.info_dict
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
             print()

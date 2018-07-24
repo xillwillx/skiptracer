@@ -32,11 +32,11 @@ class KnowemGrabber(PageGrabber):  # knowem.com scraper for screenname lookups
                     self.info_dict.update({
                         "Account": social})
         except Exception as staging:
-            if bi.debug: print (("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Failed at staging: "+bc.CEND) % staging)
+            if bi.debug: print(("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Failed at staging: "+bc.CEND) % staging)
         bi.outdata['knowem'] = self.info_dict
-        if bi.debug: print ("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Passed dictionary production"+bc.CEND)
+        if bi.debug: print("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Passed dictionary production"+bc.CEND)
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
             print

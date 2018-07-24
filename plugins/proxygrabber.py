@@ -41,7 +41,7 @@ def get_proxies():  # Initial request to generate proxy list
         if i.xpath('.//td[5][contains(text(),"elite proxy")]'):
             proxy = ":".join([i.xpath('.//td[1]/text()')[0], i.xpath('.//td[2]/text()')[0]])
             proxies.add(proxy)
-    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Testing proxies, please wait till complete..."+bc.CEND)
+    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Testing proxies, please wait till complete..."+bc.CEND)
     return proxies
 
 def new_proxy():  # Select random proxy form list, if no list, generate a new one and test them for connectivity (living)
@@ -53,7 +53,7 @@ def new_proxy():  # Select random proxy form list, if no list, generate a new on
         with open(str(cwd)+'/storage/proxies.txt','r') as proxies:
             bi.proxy = str(random.choice(proxies.readlines())).strip()
             proxy = bi.proxy
-        print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxy: "+bi.proxy+bc.CEND+" ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
+        print("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxy: "+bi.proxy+bc.CEND+" ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
         return proxy
     except Exception as noproxyfile:  # Start generating the proxy list
         proxies = get_proxies()  # Call to grab results, returns a list
@@ -69,6 +69,6 @@ def new_proxy():  # Select random proxy form list, if no list, generate a new on
                         write_file(str(xproto)+"://"+str(proxy) + "\n", output_file)
                 except:
                     pass
-        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Finished testing proxies, continue.\n"+bc.CEND)
+        print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Finished testing proxies, continue.\n"+bc.CEND)
         bi.proxy = new_proxy()
     return bi.proxy

@@ -22,7 +22,7 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
         soup = self.get_dom(source)
         print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+ "User: "+bc.CEND+"%s" % username)
         if soup.body.findAll(text='Looking for Someone?'):                     #check if CAPTCHA was triggered
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Profile Found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Profile Found.\n"+bc.CEND)
             return
         try:
             photo = soup.find("img", id="user-photo")
@@ -66,7 +66,7 @@ class TinderGrabber(PageGrabber):  # tinder scraper for screenname lookups
         })
         bi.outdata['knowem'] = self.info_dict
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
             print()

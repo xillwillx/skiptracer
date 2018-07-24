@@ -20,20 +20,20 @@ class MySpaceGrabber(PageGrabber):  # Myspace.com scraper for email lookups
         try:
             name = soup.select('h6')[0].text.strip()
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Myspace account found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Myspace account found.\n"+bc.CEND)
             return
         try:
             accountr = soup.select('h6')[0].a.get('href').strip()
             account = "https://myspace.com{}".format(accountr)
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Myspace account found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Myspace account found.\n"+bc.CEND)
             return
         try:
             source = self.get_source(account)
             soup = self.get_dom(source)
             location = soup.find('div', attrs={'class': 'location_white location '})['data-display-text']
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to complete the request.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to complete the request.\n"+bc.CEND)
             return
         if not location:
             location = "Unknown"

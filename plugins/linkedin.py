@@ -38,7 +38,7 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
         }
         if login_information['session_key'] == '':
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly.\n"+bc.CEND)
                 return
         try:
              client.post(LOGIN_URL, data=login_information)
@@ -51,7 +51,7 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
             profile = soup.find('a',attrs={'class': 'li-hover-under li-txt-black-85'})['href']
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Profile: "+bc.CEND+ str(profile))
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No LinkedIn account found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No LinkedIn account found.\n"+bc.CEND)
             return
         try:
             fname = soup.find('span',attrs={'id': 'li-profile-name'})['data-fname']
@@ -60,31 +60,31 @@ class LinkedInSalesGrabber(PageGrabber):  # LinkedIN.com sales scraper for email
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+ str(fname)+" "+str(lname))
         except:
             name = ""
-            pass # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No username can be found.\n"+bc.CEND)
+            pass # print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No username can be found.\n"+bc.CEND)
         try:
             company = soup.find('span',{'class': 'li-user-title-company'}).get_text()
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Company: "+bc.CEND+ str(company))
         except:
             company = ""
-            pass # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Company can be found.\n"+bc.CEND)
+            pass # print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Company can be found.\n"+bc.CEND)
         try:
             title = soup.find('div',{'class':'li-user-title'}).get_text()
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Title: "+bc.CEND+ str(title))
         except:
             title = ""
-            pass #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Job Title can be found.\n"+bc.CEND)
+            pass #print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Job Title can be found.\n"+bc.CEND)
         try:
             location = soup.find('div', {'class':'li-user-location'}).get_text()
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Location: "+bc.CEND+ str(location))
         except:
             location = ""
-            pass #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Location can be found.\n"+bc.CEND)
+            pass #print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Location can be found.\n"+bc.CEND)
         try:
             email = soup.find('span', {'id':'email'}).get_text()
             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Email: "+bc.CEND+ str(email))
         except:
             email =""
-            pass #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Email account found.\n"+bc.CEND)
+            pass #print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Email account found.\n"+bc.CEND)
         self.info_dict.update({
             "profile": profile,
             "name": name,

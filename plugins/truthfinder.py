@@ -26,14 +26,14 @@ class TruthFinderGrabber(PageGrabber):
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
         if bi.webproxy and captcha != None:
             try:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.true_try(lookup,information)
                 return True
             except Exception as badproxy:
                 pass
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
             return True
         else:
             return False
@@ -60,7 +60,7 @@ class TruthFinderGrabber(PageGrabber):
                         dashphone = '({})-{}-{}'.format(information[0:3], information[3:6], information[6:])
                         return dashphone
                 except:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Did not detect a phone number\n"+bc.CEND)
+                    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Did not detect a phone number\n"+bc.CEND)
                     return
             if phonere.findall(information):  # Make the URL for a phone lookup, set email to False
                 try:
@@ -97,7 +97,7 @@ class TruthFinderGrabber(PageGrabber):
                             self.fname = str(information).split(" ")[0]
                             self.lname = str(information).split(" ")[2]
                 except:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed to parse serarch string, lookup name.\n"+bc.CEND)
+                    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed to parse serarch string, lookup name.\n"+bc.CEND)
             getlocal(citystatezip,gender,age)
             self.url = "https://www.truthfinder.com/results/?utm_source=VOTER&traffic%5Bsource%5D=VOTER&utm_medium=pre-pop&traffic%5Bmedium%5D=pre-pop&utm_campaign=&traffic%5Bcampaign%5D=srapi%3A&utm_term=1&traffic%5Bterm%5D=1&utm_content=&traffic%5Bcontent%5D=&s1=&s2=srapi&s3=1&s4=&s5=&city=&firstName={}&lastName={}&page=r&state={}{}&qLocation=true&qRelatives=true&qOver30={}".format(self.fname, self.lname, self.state, self.gndr, self.age)
             email = False

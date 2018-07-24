@@ -22,7 +22,7 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
             else:
                 name = "Unknown"
         except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         for itemText in soup.find_all('div', attrs={'class': re.compile('adr_.*')}):
             street = itemText.find('span', itemprop='streetAddress')
@@ -60,7 +60,7 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
             })
         bi.outdata['fouroneone'] = self.info_dict
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
             print()

@@ -54,7 +54,7 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
         try:
             csrf = str(soup.find_all(name="meta")[-1]).split('"')[1]
         except Exception as e:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
             pass #return # print e
         tree = html.fromstring(r.text)
         def get_cookie(cookies):
@@ -94,13 +94,13 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
             cookies = r.cookies.get_dict()
             cooked = str(get_cookie(cookies)[0])
         except Exception as e:
-            pass #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not locate required cookies.\n"+bc.CEND)
+            pass #print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not locate required cookies.\n"+bc.CEND)
         try:
             encres = r.text.encode('ascii','ignore').decode('utf8')
             encresdic = json.loads(encres)
             datareq = {}
         except Exception as e:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not load results into JSON format.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not load results into JSON format.\n"+bc.CEND)
             return #print e
         for xservice in services:
             for dictkey in encresdic.keys():
@@ -112,7 +112,7 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
                     datastring += "{}={}&".format(datakey,datareq[datakey])
                 datastring += "service={}".format(xservice)
             except Exception as e:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
                 return
             try:
                 response = ses.post('https://namechk.com/services/check',headers=headers, data=datastring)
@@ -124,7 +124,7 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
                         print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Acct Exists: "+bc.CEND+ "{}".format(jload['callback_url']))
 
             except Exception as e:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find required datasets.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find required datasets.\n"+bc.CEND)
                 return #pass
         print()
         return

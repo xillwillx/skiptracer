@@ -33,11 +33,11 @@ bi.webproxy = ""
 bi.proxy = ""
 bi.debug = False
 def banner():
-    print ("")
-    print ("\t\t.▄▄ · ▄ •▄ ▪   ▄▄▄·▄▄▄▄▄▄▄▄   ▄▄▄·  ▄▄· ▄▄▄ .▄▄▄  ")
-    print ("\t\t▐█ ▀. █▌▄▌▪██ ▐█ ▄█•██  ▀▄ █·▐█ ▀█ ▐█ ▌▪▀▄.▀·▀▄ █·")
-    print ("\t\t▄▀▀▀█▄▐▀▀▄·▐█· ██▀· ▐█.▪▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▪▄▐▀▀▄ ")
-    print ("\t\t▐█▄▪▐█▐█.█▌▐█▌▐█▪·• ▐█▌·▐█•█▌▐█ ▪▐▌▐███▌▐█▄▄▌▐█•█▌")
+    print("")
+    print("\t\t.▄▄ · ▄ •▄ ▪   ▄▄▄·▄▄▄▄▄▄▄▄   ▄▄▄·  ▄▄· ▄▄▄ .▄▄▄  ")
+    print("\t\t▐█ ▀. █▌▄▌▪██ ▐█ ▄█•██  ▀▄ █·▐█ ▀█ ▐█ ▌▪▀▄.▀·▀▄ █·")
+    print("\t\t▄▀▀▀█▄▐▀▀▄·▐█· ██▀· ▐█.▪▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▪▄▐▀▀▄ ")
+    print("\t\t▐█▄▪▐█▐█.█▌▐█▌▐█▪·• ▐█▌·▐█•█▌▐█ ▪▐▌▐███▌▐█▄▄▌▐█•█▌")
     print(("\t\t       {},.-~*´¨¯¨`*·~-.¸{}-({}by{})-{},.-~*´¨¯¨`*·~-.¸{} \n").format(bc.CRED,bc.CYLW,bc.CCYN,bc.CYLW,bc.CRED,bc.CEND))
     print(("\t\t\t      {}▀ █ █ █▀▄▀█ {}█▀▀█ {}█▀▀▄ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
     print(("\t\t\t      {}█ █ █ █ ▀ █ {}█  █ {}█▀▀▄{}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
@@ -62,7 +62,7 @@ def main(lookup, search_string, output, webproxy,debug):
     except:
         pass
     if bi.webproxy:  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-        print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
+        print("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
         bi.proxy = pg.new_proxy()
     if lookup == "phone":  # If true, run phone modules
         try:
@@ -86,7 +86,7 @@ def main(lookup, search_string, output, webproxy,debug):
             WhoisMindGrabber().get_info(search_string)
             AdvanceBackgroundGrabber().get_info(lookup,search_string)
         except Exception as emailfail:
-            if bi.debug: print ("Test")  # print(("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Email lookups failed %s\n"+bc.CEND) % emailfail)
+            if bi.debug: print("Test")  # print(("  ["+bc.CRED+"DEBUG"+bc.CEND+"] "+bc.CYLW+"Email lookups failed %s\n"+bc.CEND) % emailfail)
             else:
                 print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Email lookups failed\n"+bc.CEND)
 

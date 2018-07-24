@@ -68,7 +68,7 @@ class menus():
     bi.search_string = ''
     bi.lookup = ''
     if str(bi.webproxy).lower() == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-     print ("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
+     print("\t  ["+bc.CRED+"::ATTENTION::"+bc.CEND+"]"+bc.CYLW+" Proxied requests are unreliable "+bc.CEND+"["+bc.CRED+"::ATTENTION::"+bc.CEND+"]")
      bi.proxy = pg.new_proxy()
     ltypes = ['Email - Search targets by email address',
 	'Name - Search targets by First Last name combination',

@@ -23,13 +23,13 @@ class AdvanceBackgroundGrabber(PageGrabber):
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
         if bi.webproxy and captcha != None:
             try:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.abc_try(lookup,information)
             except Exception as badproxy:
                 pass
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
         else:
             pass  # "No Captcha found, return False"
 
@@ -58,7 +58,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                         dashphone = '{}-{}-{}'.format(information[0:3], information[3:6], information[6:])
                         return dashphone
                     if len(information) != 10:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Check search string, should be 10 digits.\n"+bc.CEND)
+                        print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Check search string, should be 10 digits.\n"+bc.CEND)
                         return
                 except:
                     return
@@ -69,7 +69,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 self.url = "https://www.advancedbackgroundchecks.com/{}".format(self.num)
                 email = False
             except Exception as e:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not produce required URL.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not produce required URL.\n"+bc.CEND)
                 return
         if lookup == "email":  # Make the URL for email lookup, set email True
             if str(information).split('@')[1]:
@@ -87,17 +87,17 @@ class AdvanceBackgroundGrabber(PageGrabber):
             return
         try:
             if self.soup.find('div', {'id': 'no-result-widgets'}):  # Report if there are no results to STDOUT
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                 return
             checkres = self.soup.findAll("h1")
             if lookup == "phone":
                 for xcheck in checkres:
                     if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                        print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                         return
             script_html = self.soup.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
         except Exception as findallfail:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
             return
         if len(script_html) == 2:  # Check len on results
             script_html = script_html[1]  # Set the desired value to iterate over
@@ -128,7 +128,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 for xaka in person.get("additionalName"):  # For each AKA, select the name
                     print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+ str(xaka))
             if len(script_html2) <=1:
-                print (" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
+                print(" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
                 return
             else:
                 script_html2 = script_html2[1]

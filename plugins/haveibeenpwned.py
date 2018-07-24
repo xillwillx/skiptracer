@@ -51,9 +51,9 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                             for xpos in self.exposes:
                                 print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"DataSet: "+bc.CEND + xpos)
                         else:
-                            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                     except Exception as nojson:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                        print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                         return #pass  ## Needed to write out the results to JSON output
                 bi.outdata['haveibeenpwned'] = self.info_dict
                 print()
@@ -64,10 +64,10 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                         proxygrabber.new_proxy()
                         self.trymore(email)
                     except Exception as proxygrabfail:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No new proxy could be found.\n"+bc.CEND)
+                        print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No new proxy could be found.\n"+bc.CEND)
                         return
                         self.trymore(email)
                 else:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
+                    print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
                     return
                 return
