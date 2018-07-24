@@ -79,7 +79,7 @@ def main(lookup, search_string, output, webproxy,debug):
     if lookup == "email":  # If true, run email modules
         try:
             print()
-            HackedEmailGrabber().get_info(search_string)
+            # HackedEmailGrabber().get_info(search_string)
             LinkedInSalesGrabber().get_info(search_string)
             MySpaceGrabber().get_info(search_string)
             HaveIBeenPwwnedGrabber().get_info(search_string)
