@@ -14,7 +14,6 @@ from plugins.linkedin import LinkedInSalesGrabber
 from plugins.true_people import TruePeopleGrabber
 from plugins.truthfinder import TruthFinderGrabber
 from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
-from plugins.hackedemails import HackedEmailGrabber
 from plugins.namechk2 import NameChkGrabber
 from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
@@ -77,7 +76,6 @@ def main(lookup, search_string, output, webproxy,debug):
     if lookup == "email":  # If true, run email modules
         try:
             print()
-            HackedEmailGrabber().get_info(search_string)
             LinkedInSalesGrabber().get_info(search_string)
             MySpaceGrabber().get_info(search_string)
             HaveIBeenPwwnedGrabber().get_info(search_string)
