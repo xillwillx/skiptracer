@@ -82,10 +82,6 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
           ('q', username),
           ('m', ''),
         ]
-        """if bi.webproxy:
-            proto = bi.proxy.split("/")[0].split(":")[0]
-            r = ses.post('https://namechk.com/',headers=headers, data=data, proxies={proto:bi.proxy})
-        else:"""
         r = ses.post('https://namechk.com/',headers=headers, data=data)
         try:
             encres = r.text.encode('ascii','ignore').decode('utf8')
@@ -93,7 +89,7 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
             datareq = {}
         except:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not load results into JSON format.\n"+bc.CEND)
-            return #print e
+            return
         for xservice in services:
             for dictkey in encresdic.keys():
                 datareq["token"] = quote(encresdic[dictkey], safe="")
@@ -117,6 +113,6 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
 
             except Exception as e:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find required datasets.\n"+bc.CEND)
-                return #pass
+                return
         print()
         return

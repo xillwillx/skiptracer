@@ -14,7 +14,6 @@ except:
 class WhoCallIdGrabber(PageGrabber):  # WhoCallID sales scraper for reverse telephone lookups
     def get_info(self, phone_number):  # Request, scrape and return values found
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "WhoCalld" + bc.CEND)
-        """Get phone info"""
         url = 'https://whocalld.com/+1{}'.format(phone_number)
         source = self.get_source(url)
         soup = self.get_dom(source)

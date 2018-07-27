@@ -41,8 +41,6 @@ banner()
 
 if __name__ == "__main__":  # If true, run main function of framework
  try:
-  #bi.webproxy = raw_input("[{}?{}] {}Enable proxy support? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-  #bi.output = raw_input("[{}?{}] {}Save returned data to disk? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
   if str(bi.output).lower() == "y":
    bi.filename = raw_input("[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
    def writeout():
@@ -56,10 +54,6 @@ if __name__ == "__main__":  # If true, run main function of framework
      else:
       print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
   menus().intromenu()
-  #try:
-  # writout()
-  #except:
-  # pass
  except Exception as failedmenu:
   print("Failed menu: %s" % (failedmenu))
   pass

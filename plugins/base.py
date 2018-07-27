@@ -6,7 +6,6 @@ import random
 import requests
 from lxml import etree
 from bs4 import BeautifulSoup
-#from . import proxygrabber
 try:
     import __builtin__ as bi
 except Exception as e:
@@ -29,33 +28,13 @@ class PageGrabber:  # base function to import request functionality in modules
         self.info_dict = {}
         self.info_list = []
         self.ua = random_line()
-        """if bi.webproxy == True:
-            bi.proxy = proxygrabber()
-            proxy = str(bi.proxy).split(":")[1].strip()
-            xproto = str(bi.proxy).split(":")[0].strip()
-            self.proxy = {str(xproto): str(proxy).strip()}
-        else:
-            self.proxy = {}"""
+
     def get_source(self, url):  # Returns source code from given URL
         headers = {"User-Agent": self.ua}
         reqcom = 0
         requests.packages.urllib3.disable_warnings()
         while reqcom == 0:
             try:
-                """if bi.webproxy == True:
-                    bi.proxy = proxygrabber()
-                    proxy = str(bi.proxy).split(":")[1].strip()
-                    xproto = str(bi.proxy).split(":")[0].strip()
-                    self.proxy = {str(xproto): str(proxy).strip()}
-                    results = requests.get(
-                                url,
-                                headers=headers,
-                                proxies=self.proxy,
-                                timeout=10,
-                                verify=False,
-                                allow_redirects=True
-                                ).text
-                else:"""
                 results = requests.get(
 			url,
 			headers=headers,
@@ -66,8 +45,6 @@ class PageGrabber:  # base function to import request functionality in modules
                 reqcom = 1
             except Exception as failedreq:
                 pass
-                #if bi.webproxy:
-    	        #    bi.proxy = proxygrabber.new_proxy()
         return results.encode('ascii', 'ignore').decode("utf-8")
     def post_data(self, url, data):  # Sends POST request of given DATA, URL
         headers = {"User-Agent": self.ua}
@@ -75,21 +52,6 @@ class PageGrabber:  # base function to import request functionality in modules
         requests.packages.urllib3.disable_warnings()
         while reqcom == 0:
             try:
-                """if bi.webproxy == True:
-                    bi.proxy = proxygrabber()
-                    proxy = str(bi.proxy).split(":")[1].strip()
-                    xproto = str(bi.proxy).split(":")[0].strip()
-                    self.proxy = {str(xproto): str(proxy).strip()}
-                    results = requests.post(
-                                url,
-                                headers=headers,
-                                proxies=self.proxy,
-                                timeout=10,
-                                verify=False,
-                                allow_redirects=True,
-                                data=postdata
-                                ).text
-                else:"""
                 results = requests.post(
                             url,
                             headers=headers,
@@ -102,8 +64,6 @@ class PageGrabber:  # base function to import request functionality in modules
                 return results.encode('ascii', 'ignore').decode("utf-8")
             except Exception as failedreq:
                 pass
-                #if bi.webproxy:
-                #    bi.proxy = proxygrabber.new_proxy()
         return
     def get_dom(self, source):  # Returns BeautifulSoup DOM
         return BeautifulSoup(source, 'lxml')

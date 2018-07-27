@@ -104,7 +104,6 @@ class TwitterGrabber(PageGrabber):
     posttitle = str(d.p.a['title'])
     print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Title: "+bc.CEND+str(posttitle))
    except Exception as e:
-    #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to find title: {}\n"+bc.CEND).format(e)
     pass
    try:
     postdata = d.p.text

@@ -26,8 +26,7 @@ class WhoisMindGrabber(PageGrabber):  # WhoisMind scraper for registered domains
             if friend:
                 return
         except Exception as checkmail:
-            return # print(checkmail)
-            
+            return
 	try:
             print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "WhoisMind" + bc.CEND)
             url = 'http://www.whoismind.com/email/{}{}'.format(email,'.html')
@@ -53,4 +52,3 @@ class WhoisMindGrabber(PageGrabber):  # WhoisMind scraper for registered domains
             bi.outdata['whoismind'] = self.info_list[0]
         print
         return self.info_list
-

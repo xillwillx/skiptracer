@@ -7,7 +7,6 @@ from __future__ import absolute_import
 import re
 import logging
 import json
-#from . import proxygrabber
 from plugins.base import PageGrabber
 import base64 as b64
 from .colors import BodyColors as bc
@@ -21,17 +20,11 @@ import sys
 class AdvanceBackgroundGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
-        """if bi.webproxy and captcha != None:
-            try:
-                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
-                bi.proxy = proxygrabber.new_proxy()
-                self.abc_try(lookup,information)
-            except Exception as badproxy:
-                pass"""
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            return True
         else:
-            pass  # "No Captcha found, return False"
+            return False
 
     def abc_try(self,lookup,information):  # Determins different URL constructs based on user supplied data
         address_list = []
@@ -82,8 +75,10 @@ class AdvanceBackgroundGrabber(PageGrabber):
         try:
             self.source = self.get_source(self.url)
             self.soup = self.get_dom(self.source)
-            self.check_for_captcha()  # Check responce for sign of captcha
+            if self.check_for_captcha() == True:  # Check responce for sign of captcha
+                return
         except Exception as e:
+            print(e)
             return
         try:
             if self.soup.find('div', {'id': 'no-result-widgets'}):  # Report if there are no results to STDOUT
@@ -177,4 +172,3 @@ class AdvanceBackgroundGrabber(PageGrabber):
     def get_info(self, lookup, information):  # Uniform call for framework to launch function in a way to single out the calls per URL
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "AdvanceBackgroundChecks" + bc.CEND)
         self.abc_try(lookup,information)  # Actual login to run + re-try request
-
