@@ -1,33 +1,39 @@
+from __future__ import absolute_import, print_function
+
 #
 # TruePeopleSearch.com scraper
 #
 import re
-import logging
-import json
-import proxygrabber
+
 from plugins.base import PageGrabber
-import base64 as b64
-from colors import BodyColors as bc
-from time import sleep
+
+#from . import proxygrabber
+from .colors import BodyColors as bc
+
 try:
     import __builtin__ as bi
-except:
+except ImportError:
     import builtins as bi
-import sys
+
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
+
 
 class TruthFinderGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
-        if bi.webproxy and captcha != None:
+        """if bi.webproxy and captcha != None:
             try:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.true_try(lookup,information)
                 return True
             except Exception as badproxy:
-                pass
+                pass"""
         if captcha != None:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
             return True
         else:
             return False
@@ -63,9 +69,9 @@ class TruthFinderGrabber(PageGrabber):
                 except Exception as e:
                     pass
         if lookup == "name":  # Make the URL for name lookup, set email to False
-            citystatezip = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL=Alabama|CO=Colorado) "+bc.CEND)
-            gender = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter the persons biological sex - ex: (M|F) "+bc.CEND)
-            age = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Is the person older than 30? - ex: (Y|n) "+bc.CEND)
+            citystatezip = raw_input("[{}?{}] {}Please enter a city,state,or zip?{} [ex:(AL=Alabama|CO=Colorado){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+            gender = raw_input("[{}?{}] {}Please enter the targets biological sex?{} [ex:(M|F){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+            age = raw_input("[{}?{}] {}Is the person older than 30?{} [ex:(Y|n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
             def getlocal(citystatezip,gender,age):
                 try:
                     if citystatezip:
@@ -105,14 +111,14 @@ class TruthFinderGrabber(PageGrabber):
                 if perlen >=10:  # Check is len is greater than 10 to futher process
                     try:
                         name = broken[3].split("<")[0]  # should be static to the results (searched name)
-                        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+"%s") % (name)
+                        print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+"%s") % (name))
                         try:
                             akaloc = broken.index('aka:')+1  # find position + 1 space to left
                             aka = broken[akaloc].split("<")[0].replace(", ",",")  # grab actual dataset
                             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Alias: "+bc.CEND)
                             akalist = sorted(set(str(aka).split(",")))  # set sorted unique
                             for xaka in akalist:  # for each entry in sorted unique list
-                                print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+"%s") % (xaka)
+                                print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+"%s") % (xaka))
                         except:  # in case of failure
                             akalist = ['unknown']
                             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+"Unknown")
@@ -121,10 +127,10 @@ class TruthFinderGrabber(PageGrabber):
                             ageloc = broken.index('<li class="age">')+2
                             age = broken[ageloc].split(">")[1].split("<")[0]
                             if age:
-                                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age)
+                                print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age))
                         except:
                             age = 'unknown'
-                            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age)
+                            print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Age: "+bc.CEND+"%s") % (age))
                             pass
                         try:
                             locloc = broken.index('<li class="location">')+2
@@ -132,7 +138,7 @@ class TruthFinderGrabber(PageGrabber):
                             locations = locations.replace(", <span>",":").replace("</span></li>",",").replace("<li>", " ").replace(", </ul>","")
                             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Location(s): "+bc.CEND)
                             for xlocal in locations.split(","):
-                                print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"City:State:"+bc.CEND+"%s") % (xlocal)
+                                print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"City:State:"+bc.CEND+"%s") % (xlocal))
                         except:
                             locals = ['unknown']
                             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Location: "+bc.CEND+"Unknown")
@@ -147,13 +153,13 @@ class TruthFinderGrabber(PageGrabber):
                                 relatives = relatives.replace("</li>",",").replace("<li>","").replace(", </ul>","")
                                 relate = relatives.split(",")
                                 for xrel in sorted(set(relate)):
-                                    print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Related: "+bc.CEND+"%s") % (xrel)
+                                    print(("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Related: "+bc.CEND+"%s") % (xrel))
                         except:
                             relate = ['unknown']
                             pass
                     except:
                         pass
-                    print
+                    print()
                     self.info_dict.update({
                                            "name": name,
                                            "age": age,

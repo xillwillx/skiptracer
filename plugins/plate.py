@@ -1,11 +1,21 @@
+from __future__ import absolute_import, print_function
+
 import re
-import logging
+
 from plugins.base import PageGrabber
-from colors import BodyColors as bc
+
+from .colors import BodyColors as bc
+
 try:
     import __builtin__ as bi
-except:
+except ImportError:
     import builtins as bi
+
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
+
 
 class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
     def get_info(self, plate):  # returns information about given plate number
@@ -67,5 +77,5 @@ class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
             return
         else:
-            print
+            print()
             return

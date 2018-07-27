@@ -1,14 +1,16 @@
+from __future__ import print_function
+from __future__ import absolute_import
 #
-# Advancedbackgroundchecks.com scraper"""
+# Advancedbackgroundchecks.com scraper
 #
 
 import re
 import logging
 import json
-import proxygrabber
+#from . import proxygrabber
 from plugins.base import PageGrabber
 import base64 as b64
-from colors import BodyColors as bc
+from .colors import BodyColors as bc
 from time import sleep
 try:
     import __builtin__ as bi
@@ -19,13 +21,13 @@ import sys
 class AdvanceBackgroundGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
-        if bi.webproxy and captcha != None:
+        """if bi.webproxy and captcha != None:
             try:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.abc_try(lookup,information)
             except Exception as badproxy:
-                pass
+                pass"""
         if captcha != None:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
         else:
@@ -34,10 +36,13 @@ class AdvanceBackgroundGrabber(PageGrabber):
     def abc_try(self,lookup,information):  # Determins different URL constructs based on user supplied data
         address_list = []
         if lookup == "phone":
-            phonere = re.compile('(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
+            try:
+                phonere = re.compile('(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
+            except Exception as e:
+                pass
             def makephone(information):  # Find user supplied data format, adjust as needed for URL
                 try:
-                    if str(information).split("-")[1]:  # Can it be split bu a "-", everything is ok
+                    if str(information).split("-")[1]:  # Can it be split by a "-", everything is ok
                         dashphone = information
                         return dashphone
                 except:
@@ -49,14 +54,23 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 except:
                     pass
                 try:
-                    if len(information)== 10:  # If len of data is 10 and is an integer, break and format as needed for URL
+                    if len(information) == 10:  # If len of data is 10 and is an integer, break and format as needed for URL
                         dashphone = '{}-{}-{}'.format(information[0:3], information[3:6], information[6:])
                         return dashphone
+                    if len(information) != 10:
+                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Check search string, should be 10 digits.\n"+bc.CEND)
+                        return
                 except:
-                     pass
-            if phonere.findall(information):  # Make the URL for a phone lookup, set email to False
-                self.url = "https://www.advancedbackgroundchecks.com/phone/{}".format(makephone(information))
+                    return
+            try:
+                self.num = makephone(information)
+                if self.num == None:
+                    return
+                self.url = "https://www.advancedbackgroundchecks.com/{}".format(self.num)
                 email = False
+            except Exception as e:
+                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not produce required URL.\n"+bc.CEND)
+                return
         if lookup == "email":  # Make the URL for email lookup, set email True
             if str(information).split('@')[1]:
                 self.url = "https://www.advancedbackgroundchecks.com/emails/{}".format(b64.b64encode(str(information)))
@@ -65,13 +79,22 @@ class AdvanceBackgroundGrabber(PageGrabber):
             if str(information).split(' ')[1]:
                 self.url = "https://www.advancedbackgroundchecks.com/name/{}".format(str(information).replace(' ','-'))
                 email = False
-        self.source = self.get_source(self.url)
-        self.soup = self.get_dom(self.source)
-        self.check_for_captcha()  # Check responce for sign of captcha
+        try:
+            self.source = self.get_source(self.url)
+            self.soup = self.get_dom(self.source)
+            self.check_for_captcha()  # Check responce for sign of captcha
+        except Exception as e:
+            return
         try:
             if self.soup.find('div', {'id': 'no-result-widgets'}):  # Report if there are no results to STDOUT
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                 return
+            checkres = self.soup.findAll("h1")
+            if lookup == "phone":
+                for xcheck in checkres:
+                    if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
+                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+                        return
             script_html = self.soup.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
         except Exception as findallfail:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
@@ -148,9 +171,10 @@ class AdvanceBackgroundGrabber(PageGrabber):
                                    "related_to": [item.get("name") for item in person.get("relatedTo")]})
             pnext += 1
         bi.outdata['advancedbackground'] = self.info_list  # Build out the dataset
-        print
+        print()
         return
 
     def get_info(self, lookup, information):  # Uniform call for framework to launch function in a way to single out the calls per URL
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "AdvanceBackgroundChecks" + bc.CEND)
         self.abc_try(lookup,information)  # Actual login to run + re-try request
+

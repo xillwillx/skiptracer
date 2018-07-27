@@ -13,6 +13,21 @@ except:
 
 class WhoisMindGrabber(PageGrabber):  # WhoisMind scraper for registered domains by email lookups
     def get_info(self,email):  # Request and processes results, sorted unique, remove blanks
+        try:
+            bi.freedb = list()
+            with open("./storage/freemail.db") as fdb:
+                for xfdb in fdb:
+                    bi.freedb.append(str(xfdb).strip())
+        except Exception as failedtoimport:
+            print(failedtoimport)
+        try:
+            pal = re.compile("|".join(bi.freedb))
+            friend = pal.search(email.split("@")[1])
+            if friend:
+                return
+        except Exception as checkmail:
+            return # print(checkmail)
+            
 	try:
             print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "WhoisMind" + bc.CEND)
             url = 'http://www.whoismind.com/email/{}{}'.format(email,'.html')

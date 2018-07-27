@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 #######################################################################
 #   haveibeenpwned scraper - returns breach name and date for email     #
 #######################################################################
@@ -7,7 +9,7 @@ import logging
 import simplejson as json
 from plugins.base import PageGrabber
 from plugins.colors import BodyColors as bc
-import proxygrabber
+#from . import proxygrabber
 import ast
 import cfscrape
 try:
@@ -54,10 +56,10 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                         print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
                         return #pass  ## Needed to write out the results to JSON output
                 bi.outdata['haveibeenpwned'] = self.info_dict
-                print
+                print()
                 return
             except Exception as badres:
-                if bi.webproxy and self.count < 5:
+                """if bi.webproxy and self.count < 5:
                     try:
                         proxygrabber.new_proxy()
                         self.trymore(email)
@@ -65,7 +67,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                         print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No new proxy could be found.\n"+bc.CEND)
                         return
                         self.trymore(email)
-                else:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
-                    return
+                else:"""
+                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
                 return
+

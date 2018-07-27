@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # NameChk scraper: no1special
 #
@@ -21,11 +22,11 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "NameChk" + bc.CEND)
         username = str(email).split("@")[0]
         ses = requests.Session()
-        if bi.webproxy:
+        """if bi.webproxy:
             proto = bi.proxy.split("/")[0].split(":")[0]
             r = ses.get('https://namechk.com/', proxies={proto:bi.proxy})
-        else:
-            r = ses.get('https://namechk.com/')
+        else:"""
+        r = ses.get('https://namechk.com/')
         cookies = r.cookies.get_dict()
         services = ["facebook","youtube","twitter","instagram",
         "blogger","googleplus","twitch","reddit","ebay","wordpress",
@@ -81,11 +82,11 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
           ('q', username),
           ('m', ''),
         ]
-        if bi.webproxy:
+        """if bi.webproxy:
             proto = bi.proxy.split("/")[0].split(":")[0]
             r = ses.post('https://namechk.com/',headers=headers, data=data, proxies={proto:bi.proxy})
-        else:
-            r = ses.post('https://namechk.com/',headers=headers, data=data)
+        else:"""
+        r = ses.post('https://namechk.com/',headers=headers, data=data)
         try:
             encres = r.text.encode('ascii','ignore').decode('utf8')
             encresdic = json.loads(encres)
@@ -112,10 +113,10 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
                     if jload['callback_url'] == "":
                         pass
                     else:
-                        print "  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Acct Exists: "+ \
-                              bc.CEND+ "{}".format(jload['callback_url'])
-            except:
+                        print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Acct Exists: "+bc.CEND+ "{}".format(jload['callback_url']))
+
+            except Exception as e:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find required datasets.\n"+bc.CEND)
-                return
-        print
+                return #pass
+        print()
         return

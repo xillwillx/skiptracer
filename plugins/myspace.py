@@ -1,3 +1,4 @@
+from __future__ import print_function
 #######################################################################
 #       myspace scraper - returns user url of email address           #
 #######################################################################
