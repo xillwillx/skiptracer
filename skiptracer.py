@@ -18,12 +18,12 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-bi.search_string = ''
-bi.lookup = ''
-bi.output = ''
+bi.search_string = None
+bi.lookup = None
+bi.output = None
 bi.outdata = dict()
-bi.webproxy = ""
-bi.proxy = ""
+bi.webproxy = None
+bi.proxy = None
 bi.debug = False
 def banner():
     print ("")

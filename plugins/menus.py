@@ -20,37 +20,27 @@ from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
 #import plugins.proxygrabber as pg
 import re
+import signal
+def signal_handler(signal, frame):
+ print("")
+ sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
 try:
     import __builtin__ as bi
 except:
     import builtins as bi
-import sys
+import sys, os
 
 class menus():
 
   def help(self):
     print("Describe application here")
 
-  def printfun(self,modules):
-    try:
-     keylist = list()
-     for xmod in range(1,len(modules)+1):
-      keylist.append(xmod)
-     moddict = dict(zip(keylist,modules))
-     for xmd in moddict.keys():
-      print("  [-] {}{}{}: {}".format( bc.CRED, bc.CEND, xmd, moddict[xmd]))
-     selection = int(raw_input(" [!] Select a number to continue: "))
-     aegselect = str(moddict[int(selection)].split()[0]).lower()
-     aere = re.complie(r'\x1B\[[0-?]*[ -/]([@-~]')
-     gselect = aere.sub('',argselect)
-     return gselect
-    except Exception as failselect:
-     print((" [!] Please use an integer value for your selection: %s") % failselect)
-     pass
-
   def intromenu(self):
-    bi.search_string = ''
-    bi.lookup = ''
+    bi.search_string = None
+    bi.lookup = None
     print(" [{}!{}] {}Lookup menu:{}".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
     print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -62,26 +52,32 @@ class menus():
     print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
-    except:
+    except Exception as failintro:
+     print("Failed Intro: %s" % failintro)
      self.intromenu()
-    try:
-     if gselect == 8:
-      sys.exit()
-     if gselect == 1:
-      self.emailmenu()
-     if gselect == 2:
-      self.namemenu()
-     if gselect == 3:
-      self.phonemenu()
-     if gselect == 4:
-      self.snmenu()
-     if gselect == 5:
-      self.platemenu()
-     if gselect == 6:
-      self.profiler()
-     if gselect == 7:
-      self.helpmenu()
-    except:
+    if gselect == 8:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 1:
+       self.emailmenu()
+      if gselect == 2:
+       self.namemenu()
+      if gselect == 3:
+       self.phonemenu()
+      if gselect == 4:
+       self.snmenu()
+      if gselect == 5:
+       self.platemenu()
+      if gselect == 6:
+       self.profiler()
+      if gselect == 7:
+       self.helpmenu()
+     except:
+      self.intromenu()
      self.intromenu()
 
   def emailmenu(self):
@@ -99,35 +95,41 @@ class menus():
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.emailmenu()
-    try:
-     if gselect == 7:
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+    if gselect == 9:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 8:
+       self.intromenu()
+      else:
+       if not bi.search_string in ['',None]:
+        bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      bi.lookup = "email"
+      print()
+      if gselect == 1:
+       LinkedInGrabber().get_info(bi.search_string)
+       MySpaceGrabber().get_info(bi.search_string)
+       HaveIBeenPwwnedGrabber().get_info(bi.search_string)
+       WhoisMindGrabber().get_info(bi.search_string)
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 2:
+       LinkedInGrabber().get_info(bi.search_string)
+      if gselect == 3:
+       HaveIBeenPwwnedGrabber().get_info(bi.search_string)
+      if gselect == 4:
+       MySpaceGrabber().get_info(bi.search_string)
+      if gselect == 5:
+       WhoisMindGrabber().get_info(bi.search_string)
+      if gselect == 6:
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 7:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+       self.emailmenu()
+     except:
       self.emailmenu()
-     if gselect == 8:
-      self.intromenu()
-     if gselect == 9:
-      sys.exit()
-     if not bi.search_string or bi.search_string == '':
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-     bi.lookup = "email"
-     print()
-     if gselect == 1:
-      LinkedInGrabber().get_info(bi.search_string)
-      MySpaceGrabber().get_info(bi.search_string)
-      HaveIBeenPwwnedGrabber().get_info(bi.search_string)
-      WhoisMindGrabber().get_info(bi.search_string)
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 2:
-      LinkedInGrabber().get_info(bi.search_string)
-     if gselect == 3:
-      HaveIBeenPwwnedGrabber().get_info(bi.search_string)
-     if gselect == 4:
-      MySpaceGrabber().get_info(bi.search_string)
-     if gselect == 5:
-      WhoisMindGrabber().get_info(bi.search_string)
-     if gselect == 6:
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-    except:
      self.emailmenu()
 
   def namemenu(self):
@@ -143,29 +145,30 @@ class menus():
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.namemenu()
-    try:
-     if gselect == 5:
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's full name?{} [ex: Alice Smith{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+    if gselect == 7:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 6:
+       self.intromenu()
+      if not bi.search_string or bi.search_string == '':
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's full name?{} [ex: Alice Smith{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      bi.lookup = 'name'
+      if gselect == 1:
+       TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
+       TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 2:
+       TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 3:
+       TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 4:
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+     except:
       self.namemenu()
-     if gselect == 6:
-      self.intromenu()
-     if gselect == 7:
-      sys.exit()
-     if not bi.search_string or bi.search_string == '':
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's full name?{} [ex: Alice Smith{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-     bi.lookup = 'name'
-     print()
-     if gselect == 1:
-      TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
-      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 2:
-      TruthFinderGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 3:
-      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 4:
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-    except:
      self.namemenu()
 
   def phonemenu(self):
@@ -182,32 +185,37 @@ class menus():
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.phonemenu()
-    try:
-     if gselect == 7:
-      self.intromenu()
-     if gselect == 8:
-      sys.exit()
-     if not bi.search_string or bi.search_string == '':
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's phone number?{} [ex: 1234567890{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-     bi.lookup = 'phone'
-     print()
-     if gselect == 1:
-      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
-      WhoCallIdGrabber().get_info(bi.search_string)
-      FourOneOneGrabber().get_info(bi.search_string)
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 2:
-      TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 3:
-      WhoCallIdGrabber().get_info(bi.search_string)
-     if gselect == 4:
-      FourOneOneGrabber().get_info(bi.search_string)
-     if gselect == 5:
-      AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-     if gselect == 6:
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's phone number?{} [ex: 1234567890{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+    if gselect == 8:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 7:
+       self.intromenu()
+      if not bi.search_string or bi.search_string == '':
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's phone number?{} [ex: 1234567890{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      bi.lookup = 'phone'
+      print()
+      if gselect == 1:
+       TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+       WhoCallIdGrabber().get_info(bi.search_string)
+       FourOneOneGrabber().get_info(bi.search_string)
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 2:
+       TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 3:
+       WhoCallIdGrabber().get_info(bi.search_string)
+      if gselect == 4:
+       FourOneOneGrabber().get_info(bi.search_string)
+      if gselect == 5:
+       AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 6:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's phone number?{} [ex: 1234567890{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+       self.phonemenu()
+     except:
       self.phonemenu()
-    except:
      self.phonemenu()
 
   def snmenu(self):
@@ -224,31 +232,36 @@ class menus():
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.snmenu()
-    try:
-     if gselect == 7:
-      self.intromenu()
-     if gselect == 8:
-      sys.exit()
-     bi.lookup = 'sn'
-     print()
-     if not bi.search_string or bi.search_string == '':
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-     if gselect == 1:
-      TwitterGrabber().get_info(bi.search_string)
-      KnowemGrabber().get_info(bi.search_string)
-      NameChkGrabber().get_info(bi.search_string)
-      TinderGrabber().get_info(bi.search_string)
-     if gselect == 2:
-      TwitterGrabber().get_info(bi.search_string)
-     if gselect == 3:
-      KnowemGrabber().get_info(bi.search_string)
-     if gselect == 4:
-      NameChkGrabber().get_info(bi.search_string)
-     if gselect == 5:
-      TinderGrabber().get_info(bi.search_string)
-     if gselect == 6:
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-    except:
+    if gselect == 8:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 7:
+       self.intromenu()
+      bi.lookup = 'sn'
+      if not bi.search_string or bi.search_string == '':
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      print()
+      if gselect == 1:
+       TwitterGrabber().get_info(bi.search_string)
+       KnowemGrabber().get_info(bi.search_string)
+       NameChkGrabber().get_info(bi.search_string)
+       TinderGrabber().get_info(bi.search_string)
+      if gselect == 2:
+       TwitterGrabber().get_info(bi.search_string)
+      if gselect == 3:
+       KnowemGrabber().get_info(bi.search_string)
+      if gselect == 4:
+       NameChkGrabber().get_info(bi.search_string)
+      if gselect == 5:
+       TinderGrabber().get_info(bi.search_string)
+      if gselect == 6:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+     except:
+      self.snmenu()
      self.snmenu()
 
   def platemenu(self):
@@ -262,23 +275,28 @@ class menus():
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.platemenu()
-    try:
-     if gselect == 4:
-      self.intromenu()
-     if gselect == 5:
-      sys.exit()
-     if not bi.search_string or bi.search_string == '':
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's plate number?{} [ex: (XYZ123|0U812){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-     bi.lookup = 'plate'
-     print()
-     if gselect == 1:
-       VinGrabber().get_info(bi.search_string)
-     if gselect == 2:
-       VinGrabber().get_info(bi.search_string)
-     if gselect == 3:
-      bi.search_string = raw_input("[{}?{}] {}Whats the target's plate number?{} [ex: (XYZ123|0U812){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+    if gselect == 5:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect == 4:
+       self.intromenu()
+      if not bi.search_string or bi.search_string == '':
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's plate number?{} [ex: (XYZ123|0U812){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      bi.lookup = 'plate'
+      print()
+      if gselect == 1:
+        VinGrabber().get_info(bi.search_string)
+      if gselect == 2:
+        VinGrabber().get_info(bi.search_string)
+      if gselect == 3:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's plate number?{} [ex: (XYZ123|0U812){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+       self.platemenu()
+     except:
       self.platemenu()
-    except:
      self.platemenu()
 
   def profiler(self):
