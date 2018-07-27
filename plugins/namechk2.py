@@ -18,7 +18,7 @@ except:
     import builtins as bi
 
 class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
-    def get_info(self,email):  # Looksup user accounts by given email
+    def get_info(self,email):  # Looks up user accounts by given email
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "NameChk" + bc.CEND)
         username = str(email).split("@")[0]
         ses = requests.Session()
@@ -50,13 +50,13 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
         soup = self.get_dom(r.text)
         try:
             csrf = str(soup.find_all(name="meta")[-1]).split('"')[1]
-        except Exception as e:
+        except:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
             pass #return # print e
         tree = html.fromstring(r.text)
-        def get_cookie(cookies):
-            for x in cookies.keys():
-                return '{}:{}; '.format(x,cookies[x]),
+        def get_cookie(sitecookie):
+            for x in sitecookie.keys():
+                return '{}:{}; '.format(x, sitecookie[x]),
         def get_token():
             return list(set(tree.xpath("//input[@name='authenticity_token']/@value")))[0]
         token = get_token()
@@ -88,15 +88,10 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
         else:"""
         r = ses.post('https://namechk.com/',headers=headers, data=data)
         try:
-            cookies = r.cookies.get_dict()
-            cooked = str(get_cookie(cookies)[0])
-        except Exception as e:
-            pass #print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not locate required cookies.\n"+bc.CEND)
-        try:
             encres = r.text.encode('ascii','ignore').decode('utf8')
             encresdic = json.loads(encres)
             datareq = {}
-        except Exception as e:
+        except:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not load results into JSON format.\n"+bc.CEND)
             return #print e
         for xservice in services:
@@ -108,13 +103,13 @@ class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
                 for datakey in datareq.keys():
                     datastring += "{}={}&".format(datakey,datareq[datakey])
                 datastring += "service={}".format(xservice)
-            except Exception as e:
+            except:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Could not find CSRF token.\n"+bc.CEND)
                 return
             try:
                 response = ses.post('https://namechk.com/services/check',headers=headers, data=datastring)
                 jload = json.loads(response.text)
-                if jload['available'] == False:
+                if not jload['available']:
                     if jload['callback_url'] == "":
                         pass
                     else:
