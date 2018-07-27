@@ -9,7 +9,7 @@ import logging
 import simplejson as json
 from plugins.base import PageGrabber
 from plugins.colors import BodyColors as bc
-from . import proxygrabber
+#from . import proxygrabber
 import ast
 import cfscrape
 try:
@@ -59,7 +59,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                 print()
                 return
             except Exception as badres:
-                if bi.webproxy and self.count < 5:
+                """if bi.webproxy and self.count < 5:
                     try:
                         proxygrabber.new_proxy()
                         self.trymore(email)
@@ -67,7 +67,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):    # HackedEmails.com scraper for ema
                         print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No new proxy could be found.\n"+bc.CEND)
                         return
                         self.trymore(email)
-                else:
-                    print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
-                    return
+                else:"""
+                print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Failed at accessing site ... Try again later ...\n"+bc.CEND)
                 return
+

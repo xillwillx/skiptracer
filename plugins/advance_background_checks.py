@@ -1,13 +1,13 @@
 from __future__ import print_function
 from __future__ import absolute_import
 #
-# Advancedbackgroundchecks.com scraper"""
+# Advancedbackgroundchecks.com scraper
 #
 
 import re
 import logging
 import json
-from . import proxygrabber
+#from . import proxygrabber
 from plugins.base import PageGrabber
 import base64 as b64
 from .colors import BodyColors as bc
@@ -21,13 +21,13 @@ import sys
 class AdvanceBackgroundGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
-        if bi.webproxy and captcha != None:
+        """if bi.webproxy and captcha != None:
             try:
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Switching proxy, trying again...\n"+bc.CEND)
                 bi.proxy = proxygrabber.new_proxy()
                 self.abc_try(lookup,information)
             except Exception as badproxy:
-                pass
+                pass"""
         if captcha != None:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captch detected, use a proxy or complete challenge in browser\n"+bc.CEND)
         else:

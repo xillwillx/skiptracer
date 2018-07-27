@@ -18,7 +18,7 @@ from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
-import plugins.proxygrabber as pg
+#import plugins.proxygrabber as pg
 import re
 try:
     import __builtin__ as bi
