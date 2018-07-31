@@ -17,6 +17,7 @@ except:
 class SkipTracer:
 
     bi.search_string = ''
+    bi.output = ''
     bi.lookup = ''
     bi.outdata = dict()
     bi.webproxy = ""
@@ -60,20 +61,16 @@ class SkipTracer:
         Start by displaying the banner
         """
         self.banner()
-        signal.signal(signal.SIGINT, self.signal_handler)
-        try:
-            bi.webproxy = raw_input("[Do we wish to enable proxy support? (Y/n)]: ")
-            bi.output = raw_input("[Do we wish to save returned data to disk? (Y/n)]: ")
-            if str(bi.output).lower() == "y":
-                bi.filename = raw_input("[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
+        #signal.signal(signal.SIGINT, self.signal_handler)
 
-            menus().intromenu()
-            try:
-               self.writout()
-            except:
-               pass
-        except:
-            pass
+        bi.webproxy = input("[Do we wish to enable proxy support? (Y/n)]: ")
+        bi.output = input("[Do we wish to save returned data to disk? (Y/n)]: ")
+        if str(bi.output).lower() == "y":
+            bi.filename = input("[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
+
+        menus().intromenu()
+        self.writeout()
+
 
 
 if __name__ == "__main__":  # If true, run main function of framework

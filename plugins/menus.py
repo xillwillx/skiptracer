@@ -19,6 +19,7 @@ from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
 import plugins.proxygrabber as pg
+
 try:
     import __builtin__ as bi
 except:
@@ -55,7 +56,7 @@ class menus():
     for xmd in moddict.keys():
      print(("  [-] %s: %s") % (xmd, moddict[xmd]))
     try:
-     selection = int(raw_input(" [!] Select a number to continue: "))
+     selection = int(input(" [!] Select a number to continue: "))
      gselect = str(moddict[int(selection)].split()[0]).lower()
      return gselect
     except Exception as failselect:
@@ -118,9 +119,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks email address? - ex: username@domain.tld]: ")
+     bi.search_string = input("[What is the marks email address? - ex: username@domain.tld]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks email address? - ex: username@domain.tld]: ")
+     bi.search_string = input("[What is the marks email address? - ex: username@domain.tld]: ")
     bi.lookup = "email"
     print()
     if gselect != "all":
@@ -153,9 +154,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks name? - ex: First Lastname]: ")
+     bi.search_string = input("[What is the marks name? - ex: First Lastname]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks name? - ex: First Lastname]: ")
+     bi.search_string = input("[What is the marks name? - ex: First Lastname]: ")
     bi.lookup = 'name'
     print()
     if gselect != "all":
@@ -187,9 +188,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks phone number? - ex: 1234567890]: ")
+     bi.search_string = input("[What is the marks phone number? - ex: 1234567890]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks phone number? - ex: 1234567890]: ")
+     bi.search_string = input("[What is the marks phone number? - ex: 1234567890]: ")
     bi.lookup = 'phone'
     print()
     if gselect != "all":
@@ -222,9 +223,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+     bi.search_string = input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
+     bi.search_string = input("[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
     bi.lookup = 'sn'
     print()
     if gselect != "all":
@@ -254,9 +255,9 @@ class menus():
     if gselect == "back":
      self.intromenu()
     if not bi.search_string:
-     bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
+     bi.search_string = input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if bi.search_string == '':
-     bi.search_string = raw_input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
+     bi.search_string = input("[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
     if gselect == "exit":
      sys.exit()
     bi.lookup = 'plate'
@@ -266,15 +267,15 @@ class menus():
     self.platemenu()
 
   def profiler():
-    fname = raw_input("\t[Whats the users first name? - ex: Alice]: ")
-    lname = raw_input("\t[Whats the users last name? - ex: Smith]: ")
+    fname = input("\t[Whats the users first name? - ex: Alice]: ")
+    lname = input("\t[Whats the users last name? - ex: Smith]: ")
     bi.name = fname+" "+lname
-    bi.agerange = raw_input("\t[Whats the marks age range? - ex: 18-100]: ")
-    bi.apprage = raw_input("\t[Whats the marks suspected age? - ex: 18]: ")
-    bi.state = raw_input("\t[Whats state does the mark live in? - ex: (FL|Florida)]: ")
-    bi.city = raw_input("\t[Whats city does the mark live in? - ex: Orlando]: ")
-    bi.zip = raw_input("\t[Whats the zipcode the mark lives in? - ex: 12345]: ")
-    bi.phone = raw_input("\t[What is a known phone number for the mark? - ex: 1234567890]: ")
-    bi.screenname = raw_input("\t[What are the known aliasis of the mark? - ex: (Ac1dBurn|Zer0cool)]: ")
-    bi.plate = raw_input("\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)]: ")
-    bi.email = raw_input("\t[What is the marks email address? - ex: username@domain.tld]: ")
+    bi.agerange = input("\t[Whats the marks age range? - ex: 18-100]: ")
+    bi.apprage = input("\t[Whats the marks suspected age? - ex: 18]: ")
+    bi.state = input("\t[Whats state does the mark live in? - ex: (FL|Florida)]: ")
+    bi.city = input("\t[Whats city does the mark live in? - ex: Orlando]: ")
+    bi.zip = input("\t[Whats the zipcode the mark lives in? - ex: 12345]: ")
+    bi.phone = input("\t[What is a known phone number for the mark? - ex: 1234567890]: ")
+    bi.screenname = input("\t[What are the known aliasis of the mark? - ex: (Ac1dBurn|Zer0cool)]: ")
+    bi.plate = input("\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)]: ")
+    bi.email = input("\t[What is the marks email address? - ex: username@domain.tld]: ")

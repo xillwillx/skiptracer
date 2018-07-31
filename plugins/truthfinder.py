@@ -69,9 +69,9 @@ class TruthFinderGrabber(PageGrabber):
                 except Exception as e:
                     pass
         if lookup == "name":  # Make the URL for name lookup, set email to False
-            citystatezip = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL=Alabama|CO=Colorado) "+bc.CEND)
-            gender = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter the persons biological sex - ex: (M|F) "+bc.CEND)
-            age = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Is the person older than 30? - ex: (Y|n) "+bc.CEND)
+            citystatezip = input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter a city,state,or zip - ex: (AL=Alabama|CO=Colorado) "+bc.CEND)
+            gender = input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter the persons biological sex - ex: (M|F) "+bc.CEND)
+            age = input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Is the person older than 30? - ex: (Y|n) "+bc.CEND)
             def getlocal(citystatezip,gender,age):
                 try:
                     if citystatezip:

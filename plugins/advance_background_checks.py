@@ -1,24 +1,29 @@
-from __future__ import print_function
-from __future__ import absolute_import
 #
 # Advancedbackgroundchecks.com scraper"""
 #
 
+
+from __future__ import print_function
+from __future__ import absolute_import
+from . import proxygrabber
+from plugins.base import PageGrabber
+from .colors import BodyColors as bc
+from time import sleep
+
 import re
 import logging
 import json
-from . import proxygrabber
-from plugins.base import PageGrabber
 import base64 as b64
-from .colors import BodyColors as bc
-from time import sleep
+import sys
+
 try:
     import __builtin__ as bi
 except:
     import builtins as bi
-import sys
+
 
 class AdvanceBackgroundGrabber(PageGrabber):
+
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
         if bi.webproxy and captcha != None:
@@ -73,7 +78,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 return
         if lookup == "email":  # Make the URL for email lookup, set email True
             if str(information).split('@')[1]:
-                self.url = "https://www.advancedbackgroundchecks.com/emails/{}".format(b64.b64encode(str(information)))
+                self.url = "https://www.advancedbackgroundchecks.com/emails/{}".format(b64.b64encode(str.encode(information)))
                 email = True
         if lookup == "name":  # Make the URL for name lookup, set email to False
             if str(information).split(' ')[1]:
@@ -144,7 +149,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                     print("   ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Addr: "+bc.CEND+ str(email))
             if person.get("address"):  # Set Addresses
                 print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Addresses.: "+bc.CEND)
-                for addy in person.get("address"):  # For each address, select the information and store 
+                for addy in person.get("address"):  # For each address, select the information and store
                     addrfirst += 1
                     if addrfirst == 1:
                         print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Current Address: "+bc.CEND)
@@ -177,4 +182,3 @@ class AdvanceBackgroundGrabber(PageGrabber):
     def get_info(self, lookup, information):  # Uniform call for framework to launch function in a way to single out the calls per URL
         print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "AdvanceBackgroundChecks" + bc.CEND)
         self.abc_try(lookup,information)  # Actual login to run + re-try request
-
