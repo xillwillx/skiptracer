@@ -5,7 +5,7 @@ import re
 import logging
 import requests
 from plugins.base import PageGrabber
-from colors import BodyColors as bc
+from plugins.colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:

@@ -2,7 +2,7 @@
 # Twitter Scraper: Requires users to install additional non standard libraries
 #
 from plugins.base import PageGrabber
-from colors import BodyColors as bc
+from plugins.colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except:
@@ -73,7 +73,7 @@ class TwitterGrabber(PageGrabber):
   datelist = list()
   timelist = list()
   for d in soup.findAll('li', {'class','js-stream-item'}):
-   print "\n  [+]", "-" *80
+   print ("\n  [+]", "-" *80)
    if 'Retweeted' in d.p.text:
     print(" ["+bc.CGRN+"!"+bc.CEND+"] "+bc.CRED+"Retweet: "+bc.CEND)
    if str(d.span).split()[3] == 'Icon--pinned':
@@ -96,7 +96,7 @@ class TwitterGrabber(PageGrabber):
     if len(timestamp) < 10:
      timestamp = "Conversation Extension"
    except Exception as e:
-    print e
+    print (e)
     pass
    if timestamp:
     print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Timestamp: "+bc.CEND+str(timestamp))
@@ -109,7 +109,7 @@ class TwitterGrabber(PageGrabber):
    try:
     postdata = d.p.text
     print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Content:\n"+bc.CEND)
-    print postdata
+    print (postdata)
    except Exception as e:
     print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to find content: {}\n"+bc.CEND).format(e)
     pass
