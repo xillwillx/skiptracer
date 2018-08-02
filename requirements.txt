@@ -8,3 +8,4 @@ cfscrape
 numpy
 simplejson
 tqdm
+selenium

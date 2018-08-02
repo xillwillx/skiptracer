@@ -11,8 +11,9 @@ import plugins.proxygrabber as pg
 import ast
 try:
     import __builtin__ as bi
-except:
+except BaseException:
     import builtins as bi
+
 
 class SkipTracer:
 
@@ -32,16 +33,38 @@ class SkipTracer:
         sys.exit(0)
 
     def banner(self):
-        print ("")
-        print ("\t\t.▄▄ · ▄ •▄ ▪   ▄▄▄·▄▄▄▄▄▄▄▄   ▄▄▄·  ▄▄· ▄▄▄ .▄▄▄  ")
-        print ("\t\t▐█ ▀. █▌▄▌▪██ ▐█ ▄█•██  ▀▄ █·▐█ ▀█ ▐█ ▌▪▀▄.▀·▀▄ █·")
-        print ("\t\t▄▀▀▀█▄▐▀▀▄·▐█· ██▀· ▐█.▪▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▪▄▐▀▀▄ ")
-        print ("\t\t▐█▄▪▐█▐█.█▌▐█▌▐█▪·• ▐█▌·▐█•█▌▐█ ▪▐▌▐███▌▐█▄▄▌▐█•█▌")
-        print(("\t\t       {},.-~*´¨¯¨`*·~-.¸{}-({}by{})-{},.-~*´¨¯¨`*·~-.¸{} \n").format(bc.CRED,bc.CYLW,bc.CCYN,bc.CYLW,bc.CRED,bc.CEND))
-        print(("\t\t\t      {}▀ █ █ █▀▄▀█ {}█▀▀█ {}█▀▀▄ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
-        print(("\t\t\t      {}█ █ █ █ ▀ █ {}█  █ {}█▀▀▄{}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
-        print(("\t\t\t      {}▀ ▀ ▀ ▀   ▀ {}▀▀▀▀ {}▀▀▀ {}").format(bc.CBLU,bc.CRED,bc.CBLU,bc.CEND))
-        print(("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW,bc.CEND))
+        print("")
+        print("\t\t.▄▄ · ▄ •▄ ▪   ▄▄▄·▄▄▄▄▄▄▄▄   ▄▄▄·  ▄▄· ▄▄▄ .▄▄▄  ")
+        print("\t\t▐█ ▀. █▌▄▌▪██ ▐█ ▄█•██  ▀▄ █·▐█ ▀█ ▐█ ▌▪▀▄.▀·▀▄ █·")
+        print("\t\t▄▀▀▀█▄▐▀▀▄·▐█· ██▀· ▐█.▪▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▪▄▐▀▀▄ ")
+        print("\t\t▐█▄▪▐█▐█.█▌▐█▌▐█▪·• ▐█▌·▐█•█▌▐█ ▪▐▌▐███▌▐█▄▄▌▐█•█▌")
+        print(
+            ("\t\t       {},.-~*´¨¯¨`*·~-.¸{}-({}by{})-{},.-~*´¨¯¨`*·~-.¸{} \n").format(
+                bc.CRED,
+                bc.CYLW,
+                bc.CCYN,
+                bc.CYLW,
+                bc.CRED,
+                bc.CEND))
+        print(
+            ("\t\t\t      {}▀ █ █ █▀▄▀█ {}█▀▀█ {}█▀▀▄ {}").format(
+                bc.CBLU,
+                bc.CRED,
+                bc.CBLU,
+                bc.CEND))
+        print(
+            ("\t\t\t      {}█ █ █ █ ▀ █ {}█  █ {}█▀▀▄{}").format(
+                bc.CBLU,
+                bc.CRED,
+                bc.CBLU,
+                bc.CEND))
+        print(
+            ("\t\t\t      {}▀ ▀ ▀ ▀   ▀ {}▀▀▀▀ {}▀▀▀ {}").format(
+                bc.CBLU,
+                bc.CRED,
+                bc.CBLU,
+                bc.CEND))
+        print(("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW, bc.CEND))
 
     def writeout(self):
         """
@@ -49,12 +72,22 @@ class SkipTracer:
         """
         try:
             pg.write_file(json.dumps(bi.outdata), bi.filename)
-            print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+" Output written to disk: ./%s\n"+bc.CEND) % bi.filename)
+            print(("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                   " Output written to disk: ./%s\n" + bc.CEND) % bi.filename)
         except Exception as nowriteJSON:
             if bi.debug:
-                print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND) % nowriteJSON)
+                print(("  [" +
+                       bc.CRED +
+                       "X" +
+                       bc.CEND +
+                       "] " +
+                       bc.CYLW +
+                       "Output failed to write to disk %s\n" +
+                       bc.CEND) %
+                      nowriteJSON)
             else:
-                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Output failed to write to disk %s\n"+bc.CEND)
+                print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                      "Output failed to write to disk %s\n" + bc.CEND)
 
     def __init__(self):
         """
@@ -64,13 +97,14 @@ class SkipTracer:
         #signal.signal(signal.SIGINT, self.signal_handler)
 
         bi.webproxy = input("[Do we wish to enable proxy support? (Y/n)]: ")
-        bi.output = input("[Do we wish to save returned data to disk? (Y/n)]: ")
+        bi.output = input(
+            "[Do we wish to save returned data to disk? (Y/n)]: ")
         if str(bi.output).lower() == "y":
-            bi.filename = input("[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
+            bi.filename = input(
+                "[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
 
         menus().intromenu()
         self.writeout()
-
 
 
 if __name__ == "__main__":  # If true, run main function of framework
