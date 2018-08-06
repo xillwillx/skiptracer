@@ -23,8 +23,14 @@ except BaseException:
     import builtins as bi
 
 
-class NameChkGrabber(PageGrabber):  # Myspace.com scraper for email lookups
-    def get_info(self, email):  # Looksup user accounts by given email
+class NameChkGrabber(PageGrabber):
+    """
+    Myspace.com scraper for email lookups
+    """
+    def get_info(self, email):
+        """
+        Looksup user accounts by given email
+        """
         print("[" + bc.CPRP + "?" + bc.CEND + "] " +
               bc.CCYN + "NameChk" + bc.CEND)
         username = str(email).split("@")[0]

@@ -15,8 +15,14 @@ except NameError:
     raw_input = input  # Python 3
 
 
-class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
-    def get_info(self, plate):  # returns information about given plate number
+class VinGrabber(PageGrabber):
+    """
+    faxvin.com scraper for plate lookups
+    """
+    def get_info(self, plate):
+        """
+        returns information about given plate number
+        """
         print(
             "[" +
             bc.CPRP +
