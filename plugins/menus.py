@@ -4,6 +4,7 @@ from __future__ import print_function
 # [Experimental]
 from plugins.twitter import TwitterGrabber
 # [Experimental]
+from plugins.banner import Logo
 from plugins.fouroneone_info import FourOneOneGrabber
 from plugins.who_call_id import WhoCallIdGrabber
 from plugins.advance_background_checks import AdvanceBackgroundGrabber
@@ -18,8 +19,8 @@ from plugins.plate import VinGrabber
 from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
-import re
-import signal
+import re, os, sys, signal
+
 def signal_handler(signal, frame):
  print("")
  sys.exit(0)
@@ -30,7 +31,6 @@ try:
     import __builtin__ as bi
 except:
     import builtins as bi
-import sys, os
 
 class menus():
 
@@ -40,6 +40,8 @@ class menus():
   def intromenu(self):
     bi.search_string = None
     bi.lookup = None
+    os.system('clear')
+    Logo().banner()
     print(" [{}!{}] {}Lookup menu:{}".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
     print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}Name{} - {}Search targets by First Last name combination{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -80,6 +82,8 @@ class menus():
      self.intromenu()
 
   def emailmenu(self):
+    os.system('clear')
+    Logo().banner()
     if bi.search_string != None:
      print(" [{}!{}] {}E-Mail search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     else:
@@ -129,9 +133,12 @@ class menus():
        self.emailmenu()
      except:
       self.emailmenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
      self.emailmenu()
 
   def namemenu(self):
+    os.system('clear')
+    Logo().banner()
     print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}Truth Finder{} - {}Run name through public page of paywall{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -165,11 +172,17 @@ class menus():
        TruePeopleGrabber().get_info(bi.lookup,bi.search_string)
       if gselect == 4:
        AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
+      if gselect == 5:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's full name?{} [ex: Alice Smith{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+       self.namemenu()
      except:
       self.namemenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
      self.namemenu()
 
   def phonemenu(self):
+    os.system('clear')
+    Logo().banner()
     print(" [{}!{}] {}Phone search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the phone module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}TruePeopleSearch{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -212,9 +225,12 @@ class menus():
        self.phonemenu()
      except:
       self.phonemenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
      self.phonemenu()
 
   def snmenu(self):
+    os.system('clear')
+    Logo().banner()
     print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}Twitter{} - {}Run screenname and grab tweets{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -256,9 +272,12 @@ class menus():
        bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
      except:
       self.snmenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
      self.snmenu()
 
   def platemenu(self):
+    os.system('clear')
+    Logo().banner()
     print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}2{}] {}Plate Search{} - {}Run known vehicle plates against a database{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -289,9 +308,12 @@ class menus():
        self.platemenu()
      except:
       self.platemenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
      self.platemenu()
 
   def profiler(self):
+    os.system('clear')
+    Logo().banner()
     fname = raw_input("\t[Whats the target's first name? - ex: Alice]: ")
     lname = raw_input("\t[Whats the target's last name? - ex: Smith]: ")
     bi.name = fname+" "+lname
@@ -304,4 +326,5 @@ class menus():
     bi.screenname = raw_input("\t[What are the known aliasis of the target's? - ex: (Ac1dBurn|Zer0cool)]: ")
     bi.plate = raw_input("\t[Does the target's have a known license plate? - ex: (ABC1234|XYZ123)]: ")
     bi.email = raw_input("\t[What is the target's email address? - ex: username@domain.tld]: ")
+    not raw_input("\nPress 'ENTER' key now to continue")
     self.intromenu()

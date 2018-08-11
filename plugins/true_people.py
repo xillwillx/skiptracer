@@ -8,7 +8,7 @@ import re
 from plugins.base import PageGrabber
 
 #from . import proxygrabber
-from .colors import BodyColors as bc
+from plugins.colors import BodyColors as bc
 
 try:
     import __builtin__ as bi
@@ -71,11 +71,11 @@ class TruePeopleGrabber(PageGrabber):
         if self.check_for_captcha() == True:  # Check responce for sign of captcha
             print(("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Goto: {}"+bc.CEND).format(self.url))
             self.iscomplete = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Have you completed the CAPTCHA? "+bc.CEND)
-            if str(self.iscomplete).lower() in ['no',False,0]:
+            """if str(self.iscomplete).lower() in ['no',False,0]:
                 print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"User has not completed the CAPTCHA\n"+bc.CEND)
                 return
             else:
-                pass
+                pass"""
         try:
             for xnotfound in self.soup.findAll('div',{'class','row pl-1 record-count'}):
                 if str(xnotfound.div.text).strip() == "We could not find any records for that search criteria.":
@@ -121,10 +121,8 @@ class TruePeopleGrabber(PageGrabber):
                     nc1 = str(nc).split(">")[3]
                     name = str(" ".join(str(nc1).split())).split("<")[0]
                     print(("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+"%s") % (name))
-                    print("name")
                 except Exception as e:
                     print(e)
-                    print("name")
                     name = "Unknown"
                 try:
                     age1 = self.soup2.find('span',{'class':'content-value'})

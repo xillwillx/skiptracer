@@ -37,11 +37,12 @@ class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email look
             'loginCsrfParam': csrf,
         }
         if login_information['session_key'] == '':
-            print("Test1")
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This module requires authentication to use it properly."+bc.CEND)
                 print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"This could produce a trail and identify the used account."+bc.CEND)
+                print()
                 savecreds = raw_input("[{}?{}] {}Would you like to enter credentials now? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+                print()
                 if str(savecreds).lower() in ['y','yes']:
                     luser = raw_input("  ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin username: "+bc.CEND)
                     lpass = raw_input("  ["+bc.CRED+"?"+bc.CEND+"] "+bc.CYLW+"What is your throw-away linkedin password: "+bc.CEND)

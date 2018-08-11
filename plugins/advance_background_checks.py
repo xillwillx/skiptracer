@@ -96,12 +96,12 @@ class AdvanceBackgroundGrabber(PageGrabber):
             return
         if len(script_html) == 2:  # Check len on results
             script_html = script_html[1]  # Set the desired value to iterate over
-        else:
+        """else:
             try:
                 self.abc_try(lookup,information)  # If that failed, try original request again (Start over)
             except Exception as failedtry:
                 print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
-                return
+                return"""
         script_html = script_html.get_text().strip()  # Format data for JSON load
         script_html = script_html.replace("\n","")
         script_html = script_html.replace("\t","")
@@ -123,7 +123,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 for xaka in person.get("additionalName"):  # For each AKA, select the name
                     print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+ str(xaka))
             if len(script_html2) <=1:
-                print (" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
+                #print (" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
                 return
             else:
                 script_html2 = script_html2[1]
