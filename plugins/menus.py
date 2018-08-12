@@ -52,7 +52,7 @@ class menus():
     print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
-     gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+     gselect = int(raw_input("[{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except Exception as failintro:
      print("Failed Intro: %s" % failintro)
      self.intromenu()
@@ -109,7 +109,8 @@ class menus():
      try:
       if gselect != 8:
        if not bi.search_string or bi.search_string in ['',None]:
-        bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+        #print("\n[{}PROFILE{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
+        bi.search_string = raw_input("\n  [{}PROFILE{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CBLU,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
       bi.lookup = "email"
       print()
       if gselect == 1:
