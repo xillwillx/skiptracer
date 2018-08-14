@@ -44,7 +44,7 @@ bi.funclist = {
 }
 
 
-class menus():
+class DefaultMenus():
 
     def helpmenu(self):
         print("Skiptracer")

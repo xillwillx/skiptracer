@@ -2,7 +2,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from lxml.html import fromstring
 from itertools import cycle
-from .colors import BodyColors as bc
+#from .colors import BodyColors as bc
 import requests
 import traceback
 import os

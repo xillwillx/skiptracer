@@ -1,4 +1,4 @@
-class BodyColors:  # Sets colorization for application use
+class DefaultBodyColors:  # Sets colorization for application use
     def __init__(self):  # Initialize the values for color
         pass
     CCYN = '\033[96m'
