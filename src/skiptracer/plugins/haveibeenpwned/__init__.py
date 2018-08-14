@@ -3,9 +3,9 @@ from __future__ import absolute_import
 #######################################################################
 #   haveibeenpwned scraper - returns breach name and date for email     #
 #######################################################################
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
-from . import proxygrabber
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
+from .. import proxygrabber
 import re
 import logging
 import simplejson as json

@@ -1,8 +1,8 @@
 """Whocallid.com search module"""
 from __future__ import print_function
 from __future__ import absolute_import
-from plugins.base import PageGrabber
-from .colors import BodyColors as bc
+from ..base import PageGrabber
+#from .colors import BodyColors as bc
 import re
 import logging
 try:

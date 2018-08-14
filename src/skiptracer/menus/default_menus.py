@@ -2,23 +2,23 @@
 #!/usr/bin/env python
 from __future__ import print_function
 # [Experimental]
-from plugins.twitter import TwitterGrabber
+#from plugins.twitter import TwitterGrabber
 # [Experimental]
-from plugins.fouroneone_info import FourOneOneGrabber
-from plugins.who_call_id import WhoCallIdGrabber
-from plugins.advance_background_checks import AdvanceBackgroundGrabber
-from plugins.myspace import MySpaceGrabber
-from plugins.whoismind import WhoisMindGrabber
-from plugins.linkedin import LinkedInSalesGrabber
-from plugins.true_people import TruePeopleGrabber
-from plugins.truthfinder import TruthFinderGrabber
-from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
-from plugins.namechk2 import NameChkGrabber
-from plugins.plate import VinGrabber
-from plugins.knowem import KnowemGrabber
-from plugins.tinder import TinderGrabber
-from plugins.colors import BodyColors as bc
-import plugins.proxygrabber as pg
+#from plugins.fouroneone_info import FourOneOneGrabber
+#from plugins.who_call_id import WhoCallIdGrabber
+#from plugins.advance_background_checks import AdvanceBackgroundGrabber
+#from plugins.myspace import MySpaceGrabber
+#from plugins.whoismind import WhoisMindGrabber
+#from plugins.linkedin import LinkedInSalesGrabber
+#from plugins.true_people import TruePeopleGrabber
+#from plugins.truthfinder import TruthFinderGrabber
+#from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
+#from plugins.namechk2 import NameChkGrabber
+#from plugins.plate import VinGrabber
+#from plugins.knowem import KnowemGrabber
+#from plugins.tinder import TinderGrabber
+#from plugins.colors import BodyColors as bc
+#import plugins.proxygrabber as pg
 
 try:
     import __builtin__ as bi
@@ -26,22 +26,22 @@ except BaseException:
     import builtins as bi
 import sys
 
-bi.funclist = {
-    'linkedin-sales': LinkedInSalesGrabber,
-    'myspace': MySpaceGrabber,
-    'haveibeenpwned': HaveIBeenPwwnedGrabber,
-    'whoismind': WhoisMindGrabber,
-    'truth': TruthFinderGrabber,
-    'true': TruePeopleGrabber,
-    'advancedbackgroundchecks': AdvanceBackgroundGrabber,
-    'who': WhoCallIdGrabber,
-    'four': FourOneOneGrabber,
-    'twitter': TwitterGrabber,
-    'knowem': KnowemGrabber,
-    'namechk': NameChkGrabber,
-    'tinder': TinderGrabber,
-    'vin': VinGrabber
-}
+#bi.funclist = {
+#    'linkedin-sales': LinkedInSalesGrabber,
+#    'myspace': MySpaceGrabber,
+#    'haveibeenpwned': HaveIBeenPwwnedGrabber,
+#    'whoismind': WhoisMindGrabber,
+#    'truth': TruthFinderGrabber,
+#    'true': TruePeopleGrabber,
+#    'advancedbackgroundchecks': AdvanceBackgroundGrabber,
+#    'who': WhoCallIdGrabber,
+#    'four': FourOneOneGrabber,
+#    'twitter': TwitterGrabber,
+#    'knowem': KnowemGrabber,
+#    'namechk': NameChkGrabber,
+#    'tinder': TinderGrabber,
+#    'vin': VinGrabber
+#}
 
 
 class DefaultMenus():

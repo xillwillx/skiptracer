@@ -1,8 +1,8 @@
 #
 # KnowEm Module - 0daysimpson & illwill
 #
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
 import re
 import logging
 import requests

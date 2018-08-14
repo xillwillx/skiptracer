@@ -4,8 +4,8 @@ from __future__ import absolute_import
 # LinkedIn Sales Module
 #
 from bs4 import BeautifulSoup
-from .base import PageGrabber
-from .colors import BodyColors as bc
+from ..base import PageGrabber
+#from .colors import BodyColors as bc
 import requests
 import logging
 try:

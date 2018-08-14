@@ -1,6 +1,6 @@
 from __future__ import print_function
 from __future__ import absolute_import
-from .base import PageGrabber
+from ..base import PageGrabber
 #from .colors import BodyColors as bc
 import re
 import logging

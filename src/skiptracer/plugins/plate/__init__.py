@@ -1,6 +1,6 @@
 from __future__ import absolute_import, print_function
-from plugins.base import PageGrabber
-from .colors import BodyColors as bc
+from ..base import PageGrabber
+#from .colors import BodyColors as bc
 import re
 
 

@@ -3,9 +3,9 @@ from __future__ import absolute_import, print_function
 #
 # TruePeopleSearch.com scraper
 #
-from plugins.base import PageGrabber
-from . import proxygrabber
-from .colors import BodyColors as bc
+from ..base import PageGrabber
+from .. import proxygrabber
+#from .colors import BodyColors as bc
 import re
 
 try:

@@ -1,8 +1,8 @@
 #
 # Twitter Scraper: Requires users to install additional non standard libraries
 #
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
 try:
     import __builtin__ as bi
 except BaseException:
@@ -172,7 +172,7 @@ class TwitterGrabber(PageGrabber):
             except Exception as e:
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                       "Unable to find content: {}\n" + bc.CEND).format(e)
-                pass            
+                pass
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "Can not make soup, phase 2: {}\n" + bc.CEND)#.format(e)

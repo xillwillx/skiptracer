@@ -30,7 +30,7 @@ setup(
             'skiptracer = skiptracer.__main__:main'
         ],
         'skiptracer.plugins': [
-            'fouroneone_info = skiptracer.plugins.fouroneone_info:FourOneOneGrabber',
+            'fouroneone_info = skiptracer.plugins.fouroneone:FourOneOneGrabber',
             'haveibeenpwned = skiptracer.plugins.haveibeenpwned:HaveIBeenPwwnedGrabber',
             'knowem = skiptracer.plugins.knowem:KnowemGrabber',
             'linkedin = skiptracer.plugins.linkedin:LinkedInSalesGrabber',

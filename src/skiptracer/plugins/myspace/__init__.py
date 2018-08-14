@@ -3,8 +3,8 @@ from __future__ import print_function
 #       myspace scraper - returns user url of email address           #
 #######################################################################
 
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
 import re
 import logging
 

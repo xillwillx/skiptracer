@@ -3,8 +3,8 @@
 #######################################################################
 
 from __future__ import print_function
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
 import numpy as np
 
 try:

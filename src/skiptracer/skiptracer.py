@@ -22,9 +22,7 @@ class SkipTracer:
     program
     """
     bi.search_string = ''
-    bi.output = ''
     bi.lookup = ''
-    bi.outdata = dict()
     bi.webproxy = ""
     bi.proxy = ""
     bi.debug = False
@@ -40,24 +38,20 @@ class SkipTracer:
     def __init__(self, plugins):
         #signal.signal(signal.SIGINT, self.signal_handler)
         self.inc_plugins = plugins
+
         self.loaded_plugins_plugin_dict = self.load_plugins(
             self.plugins_plugin)
+
         self.loaded_menus_plugin_dict = self.load_plugins(
             self.menus_plugin)
+
         self.loaded_colors_plugin_dict = self.load_plugins(
             self.colors_plugin)
 
+        #only supporting default menu for now
+        self.loaded_menus_plugin_dict['default_menus']().intromenu()
 
-        self.loaded_menus_plugin_dict[0].intromenu()
-        #bi.webproxy = input("[Do we wish to enable proxy support? (Y/n)]: ")
-        #bi.output = input(
-        #    "[Do we wish to save returned data to disk? (Y/n)]: ")
-        #if str(bi.output).lower() == "y":
-        #    bi.filename = input(
-        #        "[Please provide the filename for output? (somefile.txt|somefile.json)]: ")
 
-        #menus().intromenu()
-        #self.writeout()
 
 
     def load_plugins(self, plugin):
@@ -79,27 +73,3 @@ class SkipTracer:
         """
         print("")
         sys.exit(0)
-
-
-    def writeout(self):
-        """
-        Display output text
-        """
-        try:
-            pg.write_file(json.dumps(bi.outdata), bi.filename)
-            print(("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                   " Output written to disk: ./%s\n" + bc.CEND) % bi.filename)
-        except Exception as nowriteJSON:
-            if bi.debug:
-                print(("  [" +
-                       bc.CRED +
-                       "X" +
-                       bc.CEND +
-                       "] " +
-                       bc.CYLW +
-                       "Output failed to write to disk %s\n" +
-                       bc.CEND) %
-                      nowriteJSON)
-            else:
-                print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                      "Output failed to write to disk %s\n" + bc.CEND)

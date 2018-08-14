@@ -5,8 +5,8 @@ from __future__ import print_function
 from bs4 import BeautifulSoup
 from lxml import html
 from requests.utils import quote
-from plugins.base import PageGrabber
-from plugins.colors import BodyColors as bc
+from ..base import PageGrabber
+#from plugins.colors import BodyColors as bc
 import json
 import unicodedata
 import requests
