@@ -25,6 +25,8 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     packages=find_packages('src'),
+    plugins = [],
+    hello = [],
     entry_points={
         'console_script': [
             'skiptracer = skiptracer.__main__:main'
@@ -42,7 +44,8 @@ setup(
             'truthfinder = skiptracer.plugins.truthfinder:TruthFinderGrabber',
             'twitter = skiptracer.plugins.twitter:TwitterGrabber',
             'who_call_id = skiptracer.plugins.who_call_id:WhoCallIdGrabber',
-            'whoismind = skiptracer.plugins.whoismind:WhoisMindGrabber'
+            'whoismind = skiptracer.plugins.whoismind:WhoisMindGrabber',
+            'advance_background_checks = skiptracer.plugins.advance_background_checks:AdvanceBackgroundGrabber'
         ],
         'skiptracer.menus': [
             'default_menus = skiptracer.menus.default_menus:DefaultMenus'
