@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function
 #
 from ..base import PageGrabber
 from .. import proxygrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 
 try:

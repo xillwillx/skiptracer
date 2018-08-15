@@ -4,7 +4,7 @@ from __future__ import absolute_import
 # Tinder Module - illwill
 #
 from ..base import PageGrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 import requests

@@ -1,99 +1,100 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 from __future__ import print_function
-# [Experimental]
-#from plugins.twitter import TwitterGrabber
-# [Experimental]
-#from plugins.fouroneone_info import FourOneOneGrabber
-#from plugins.who_call_id import WhoCallIdGrabber
-#from plugins.advance_background_checks import AdvanceBackgroundGrabber
-#from plugins.myspace import MySpaceGrabber
-#from plugins.whoismind import WhoisMindGrabber
-#from plugins.linkedin import LinkedInSalesGrabber
-#from plugins.true_people import TruePeopleGrabber
-#from plugins.truthfinder import TruthFinderGrabber
-#from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
-#from plugins.namechk2 import NameChkGrabber
-#from plugins.plate import VinGrabber
-#from plugins.knowem import KnowemGrabber
-#from plugins.tinder import TinderGrabber
-#from plugins.colors import BodyColors as bc
-#import plugins.proxygrabber as pg
+from pkg_resources import get_distribution
+
+import sys
+import configparser
+import pkg_resources
+import ast
 
 try:
     import __builtin__ as bi
 except BaseException:
     import builtins as bi
-import sys
 
-#bi.funclist = {
-#    'linkedin-sales': LinkedInSalesGrabber,
-#    'myspace': MySpaceGrabber,
-#    'haveibeenpwned': HaveIBeenPwwnedGrabber,
-#    'whoismind': WhoisMindGrabber,
-#    'truth': TruthFinderGrabber,
-#    'true': TruePeopleGrabber,
-#    'advancedbackgroundchecks': AdvanceBackgroundGrabber,
-#    'who': WhoCallIdGrabber,
-#    'four': FourOneOneGrabber,
-#    'twitter': TwitterGrabber,
-#    'knowem': KnowemGrabber,
-#    'namechk': NameChkGrabber,
-#    'tinder': TinderGrabber,
-#    'vin': VinGrabber
-#}
+
 
 
 class DefaultMenus():
 
+    plugin_list = {}
+    config = []
+    emodules = []
+    nmodules = []
+    pmodules = []
+    snmodules = []
+    plmodules = []
+
+    default_items = [
+        {'key':'all', 'text':'All - Run all modules associated with this group'},
+        {'key':'back', 'text':'Back - Return to main menu'},
+        {'key':'exit', 'text':'Exit - Terminate the application'}
+    ]
+
+    ltypes = [
+        {'key':'email', 'text':'Email - Search targets by email address'},
+        {'key':'name', 'text':'Name - Search targets by First Last name combination'},
+        {'key':'phone', 'text':'Phone - Search targets by telephone number'},
+        {'key':'screen', 'text':'Screen Name - Search targets by known alias'},
+        {'key':'license', 'text':'License Plate - Search targets by license plate'},
+        {'key':'profiler', 'text':'Profiler - A "Guess Who" Q&A interactive user interface'},
+        {'key':'help', 'text':'Help - Details the application and use cases'},
+        {'key':'exit', 'text':'Exit - Terminate the application'}
+    ]
+
+
+    def __init__(self, plugins):
+        """
+        Get a list of plugins
+        """
+        self.plugin_list = plugins
+        self.config = configparser.ConfigParser()
+        get_plugin_cats = pkg_resources.resource_filename('skiptracer','../../setup.cfg')
+        self.config.read(get_plugin_cats)
+
+
+    def useproxy(self):
+        """
+        Generate a new proxy
+        for masking requests
+        """
+        if str(bi.webproxy).lower() == "y":
+            bi.proxy = pg.new_proxy()
+            return True
+        else:
+            return False
+
+
     def helpmenu(self):
+        """
+        Display help text
+        to user
+        """
         print("Skiptracer")
 
-    def printfun(self, modules):
-        keylist = list()
-        for xmod in range(1, len(modules) + 1):
-            keylist.append(xmod)
-        moddict = dict(zip(keylist, modules))
-        for xmd in moddict.keys():
-            print(("  [-] %s: %s") % (xmd, moddict[xmd]))
-        try:
-            selection = int(input(" [!] Select a number to continue: "))
-            gselect = str(moddict[int(selection)].split()[0]).lower()
-            return gselect
-        except Exception as failselect:
-            print("Please use an integer value for your selection!")
-            pass
 
     def intromenu(self):
+        """
+        Top level intro menu
+        """
         bi.search_string = ''
         bi.lookup = ''
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            print(
-                "\t  [" +
-                bc.CRED +
-                "::ATTENTION::" +
-                bc.CEND +
-                "]" +
-                bc.CYLW +
-                " Proxied requests are unreliable " +
-                bc.CEND +
-                "[" +
-                bc.CRED +
-                "::ATTENTION::" +
-                bc.CEND +
-                "]")
-            bi.proxy = pg.new_proxy()
-        ltypes = ['Email - Search targets by email address',
-                  'Name - Search targets by First Last name combination',
-                  'Phone - Search targets by telephone number',
-                  'Screen Name - Search targets by known alias',
-                  'License Plate - Search targets by license plate',
-                  'Profiler - A "Guess Who" Q&A interactive user interface',
-                  'Help - Details the application and use cases',
-                  'Exit - Terminate the application']
-        print(" [!] Lookup menu - Please select a number")
-        gselect = self.printfun(ltypes)
+        if self.useproxy():
+            print("\t  [" + bc.CRED + "::ATTENTION::" + bc.CEND + "]" +
+                bc.CYLW + " Proxied requests are unreliable " + bc.CEND +
+                "[" + bc.CRED + "::ATTENTION::" + bc.CEND + "]")
+
+        gselect = ""
+        for i,v in enumerate(self.ltypes):
+            print('['+str(i+1)+'] -' + self.ltypes[i]['text'])
+
+        try:
+            selection = int(input("[!] Lookup menu - Please select a number:"))
+            gselect = self.ltypes[selection-1]['key']
+        except Exception as failselect:
+            print("Please use an integer value for your selection!")
+
         if gselect == "":
             self.intromenu()
         if gselect == "exit":
@@ -113,190 +114,152 @@ class DefaultMenus():
         if gselect == "help":
             self.helpmenu()
 
-    def emailmenu(self):
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            bi.proxy = pg.new_proxy()
-        emodules = [
-            'LinkedIn-Sales - Check if user exposes information through LinkedIn',
-            'HaveIBeenPwned - Check email against known compromised networks',
-            'Myspace - Check if users account has a registered account',
-            'WhoisMind - Check email to registered domains',
-            'AdvancedBackgroundChecks - Run email through public page of paid access',
-            'All - Run all modules associated to the email module group',
-            'Back - Return to main menu',
-            'Exit - Terminate the application']
-        print(" [!] E-Mail search menu - Please select a number")
-        gselect = self.printfun(emodules)
+
+    def grabplugins(self, plugin_type, plugin_list):
+        """
+        Grab a list of relevant plugins.
+        plugin_type = ref to variable to store list of plugin modules
+        plugin_list = the list from the setup.cfg to use
+        """
+        for i in plugin_list:
+            tc = ast.literal_eval(plugin_list[i])
+            plugin_type.append({'key': i, 'text': tc[0] + " - " + tc[1]})
+
+        plugin_type = plugin_type + self.default_items
+
+
+    def grabuserchoice(self, plugin_type, textsub):
+        """
+        Function to grab user choice.
+        plugin_type = var with list of plugin modules
+        textsub = String to display in menu e.g. Email, Name
+        """
+        gselect = ""
+
+        print(" [!] "+textsub+" search menu - Please select a number")
+        for i,v in enumerate(plugin_type):
+            print(' ['+str(i+1)+'] -' + plugin_type[i]['text'])
+
+        try:
+            selection = int(input(" [!] Select a number to continue: "))
+            gselect = plugin_type[selection-1]['key']
+        except Exception as failselect:
+            print("Please use an integer value for your selection!")
+
+        return gselect
+
+
+    def selectchoice(self, menu, mtype, error, plugins, gselect):
+        """
+        Select a menu item and then
+        action it.
+        """
         if gselect == "":
-            self.emailmenu()
+            menu()
         if gselect == "exit":
             sys.exit()
         if gselect == "back":
             self.intromenu()
-        if not bi.search_string:
-            bi.search_string = input(
-                "[What is the marks email address? - ex: username@domain.tld]: ")
-        if bi.search_string == '':
-            bi.search_string = input(
-                "[What is the marks email address? - ex: username@domain.tld]: ")
-        bi.lookup = "email"
+
+        if not bi.search_string or bi.search_string == '':
+            bi.search_string = input(error)
+
         print()
+        print(bi.search_string)
+        self.useproxy()
         if gselect != "all":
-            try:
-                bi.funclist[gselect]().get_info(bi.search_string)
-            except BaseException:
-                bi.funclist[gselect]().get_info(bi.lookup, bi.search_string)
+            self.plugin_list[gselect]().get_info(bi.search_string, mtype)
+
         if gselect == "all":
-            LinkedInSalesGrabber().get_info(bi.search_string)
-            MySpaceGrabber().get_info(bi.search_string)
-            HaveIBeenPwwnedGrabber().get_info(bi.search_string)
-            WhoisMindGrabber().get_info(bi.search_string)
-            AdvanceBackgroundGrabber().get_info(bi.lookup, bi.search_string)
-        self.emailmenu()
+            for i in plugins:
+                self.plugin_list[i]().get_info(bi.search_string, mtype)
+        menu()
+
+
+    def emailmenu(self):
+        """
+        Display the email modules to the
+        user.
+        """
+
+        self.emodules = []
+        self.grabplugins(self.emodules, self.config['plugins.email'])
+        gselect = self.grabuserchoice(self.emodules, "E-Mail")
+
+        self.selectchoice(
+            self.emailmenu,
+            "email",
+            "[What is the marks email address? - ex: username@domain.tld]:",
+            self.config['plugins.email'],
+            gselect
+        )
 
     def namemenu(self):
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            bi.proxy = pg.new_proxy()
-        nmodules = ['Truth Finder - Run name through public page of paid access',
-                    'True People - Run email through public page of paid access',
-                    'AdvancedBackgroundChecks - Run email through public page of paid access',
-                    'All - Run all modules associated to the email module group',
-                    'Back - Return to main menu',
-                    'Exit - Terminate the application']
-        gselect = self.printfun(nmodules)
-        if gselect == "":
-            self.namemenu()
-        if gselect == "exit":
-            sys.exit()
-        if gselect == "back":
-            self.intromenu()
-        if not bi.search_string:
-            bi.search_string = input(
-                "[What is the marks name? - ex: First Lastname]: ")
-        if bi.search_string == '':
-            bi.search_string = input(
-                "[What is the marks name? - ex: First Lastname]: ")
-        bi.lookup = 'name'
-        print()
-        if gselect != "all":
-            try:
-                bi.funclist[gselect]().get_info(bi.search_string)
-            except BaseException:
-                bi.funclist[gselect]().get_info(bi.lookup, bi.search_string)
-        if gselect == "all":
-            TruthFinderGrabber().get_info(bi.lookup, bi.search_string)
-            TruePeopleGrabber().get_info(bi.lookup, bi.search_string)
-            AdvanceBackgroundGrabber().get_info(bi.lookup, bi.search_string)
-        self.namemenu()
+        """
+        Print menu for
+        name matching plugins
+        """
+        self.nmodules = []
+        self.grabplugins(self.nmodules, self.config['plugins.name'])
+        gselect = self.grabuserchoice(self.nmodules, "Name")
+
+        self.selectchoice(
+            self.namemenu,
+            "name",
+            "[What is the marks name? - ex: First Lastname]: ",
+            self.config['plugins.name'],
+            gselect
+        )
 
     def phonemenu(self):
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            bi.proxy = pg.new_proxy()
-        pmodules = ['True People - Run email through public page of paid access',
-                    'Who Called - Reverse telehone trace on given number',
-                    'Four One One - Reverse telehone trace on given number',
-                    'AdvancedBackgroundChecks - Run number through public page of paid access',
-                    'All - Run all modules associated to the phone module group',
-                    'Back - Return to main menu',
-                    'Exit - Terminate the application']
-        gselect = self.printfun(pmodules)
-        if gselect == "":
-            self.phonemenu()
-        if gselect == "exit":
-            sys.exit()
-        if gselect == "back":
-            self.intromenu()
-        if not bi.search_string:
-            bi.search_string = input(
-                "[What is the marks phone number? - ex: 1234567890]: ")
-        if bi.search_string == '':
-            bi.search_string = input(
-                "[What is the marks phone number? - ex: 1234567890]: ")
-        bi.lookup = 'phone'
-        print()
-        if gselect != "all":
-            try:
-                bi.funclist[gselect]().get_info(bi.search_string)
-            except BaseException:
-                bi.funclist[gselect]().get_info(bi.lookup, bi.search_string)
-        if gselect == "all":
-            TruePeopleGrabber().get_info(bi.lookup, bi.search_string)
-            WhoCallIdGrabber().get_info(bi.search_string)
-            FourOneOneGrabber().get_info(bi.search_string)
-            AdvanceBackgroundGrabber().get_info(bi.lookup, bi.search_string)
-        self.phonemenu()
+        """
+        Display the phone
+        menu to the user.
+        """
+        self.pmodules = []
+        self.grabplugins(self.pmodules, self.config['plugins.phone'])
+        gselect = self.grabuserchoice(self.pmodules, "Phone")
+        self.selectchoice(
+            self.phonemenu,
+            "phone",
+            "[What is the marks phone number? - ex: 1234567890]: ",
+            self.config['plugins.phone'],
+            gselect
+        )
 
     def snmenu(self):
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            bi.proxy = pg.new_proxy()
-        snmodules = ['Twitter - Run screenname and grab tweets',
-                     'Knowem - Run screenname through to determin registered sites',
-                     'NameChk - Run screenname through to determin registered sites',
-                     'Tinder - Run screenname and grab information if registered',
-                     'All - Run all modules associated to the email module group',
-                     'Back - Return to main menu',
-                     'Exit - Terminate the application']
-        gselect = self.printfun(snmodules)
-        if gselect == "":
-            self.snmenu()
-        if gselect == "exit":
-            sys.exit()
-        if gselect == "back":
-            self.intromenu()
-        if not bi.search_string:
-            bi.search_string = input(
-                "[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
-        if bi.search_string == '':
-            bi.search_string = input(
-                "[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ")
-        bi.lookup = 'sn'
-        print()
-        if gselect != "all":
-            try:
-                bi.funclist[gselect]().get_info(bi.search_string)
-            except BaseException:
-                bi.funclist[gselect]().get_info(bi.lookup, bi.search_string)
-        if gselect == "all":
-            TwitterGrabber().get_info(bi.search_string)
-            KnowemGrabber().get_info(bi.search_string)
-            NameChkGrabber().get_info(bi.search_string)
-            TinderGrabber().get_info(bi.search_string)
-        self.snmenu()
+        """
+        Screen Name grabbing tools menu
+        """
+        self.grabplugins(self.snmodules, self.config['plugins.screenname'])
+        gselect = self.grabuserchoice(self.snmodules, "Screen Name")
+        self.selectchoice(
+            self.snmenu,
+            "screenname",
+            "[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ",
+            self.config['plugins.screenname'],
+            gselect
+        )
 
     def platemenu(self):
-        if str(bi.webproxy).lower(
-        ) == "y":  # If true, call proxygrabber.new_proxy(), set new proxy address to bi.proxy, else set to ""
-            bi.proxy = pg.new_proxy()
-        plmodules = ['Plate Search - Run known vehicle plates against a database',
-                     'All - Run all modules associated to the email module group',
-                     'Back - Return to main menu',
-                     'Exit - Terminate the application']
-        gselect = self.printfun(plmodules)
-        if gselect == "":
-            self.platemenu()
-        if gselect == "exit":
-            sys.exit()
-        if gselect == "back":
-            self.intromenu()
-        if not bi.search_string:
-            bi.search_string = input(
-                "[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
-        if bi.search_string == '':
-            bi.search_string = input(
-                "[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ")
-        if gselect == "exit":
-            sys.exit()
-        bi.lookup = 'plate'
-        print()
-        if gselect in ["plate", "all"]:
-            VinGrabber().get_info(bi.search_string)
-        self.platemenu()
+        """
+        Enter a plate number
+        """
+        self.grabplugins(self.plmodules, self.config['plugins.plate'])
+        gselect = self.grabuserchoice(self.plmodules, "Plate Number")
+
+        self.selectchoice(
+            self.platemenu,
+            "plate",
+            "[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ",
+            self.config['plugins.plate'],
+            gselect
+        )
 
     def profiler(self):
+        """
+        Profiler output - guess who interactive interface
+        """
         fname = input("\t[Whats the users first name? - ex: Alice]: ")
         lname = input("\t[Whats the users last name? - ex: Smith]: ")
         bi.name = fname + " " + lname

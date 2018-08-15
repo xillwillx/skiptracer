@@ -5,9 +5,10 @@
 
 from __future__ import print_function
 from __future__ import absolute_import
-from . import proxygrabber
-from plugins.base import PageGrabber
-from .colors import BodyColors as bc
+
+from ..base import PageGrabber
+from ...colors.default_colors import DefaultBodyColors as bc
+from .. import proxygrabber
 from time import sleep
 
 import re

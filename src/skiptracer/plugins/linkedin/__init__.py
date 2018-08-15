@@ -5,7 +5,7 @@ from __future__ import absolute_import
 #
 from bs4 import BeautifulSoup
 from ..base import PageGrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import requests
 import logging
 try:
@@ -18,7 +18,7 @@ class LinkedInSalesGrabber(PageGrabber):
     """
     LinkedIN.com sales scraper for email lookups
     """
-    def get_info(self, email):
+    def get_info(self, email, category):
         """
         Requires AUTH, login and request AUTHENTICATED pages from linkedin
         """

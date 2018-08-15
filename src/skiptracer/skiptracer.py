@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 from __future__ import print_function
-#from .plugins.menus import menus
-#from .plugins.colors import BodyColors as bc
+
 import pkg_resources
 import sys
 import signal
 import json
-#import plugins.proxygrabber as pg
 import ast
 
 try:
@@ -36,7 +34,10 @@ class SkipTracer:
     loaded_colors_plugin_dict = {}
 
     def __init__(self, plugins):
-        #signal.signal(signal.SIGINT, self.signal_handler)
+        """
+        Load all the different types
+        of plugin
+        """
         self.inc_plugins = plugins
 
         self.loaded_plugins_plugin_dict = self.load_plugins(
@@ -49,9 +50,7 @@ class SkipTracer:
             self.colors_plugin)
 
         #only supporting default menu for now
-        self.loaded_menus_plugin_dict['default_menus']().intromenu()
-
-
+        self.loaded_menus_plugin_dict['default_menus'](self.loaded_plugins_plugin_dict).intromenu()
 
 
     def load_plugins(self, plugin):
@@ -64,12 +63,3 @@ class SkipTracer:
         for p in pkg_resources.iter_entry_points(plugin):
                 plugin_dict[p.name] = p.load()
         return plugin_dict
-
-
-
-    def signal_handler(self, signal, frame):
-        """
-        Signal handler method
-        """
-        print("")
-        sys.exit(0)

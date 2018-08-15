@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function
 #
 from ..base import PageGrabber
 from .. import proxygrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 
 try:
@@ -24,6 +24,19 @@ class TruthFinderGrabber(PageGrabber):
     Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else
     report to STDOUT about CAPTCHA
     """
+    url = ""
+
+    def get_info(self, lookup, information):
+        """
+        Uniform call for framework to launch function in a way to single out the
+        calls per URL
+        """
+        print("[" + bc.CPRP + "?" + bc.CEND + "] " +
+              bc.CCYN + "TruthFinder" + bc.CEND)
+        # Actual logic to run + re-try request
+        self.truth_try(lookup, information)
+
+
     def check_for_captcha(self):
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
         if bi.webproxy and captcha is not None:
@@ -50,6 +63,87 @@ class TruthFinderGrabber(PageGrabber):
             return False
 
 
+    def makephone(information):
+        """
+        Find user supplied data format, adjust as needed for URL
+        """
+        try:
+            if str(information).split(
+                    "-")[1]:  # Can it be split bu a "-", everything is ok
+                dashphone = '({})-{}-{}'.format(
+                    information[0:3], information[5:8], information[9:])
+                return dashphone
+        except BaseException:
+            pass
+        try:
+            if str(information).split(" ")[
+                    1]:  # Can it be split by a whitespace, if so, break and format as needed for the URL
+                dashphone = '({})-{}-{}'.format(
+                    information[0:3], information[5:8], information[9:])
+                return dashphone
+        except BaseException:
+            pass
+        try:
+            # If len of data is 10 and is an integer, break and format
+            # as needed for URL
+            if len(information) == 10:
+                dashphone = '({})-{}-{}'.format(
+                    information[0:3], information[3:6], information[6:])
+                return dashphone
+        except BaseException:
+            print(
+                "  [" +
+                bc.CRED +
+                "X" +
+                bc.CEND +
+                "] " +
+                bc.CYLW +
+                "Did not detect a phone number\n" +
+                bc.CEND)
+            return
+
+
+    def getlocal(citystatezip, gender, age):
+        """
+        Get city, state, zip,
+        gender and age
+        """
+        try:
+            if citystatezip:
+                self.state = citystatezip
+        except BaseException:
+            self.state = "ALL"
+        try:
+            if age:
+                self.age = "true"
+        except BaseException:
+            self.age = "false"
+        try:
+            if gender:
+                self.gndr = "&gender={}".format(gender)
+        except BaseException:
+            self.gndr = "&gender="
+        try:
+            if len(str(information).split(' ')) in [2, 3]:
+                if len(str(information).split(' ')) == 2:
+                    self.fname = str(information).split(" ")[0]
+                    self.lname = str(information).split(" ")[1]
+                if len(str(information).split(' ')) == 3:
+                    self.fname = str(information).split(" ")[0]
+                    self.lname = str(information).split(" ")[2]
+        except BaseException:
+            print(
+                "  [" +
+                bc.CRED +
+                "X" +
+                bc.CEND +
+                "] " +
+                bc.CYLW +
+                "Failed to parse serarch string, lookup name.\n" +
+                bc.CEND)
+
+
+
     def truth_try(self, lookup, information):
         """
         Builds out different URL constructs based on user supplied data
@@ -59,45 +153,6 @@ class TruthFinderGrabber(PageGrabber):
             phonere = re.compile(
                 '(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
 
-
-            def makephone(information):
-                """
-                Find user supplied data format, adjust as needed for URL
-                """
-                try:
-                    if str(information).split(
-                            "-")[1]:  # Can it be split bu a "-", everything is ok
-                        dashphone = '({})-{}-{}'.format(
-                            information[0:3], information[5:8], information[9:])
-                        return dashphone
-                except BaseException:
-                    pass
-                try:
-                    if str(information).split(" ")[
-                            1]:  # Can it be split by a whitespace, if so, break and format as needed for the URL
-                        dashphone = '({})-{}-{}'.format(
-                            information[0:3], information[5:8], information[9:])
-                        return dashphone
-                except BaseException:
-                    pass
-                try:
-                    # If len of data is 10 and is an integer, break and format
-                    # as needed for URL
-                    if len(information) == 10:
-                        dashphone = '({})-{}-{}'.format(
-                            information[0:3], information[3:6], information[6:])
-                        return dashphone
-                except BaseException:
-                    print(
-                        "  [" +
-                        bc.CRED +
-                        "X" +
-                        bc.CEND +
-                        "] " +
-                        bc.CYLW +
-                        "Did not detect a phone number\n" +
-                        bc.CEND)
-                    return
             if phonere.findall(
                     information):  # Make the URL for a phone lookup, set email to False
                 try:
@@ -135,40 +190,7 @@ class TruthFinderGrabber(PageGrabber):
                 "Is the person older than 30? - ex: (Y|n) " +
                 bc.CEND)
 
-            def getlocal(citystatezip, gender, age):
-                try:
-                    if citystatezip:
-                        self.state = citystatezip
-                except BaseException:
-                    self.state = "ALL"
-                try:
-                    if age:
-                        self.age = "true"
-                except BaseException:
-                    self.age = "false"
-                try:
-                    if gender:
-                        self.gndr = "&gender={}".format(gender)
-                except BaseException:
-                    self.gndr = "&gender="
-                try:
-                    if len(str(information).split(' ')) in [2, 3]:
-                        if len(str(information).split(' ')) == 2:
-                            self.fname = str(information).split(" ")[0]
-                            self.lname = str(information).split(" ")[1]
-                        if len(str(information).split(' ')) == 3:
-                            self.fname = str(information).split(" ")[0]
-                            self.lname = str(information).split(" ")[2]
-                except BaseException:
-                    print(
-                        "  [" +
-                        bc.CRED +
-                        "X" +
-                        bc.CEND +
-                        "] " +
-                        bc.CYLW +
-                        "Failed to parse serarch string, lookup name.\n" +
-                        bc.CEND)
+
             getlocal(citystatezip, gender, age)
             self.url = "https://www.truthfinder.com/results/?utm_source=VOTER&traffic%5Bsource%5D=VOTER&utm_medium=pre-pop&traffic%5Bmedium%5D=pre-pop&utm_campaign=&traffic%5Bcampaign%5D=srapi%3A&utm_term=1&traffic%5Bterm%5D=1&utm_content=&traffic%5Bcontent%5D=&s1=&s2=srapi&s3=1&s4=&s5=&city=&firstName={}&lastName={}&page=r&state={}{}&qLocation=true&qRelatives=true&qOver30={}".format(
                 self.fname,
@@ -356,14 +378,3 @@ class TruthFinderGrabber(PageGrabber):
                     bi.outdata['truthfinder'] = self.info_dict
         except BaseException:
             pass
-
-
-    def get_info(self, lookup, information):
-        """
-        Uniform call for framework to launch function in a way to single out the
-        calls per URL
-        """
-        print("[" + bc.CPRP + "?" + bc.CEND + "] " +
-              bc.CCYN + "TruthFinder" + bc.CEND)
-        # Actual logic to run + re-try request
-        self.truth_try(lookup, information)

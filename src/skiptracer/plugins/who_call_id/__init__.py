@@ -2,7 +2,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from ..base import PageGrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 try:

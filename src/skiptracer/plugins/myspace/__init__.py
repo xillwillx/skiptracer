@@ -4,7 +4,7 @@ from __future__ import print_function
 #######################################################################
 
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 
@@ -18,7 +18,7 @@ class MySpaceGrabber(PageGrabber):
     """
     Myspace.com scraper for email lookups
     """
-    def get_info(self, email):
+    def get_info(self, email, category):
         """
         Looksup user accounts by given email
         """
@@ -62,5 +62,5 @@ class MySpaceGrabber(PageGrabber):
             "account": account,
             "location": location,
         })
-        bi.outdata['myspace'] = self.info_dict
-        return
+        #bi.outdata['myspace'] = self.info_dict
+        return self.info_dict

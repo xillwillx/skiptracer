@@ -4,7 +4,7 @@ from __future__ import absolute_import
 #   haveibeenpwned scraper - returns breach name and date for email     #
 #######################################################################
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 from .. import proxygrabber
 import re
 import logging
@@ -21,7 +21,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
     """
     HackedEmails.com scraper for email compromise lookups
     """
-    def get_info(self, email):
+    def get_info(self, email, category):
         """
         Uniform call for framework
         """
@@ -40,8 +40,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
                 self.count += 1
                 url = 'https://haveibeenpwned.com/api/v2/breachedaccount/{}'.format(
                     email)
-                #self.source = self.get_source(url)
-                #self.source = (self.source.encode('ascii', 'ignore')).decode("utf-8")
+
                 scraper = cfscrape.create_scraper()
                 self.source = scraper.get(url).content
                 self.source = str(

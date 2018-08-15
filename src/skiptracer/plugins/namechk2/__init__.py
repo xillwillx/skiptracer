@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from lxml import html
 from requests.utils import quote
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import json
 import unicodedata
 import requests

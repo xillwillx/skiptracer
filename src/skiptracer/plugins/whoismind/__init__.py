@@ -4,7 +4,7 @@
 
 from __future__ import print_function
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import numpy as np
 
 try:
@@ -17,7 +17,7 @@ class WhoisMindGrabber(PageGrabber):
     """
     WhoisMind scraper for registered domains by email lookups
     """
-    def get_info(self, email):
+    def get_info(self, email, category):
         """
         Request and processes results, sorted unique, remove blanks
         """
@@ -28,10 +28,12 @@ class WhoisMindGrabber(PageGrabber):
             source = self.get_source(url)
             soup = self.get_dom(source)
             href = soup.findAll('a')
+
         except Exception as urlgrabfailed:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "WhoisMind failed to produce the URL" + bc.CEND)
         whoisdb = list()
+
         try:
             for hreftag in href:
                 if hreftag.text != "" and hreftag.text in hreftag['href']:

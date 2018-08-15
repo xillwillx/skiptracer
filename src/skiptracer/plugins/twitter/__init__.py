@@ -2,7 +2,7 @@
 # Twitter Scraper: Requires users to install additional non standard libraries
 #
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 try:
     import __builtin__ as bi
 except BaseException:

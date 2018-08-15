@@ -10,6 +10,7 @@ import requests
 import json
 # monkey patch socket to use only IPv4
 import socket
+import pkg_resources
 
 try:
     import __builtin__ as bi
@@ -32,7 +33,8 @@ def random_line():
     """
     Gets random User-Agent string from local DB file
     """
-    afile = open("storage/user-agents.db")
+    get_user_agents = pkg_resources.resource_filename('skiptracer','../../storage/user-agents.db')
+    afile = open(get_user_agents)
     line = next(afile)
     for num, aline in enumerate(afile):
         if random.randrange(num + 2):
