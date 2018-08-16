@@ -34,6 +34,7 @@ class LinkedInSalesGrabber(PageGrabber):
         """
         Load up LinkedIn plguin configs
         """
+        super(LinkedInSalesGrabber, self).__init__()
         self.config = configparser.ConfigParser()
         get_plugin_cats = pkg_resources.resource_filename('skiptracer','../../setup.cfg')
         self.config.read(get_plugin_cats)
@@ -165,13 +166,13 @@ class LinkedInSalesGrabber(PageGrabber):
         profile = self.grab_data('a', 'class', 'li-hover-under li-txt-black-85',
                        'Profile', 'href')
         name = self.grab_name()
-        location = self.grab_data_text('div', 'class', 'li-user-location',
+        location = self.grab_data('div', 'class', 'li-user-location',
                        'Location', False)
-        company = self.grab_data_text('span', 'class', 'li-user-title-company',
+        company = self.grab_data('span', 'class', 'li-user-title-company',
                        'Company', False)
-        title = self.grab_data_text('div', 'class', 'li-user-title',
+        title = self.grab_data('div', 'class', 'li-user-title',
                        'Job Title', False)
-        email = self.grab_data_text('span', 'id', 'email', 'Email', False)
+        email = self.grab_data('span', 'id', 'email', 'Email', False)
 
         self.info_dict.update({
             "profile": profile,
