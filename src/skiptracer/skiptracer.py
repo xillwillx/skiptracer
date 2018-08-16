@@ -19,7 +19,7 @@ class SkipTracer:
     Kick off the SkipTracer
     program
     """
-    bi.search_string = ''
+    #bi.search_string = ''
     bi.lookup = ''
     bi.webproxy = ""
     bi.proxy = ""

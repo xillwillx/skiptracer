@@ -1,5 +1,5 @@
-from __future__ import print_function
-from __future__ import absolute_import
+#from __future__ import print_function
+#from __future__ import absolute_import
 #
 # LinkedIn Sales Module
 #
@@ -7,44 +7,131 @@ from bs4 import BeautifulSoup
 from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc
 import requests
-import logging
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
+import configparser
+import pkg_resources
 
 
 class LinkedInSalesGrabber(PageGrabber):
     """
-    LinkedIN.com sales scraper for email lookups
+    LinkedIn.com sales scraper for email lookups
     """
+
+    config = []
+    soup = ""
+    client = {}
+    homepageurl = ""
+    loginurl = ""
+    logouturl = ""
+    viewbyemail = ""
+    login_information = {
+            'session_key': '',
+            'session_password': '',
+            'loginCsrfParam': '',
+    }
+
+
+    def __init__(self):
+        """
+        Load up LinkedIn plguin configs
+        """
+        self.config = configparser.ConfigParser()
+        get_plugin_cats = pkg_resources.resource_filename('skiptracer','../../setup.cfg')
+        self.config.read(get_plugin_cats)
+        self.homepageurl = self.config['plugin.linkedin']['homepageurl']
+        self.loginurl = self.config['plugin.linkedin']['loginurl']
+        self.logouturl = self.config['plugin.linkedin']['logouturl']
+        self.viewbyemail = self.config['plugin.linkedin']['viewbyemail']
+        self.login_information['session_key'] = self.config['plugin.linkedin']['sessionkey']
+        self.login_information['session_password'] = self.config['plugin.linkedin']['sessionpassword']
+        self.client = requests.Session()  # Establish the session()
+        source = self.client.get(self.homepageurl).content  # Request source
+        self.soup = self.get_dom(source)  # BS DOM
+
+
+
+    def grab_data(self, el, attr, attrval, title, gettext):
+        """
+        Pass to this function the following:
+        el = element to find e.g. div
+        attr = attribute to find e.g. class or id
+        attrval = attribute value to find e.g. li-profile-name
+        title = Title to display is results e.g. Name, Phone
+        """
+
+        try:
+            if gettext == False:
+                val = self. grab_data_attr()
+            else:
+                val = self.grab_data_text(el, attr, attrval, gettext)
+
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + title +": " + bc.CEND + str(company))
+        except BaseException:
+            val = ""
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No "+title+" can be found.\n"+bc.CEND)
+            pass
+        return val
+
+
+    def grab_data_text(self, el, attr, attrval):
+        """
+        Pass to this function the following:
+        el = element to find e.g. div
+        attr = attribute to find e.g. class or id
+        attrval = attribute value to find e.g. li-profile-name
+        """
+
+        return self.soup.find(el,{attr: attrval}).get_text()
+
+
+    def grab_data_attr(self, el, attr, attrval, title):
+        """
+        Pass to this function the following:
+        el = element to find e.g. div
+        attr = attribute to find e.g. class or id
+        attrval = attribute value to find e.g. li-profile-name
+        getext = attribute text to grab e.g. href
+        """
+
+        return self.soup.find(el, attrs={attr: attrval})[gettext]
+
+
+    def grab_name(self):
+        """
+        Grabs a first + last name from LinkedIn DOM
+        and constructs a single name string
+        """
+
+        try:
+            fname = self.grab_data('span','id','li-profile-name','First name','data-fname')
+            lname = self.grab_data('span','id','li-profile-name','Last name','data-lname')
+            name = str(fname) + " " + str(lname)
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
+                  "Name: " + bc.CEND + str(fname) + " " + str(lname))
+        except BaseException:
+            name = ""
+            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No username can be found.\n"+bc.CEND)
+        return name
+
+
+    def grab_csrf(self):
+        """
+        Grab CSRF token
+        """
+
+        csrf = self.soup.find(id="loginCsrfParam-login")['value']
+        self.login_information['loginCsrfParam'] = csrf
+
+
     def get_info(self, email, category):
         """
         Requires AUTH, login and request AUTHENTICATED pages from linkedin
         """
-        client = requests.Session()  # Establish the session()
-        print("[" + bc.CPRP + "?" + bc.CEND + "] " +
-              bc.CCYN + "LinkedIn" + bc.CEND)
-        HOMEPAGE_URL = 'https://www.linkedin.com'  # Set homepage for linkedin
-        # Set login page for linkedin
-        LOGIN_URL = 'https://www.linkedin.com/uas/login-submit'
-        LOGOUT_URL = 'https://www.linkedin.com/m/logout'
-        source = client.get(HOMEPAGE_URL).content  # Request source
-        soup = self.get_dom(source)  # BS DOM
-        csrf = soup.find(id="loginCsrfParam-login")['value']
-        #
-        # ATTENTION:: YOU MUST POPULATE THE FOLLOWING WITH YOUR REAL CREDENTIALS
-        #
-        # ATTENTION:: THIS WILL NOT WORK PROPRLY OTHERWISE
-        #
-        # session_key = email  session_password = your password
-        #
-        login_information = {
-            'session_key': '',
-            'session_password': '',
-            'loginCsrfParam': csrf,
-        }
-        if login_information['session_key'] == '':
+
+        print("[" + bc.CPRP + "?" + bc.CEND + "] " + bc.CCYN + "LinkedIn" + bc.CEND)
+        self.grab_csrf()
+
+        if self.login_information['session_key'] == '':
             # If no modifications of default u/p, print error, return
             if login_information['session_password'] == '':
                 print(
@@ -57,11 +144,11 @@ class LinkedInSalesGrabber(PageGrabber):
                     "This module requires authentication to use it properly.\n" +
                     bc.CEND)
                 return
+
+        results = "None"
         try:
-            client.post(LOGIN_URL, data=login_information)
-            results = client.get(
-                'https://linkedin.com/sales/gmail/profile/viewByEmail/' +
-                str(email)).text
+            self.client.post(self.loginurl, data=self.login_information)
+            results = client.get(self.viewbyemail + str(email)).text
         except Exception as failedlinkedinauth:
             print(("  [" +
                    bc.CRED +
@@ -72,66 +159,20 @@ class LinkedInSalesGrabber(PageGrabber):
                    "This module did not properly authenticate: %s" +
                    bc.CEND) %
                   failedlinkedinauth)
-        soup = self.get_dom(results)
-        self.get_source(LOGOUT_URL)  # Log out of LinkedIn, kills sessionID
-        try:  # Search and set from results
-            profile = soup.find(
-                'a', attrs={
-                    'class': 'li-hover-under li-txt-black-85'})['href']
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + "Profile: " + bc.CEND + str(profile))
-        except BaseException:
-            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                  bc.CYLW + "No LinkedIn account found.\n" + bc.CEND)
-            return
-        try:
-            fname = soup.find(
-                'span', attrs={
-                    'id': 'li-profile-name'})['data-fname']
-            lname = soup.find(
-                'span', attrs={
-                    'id': 'li-profile-name'})['data-lname']
-            name = str(fname) + " " + str(lname)
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
-                  "Name: " + bc.CEND + str(fname) + " " + str(lname))
-        except BaseException:
-            name = ""
-            # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No username can be found.\n"+bc.CEND)
-            pass
-        try:
-            company = soup.find('span',
-                                {'class': 'li-user-title-company'}).get_text()
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + "Company: " + bc.CEND + str(company))
-        except BaseException:
-            company = ""
-            # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Company can be found.\n"+bc.CEND)
-            pass
-        try:
-            title = soup.find('div', {'class': 'li-user-title'}).get_text()
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + "Title: " + bc.CEND + str(title))
-        except BaseException:
-            title = ""
-            # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Job Title can be found.\n"+bc.CEND)
-            pass
-        try:
-            location = soup.find('div',
-                                 {'class': 'li-user-location'}).get_text()
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + "Location: " + bc.CEND + str(location))
-        except BaseException:
-            location = ""
-            # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Location can be found.\n"+bc.CEND)
-            pass
-        try:
-            email = soup.find('span', {'id': 'email'}).get_text()
-            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + "Email: " + bc.CEND + str(email))
-        except BaseException:
-            email = ""
-            # print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No Email account found.\n"+bc.CEND)
-            pass
+
+        self.soup = self.get_dom(results)
+        self.get_source(self.logouturl)  # Log out of LinkedIn, kills sessionID
+        profile = self.grab_data('a', 'class', 'li-hover-under li-txt-black-85',
+                       'Profile', 'href')
+        name = self.grab_name()
+        location = self.grab_data_text('div', 'class', 'li-user-location',
+                       'Location', False)
+        company = self.grab_data_text('span', 'class', 'li-user-title-company',
+                       'Company', False)
+        title = self.grab_data_text('div', 'class', 'li-user-title',
+                       'Job Title', False)
+        email = self.grab_data_text('span', 'id', 'email', 'Email', False)
+
         self.info_dict.update({
             "profile": profile,
             "name": name,
@@ -140,6 +181,6 @@ class LinkedInSalesGrabber(PageGrabber):
             "title": title,
             "email": email
         })
-        bi.outdata['linkedin'] = self.info_dict
+
         print()
-        return
+        return self.info_dict

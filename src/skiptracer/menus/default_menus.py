@@ -14,8 +14,6 @@ except BaseException:
     import builtins as bi
 
 
-
-
 class DefaultMenus():
 
     plugin_list = {}
@@ -25,6 +23,7 @@ class DefaultMenus():
     pmodules = []
     snmodules = []
     plmodules = []
+    search_string = ''
 
     default_items = [
         {'key':'all', 'text':'All - Run all modules associated with this group'},
@@ -78,7 +77,7 @@ class DefaultMenus():
         """
         Top level intro menu
         """
-        bi.search_string = ''
+        self.search_string = ""
         bi.lookup = ''
         if self.useproxy():
             print("\t  [" + bc.CRED + "::ATTENTION::" + bc.CEND + "]" +
@@ -161,18 +160,18 @@ class DefaultMenus():
         if gselect == "back":
             self.intromenu()
 
-        if not bi.search_string or bi.search_string == '':
-            bi.search_string = input(error)
+        if not self.search_string or self.search_string == '':
+            self.search_string = input(error)
 
         print()
-        print(bi.search_string)
+        print(self.search_string)
         self.useproxy()
         if gselect != "all":
-            self.plugin_list[gselect]().get_info(bi.search_string, mtype)
+            self.plugin_list[gselect]().get_info(self.search_string, mtype)
 
         if gselect == "all":
             for i in plugins:
-                self.plugin_list[i]().get_info(bi.search_string, mtype)
+                self.plugin_list[i]().get_info(self.search_string, mtype)
         menu()
 
 
@@ -183,14 +182,14 @@ class DefaultMenus():
         """
 
         self.emodules = []
-        self.grabplugins(self.emodules, self.config['plugins.email'])
+        self.grabplugins(self.emodules, self.config['menu.email'])
         gselect = self.grabuserchoice(self.emodules, "E-Mail")
 
         self.selectchoice(
             self.emailmenu,
             "email",
             "[What is the marks email address? - ex: username@domain.tld]:",
-            self.config['plugins.email'],
+            self.config['menu.email'],
             gselect
         )
 
@@ -200,14 +199,14 @@ class DefaultMenus():
         name matching plugins
         """
         self.nmodules = []
-        self.grabplugins(self.nmodules, self.config['plugins.name'])
+        self.grabplugins(self.nmodules, self.config['menu.name'])
         gselect = self.grabuserchoice(self.nmodules, "Name")
 
         self.selectchoice(
             self.namemenu,
             "name",
             "[What is the marks name? - ex: First Lastname]: ",
-            self.config['plugins.name'],
+            self.config['menu.name'],
             gselect
         )
 
@@ -217,13 +216,13 @@ class DefaultMenus():
         menu to the user.
         """
         self.pmodules = []
-        self.grabplugins(self.pmodules, self.config['plugins.phone'])
+        self.grabplugins(self.pmodules, self.config['menu.phone'])
         gselect = self.grabuserchoice(self.pmodules, "Phone")
         self.selectchoice(
             self.phonemenu,
             "phone",
             "[What is the marks phone number? - ex: 1234567890]: ",
-            self.config['plugins.phone'],
+            self.config['menu.phone'],
             gselect
         )
 
@@ -231,13 +230,13 @@ class DefaultMenus():
         """
         Screen Name grabbing tools menu
         """
-        self.grabplugins(self.snmodules, self.config['plugins.screenname'])
+        self.grabplugins(self.snmodules, self.config['menu.screenname'])
         gselect = self.grabuserchoice(self.snmodules, "Screen Name")
         self.selectchoice(
             self.snmenu,
             "screenname",
             "[What is the marks screenname? - ex: (Ac1dBurn|Zer0Cool)]: ",
-            self.config['plugins.screenname'],
+            self.config['menu.screenname'],
             gselect
         )
 
@@ -245,14 +244,14 @@ class DefaultMenus():
         """
         Enter a plate number
         """
-        self.grabplugins(self.plmodules, self.config['plugins.plate'])
+        self.grabplugins(self.plmodules, self.config['menu.plate'])
         gselect = self.grabuserchoice(self.plmodules, "Plate Number")
 
         self.selectchoice(
             self.platemenu,
             "plate",
             "[What is the marks vehicle plate number? - ex: (XYZ123|0U812)]: ",
-            self.config['plugins.plate'],
+            self.config['menu.plate'],
             gselect
         )
 
