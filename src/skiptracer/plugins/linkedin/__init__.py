@@ -1,8 +1,3 @@
-#from __future__ import print_function
-#from __future__ import absolute_import
-#
-# LinkedIn Sales Module
-#
 from bs4 import BeautifulSoup
 from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc

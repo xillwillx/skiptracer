@@ -124,7 +124,9 @@ class DefaultMenus():
             tc = ast.literal_eval(plugin_list[i])
             plugin_type.append({'key': i, 'text': tc[0] + " - " + tc[1]})
 
-        plugin_type = plugin_type + self.default_items
+        return plugin_type + self.default_items
+
+
 
 
     def grabuserchoice(self, plugin_type, textsub):
@@ -136,6 +138,7 @@ class DefaultMenus():
         gselect = ""
 
         print(" [!] "+textsub+" search menu - Please select a number")
+
         for i,v in enumerate(plugin_type):
             print(' ['+str(i+1)+'] -' + plugin_type[i]['text'])
 
@@ -164,7 +167,6 @@ class DefaultMenus():
             self.search_string = input(error)
 
         print()
-        print(self.search_string)
         self.useproxy()
         if gselect != "all":
             self.plugin_list[gselect]().get_info(self.search_string, mtype)
@@ -182,7 +184,7 @@ class DefaultMenus():
         """
 
         self.emodules = []
-        self.grabplugins(self.emodules, self.config['menu.email'])
+        self.emodules = self.grabplugins(self.emodules, self.config['menu.email'])
         gselect = self.grabuserchoice(self.emodules, "E-Mail")
 
         self.selectchoice(
@@ -199,7 +201,7 @@ class DefaultMenus():
         name matching plugins
         """
         self.nmodules = []
-        self.grabplugins(self.nmodules, self.config['menu.name'])
+        self.nmodules = self.grabplugins(self.nmodules, self.config['menu.name'])
         gselect = self.grabuserchoice(self.nmodules, "Name")
 
         self.selectchoice(
@@ -216,7 +218,7 @@ class DefaultMenus():
         menu to the user.
         """
         self.pmodules = []
-        self.grabplugins(self.pmodules, self.config['menu.phone'])
+        self.pmodules = self.grabplugins(self.pmodules, self.config['menu.phone'])
         gselect = self.grabuserchoice(self.pmodules, "Phone")
         self.selectchoice(
             self.phonemenu,
@@ -230,7 +232,7 @@ class DefaultMenus():
         """
         Screen Name grabbing tools menu
         """
-        self.grabplugins(self.snmodules, self.config['menu.screenname'])
+        self.snmodules = self.grabplugins(self.snmodules, self.config['menu.screenname'])
         gselect = self.grabuserchoice(self.snmodules, "Screen Name")
         self.selectchoice(
             self.snmenu,
@@ -244,7 +246,7 @@ class DefaultMenus():
         """
         Enter a plate number
         """
-        self.grabplugins(self.plmodules, self.config['menu.plate'])
+        self.plmodules = self.grabplugins(self.plmodules, self.config['menu.plate'])
         gselect = self.grabuserchoice(self.plmodules, "Plate Number")
 
         self.selectchoice(
