@@ -32,7 +32,7 @@ class TruePeopleGrabber(PageGrabber):
 
     def __init__(self):
         """
-        Load up LinkedIn plguin configs
+        Load up True People plugin configs
         """
         super(TruePeopleGrabber, self).__init__()
 
@@ -123,7 +123,7 @@ class TruePeopleGrabber(PageGrabber):
 
         if phonere.findall(information):
             self.url = 'https://www.truepeoplesearch.com/results?phoneno={}'.format(
-                        makephone(information))
+                        self.makephone(information))
 
 
     def name(self, information):
@@ -249,7 +249,6 @@ class TruePeopleGrabber(PageGrabber):
                     bc.CEND)
                 aka = set(aka)
                 for xaka in aka:
-                    print (xaka)
                     xakas = str(xaka).split('>')[1].split('<')[0]
                     aklist.append(xakas)
                     print(("    [" +
