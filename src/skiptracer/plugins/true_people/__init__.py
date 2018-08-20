@@ -18,6 +18,7 @@ try:
 except NameError:
     raw_input = input  # Python 3
 
+import operator
 
 class TruePeopleGrabber(PageGrabber):
     """
@@ -49,6 +50,7 @@ class TruePeopleGrabber(PageGrabber):
 
     def check_for_captcha(self):
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
+        print(captcha)
         if bi.webproxy and captcha is not None:
             try:
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
@@ -145,19 +147,12 @@ class TruePeopleGrabber(PageGrabber):
         Check if any records were found
         """
 
-        recordcount = self.soup.findAll('div', {'class', 'row pl-1 record-count'})
+        recordcount = self.soup.findAll('div', {'class', 'card-summary'})
 
         if len(recordcount) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " +
                   bc.CYLW + "No results were found.\n" + bc.CEND)
             return False
-
-        for xnotfound in recordcount:
-            if str(xnotfound.div.text).strip(
-            ) == "We could not find any records for that search criteria.":
-                print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                      bc.CYLW + "No results were found.\n" + bc.CEND)
-                return False
 
         return True
 
@@ -252,7 +247,7 @@ class TruePeopleGrabber(PageGrabber):
                     bc.CRED +
                     "Alias: " +
                     bc.CEND)
-                aka = sorted(set(aka))
+                aka = set(aka)
                 for xaka in aka:
                     print (xaka)
                     xakas = str(xaka).split('>')[1].split('<')[0]
@@ -298,12 +293,12 @@ class TruePeopleGrabber(PageGrabber):
                 'a', {'class': 'link-to-more', 'data-link-to-more': 'relative'})
             print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                   bc.CRED + "Related:" + bc.CEND)
-            related = sorted(set(related))
+            related = set(related)
             rellist = []
             for xrelate in related:
                 xrels = str(xrelate).split(">")[1].split("<")[0]
                 rellist.append(xrels)
-            for xrel in sorted(set(relllist)):
+            for xrel in set(rellist):
                 print(("      [" +
                        bc.CGRN +
                        "=" +
@@ -329,7 +324,7 @@ class TruePeopleGrabber(PageGrabber):
         try:
             associate = self.soup2.find_all(
                 'a', {'class': 'link-to-more', 'data-link-to-more': 'associate'})
-            associate = sorted(set(associate))
+            associate = set(associate)
             print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                   bc.CRED + "Associate(s):" + bc.CEND)
             asso = []
@@ -457,8 +452,9 @@ class TruePeopleGrabber(PageGrabber):
         lives = ""
         plist = ""
 
-        print ("start deep search")
+
         try:
+
             deep = self.soup.find_all(
                 'a', {
                     'class': [
@@ -467,9 +463,7 @@ class TruePeopleGrabber(PageGrabber):
                      ]}
             )
 
-            for x in sorted(set(deep)):
-
-                print ("in deep search")
+            for x in set(deep):
                 rid = self.get_rid(lookup, x)
                 if rid == False:
                     return False
@@ -505,6 +499,12 @@ class TruePeopleGrabber(PageGrabber):
             print(e)
 
 
+    def get_source_html(self):
+        """
+        grab the source files
+        """
+        self.source = self.get_source(self.url)
+        self.soup = self.get_dom(self.source)
 
     def true_try(self, lookup, information):
         """
@@ -518,8 +518,7 @@ class TruePeopleGrabber(PageGrabber):
             self.name(information)
 
         if lookup in ['name', 'phone']:
-            self.source = self.get_source(self.url)
-            self.soup = self.get_dom(self.source)
+            self.get_source_html()
 
         if self.check_for_captcha() == True:
             print(("  [" + bc.CRED + "X" + bc.CEND + "] " +
@@ -535,6 +534,8 @@ class TruePeopleGrabber(PageGrabber):
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                       "User has not completed the CAPTCHA\n" + bc.CEND)
                 return
+            else:
+                self.get_source_html()
 
         if self.find_all_shallow():
             self.find_all_deep(lookup)

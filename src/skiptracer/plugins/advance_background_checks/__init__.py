@@ -56,6 +56,42 @@ class AdvanceBackgroundGrabber(PageGrabber):
         else:
             pass  # "No Captcha found, return False"
 
+    def makephone(information):
+        try:
+            if str(information).split(
+                    "-")[1]:  # Can it be split by a "-", everything is ok
+                dashphone = information
+                return dashphone
+        except BaseException:
+            pass
+        try:
+            if str(information).split(" ")[
+                    1]:  # Can it be split by a whitespace, if so, break and format as needed for the URL
+                dashphone = '{}-{}-{}'.format(
+                    information[0:3], information[5:8], information[9:])
+                return dashphone
+        except BaseException:
+            pass
+        try:
+            # If len of data is 10 and is an integer, break and format
+            # as needed for URL
+            if len(information) == 10:
+                dashphone = '{}-{}-{}'.format(
+                    information[0:3], information[3:6], information[6:])
+                return dashphone
+            if len(information) != 10:
+                print(
+                    "  [" +
+                    bc.CRED +
+                    "X" +
+                    bc.CEND +
+                    "] " +
+                    bc.CYLW +
+                    "Check search string, should be 10 digits.\n" +
+                    bc.CEND)
+                return
+        except BaseException:
+            return
 
     def abc_try(self, lookup, information):
         """
@@ -70,42 +106,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 pass
 
             # Find user supplied data format, adjust as needed for URL
-            def makephone(information):
-                try:
-                    if str(information).split(
-                            "-")[1]:  # Can it be split by a "-", everything is ok
-                        dashphone = information
-                        return dashphone
-                except BaseException:
-                    pass
-                try:
-                    if str(information).split(" ")[
-                            1]:  # Can it be split by a whitespace, if so, break and format as needed for the URL
-                        dashphone = '{}-{}-{}'.format(
-                            information[0:3], information[5:8], information[9:])
-                        return dashphone
-                except BaseException:
-                    pass
-                try:
-                    # If len of data is 10 and is an integer, break and format
-                    # as needed for URL
-                    if len(information) == 10:
-                        dashphone = '{}-{}-{}'.format(
-                            information[0:3], information[3:6], information[6:])
-                        return dashphone
-                    if len(information) != 10:
-                        print(
-                            "  [" +
-                            bc.CRED +
-                            "X" +
-                            bc.CEND +
-                            "] " +
-                            bc.CYLW +
-                            "Check search string, should be 10 digits.\n" +
-                            bc.CEND)
-                        return
-                except BaseException:
-                    return
+
             try:
                 self.num = makephone(information)
                 if self.num is None:
@@ -124,6 +125,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                     "Could not produce required URL.\n" +
                     bc.CEND)
                 return
+
         if lookup == "email":  # Make the URL for email lookup, set email True
             if str(information).split('@')[1]:
                 self.url = "https://www.advancedbackgroundchecks.com/emails/{}".format(
