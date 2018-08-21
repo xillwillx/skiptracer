@@ -71,7 +71,7 @@ class PageGrabber:
         headers = {"User-Agent": self.ua}
         reqcom = 0
         requests.packages.urllib3.disable_warnings()
-        while reqcom == 0:
+        while reqcom < 5:
             try:
                 if bi.proxy != '':
                     proxy = str(bi.proxy).split(":")[1].strip()
@@ -93,10 +93,14 @@ class PageGrabber:
                         verify=False,
                         allow_redirects=True
                     ).text
-                reqcom = 1
+                reqcom = 5
             except Exception as failedreq:
                 if bi.webproxy:
                     bi.proxy = proxygrabber.new_proxy()
+                    reqcom = reqcom + 1
+                else:
+                    print(failedreq)
+                    reqcom = reqcom + 1
         return results.encode('ascii', 'ignore').decode("utf-8")
 
     def post_data(self, url, data):

@@ -27,7 +27,7 @@ class LinkedInSalesGrabber(PageGrabber):
 
     def __init__(self):
         """
-        Load up LinkedIn plguin configs
+        Load up LinkedIn plugin configs
         """
         super(LinkedInSalesGrabber, self).__init__()
         self.config = configparser.ConfigParser()

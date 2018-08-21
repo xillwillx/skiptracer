@@ -18,6 +18,58 @@ class MySpaceGrabber(PageGrabber):
     """
     Myspace.com scraper for email lookups
     """
+
+    def __init__(self):
+        """
+        Load up MySpaceGrabber plugin configs
+        """
+        super(MySpaceGrabber, self).__init__()
+
+    def get_name(self, soup):
+        """
+        Check if a name exists
+        """
+        name = False
+        try:
+            name = soup.select('h6')[0].text.strip()
+        except BaseException:
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                  bc.CYLW + "No Myspace account found.\n" + bc.CEND)
+        finally:
+            return name
+
+    def get_acct_dets(self, soup):
+        """
+        Get the account details
+        """
+        account = False
+        try:
+            accountr = soup.select('h6')[0].a.get('href').strip()
+            account = "https://myspace.com{}".format(accountr)
+        except BaseException:
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                  bc.CYLW + "No Myspace account found.\n" + bc.CEND)
+        finally:
+            return account
+
+    def get_location_from_acct(self, account):
+        """
+        Get location data using the
+        account data
+        """
+        location = "Unknown"
+        try:
+            source = self.get_source(account)
+            soup = self.get_dom(source)
+            location = soup.find('div', attrs={'class': 'location_white location '})[
+                'data-display-text']
+        except BaseException:
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                  "Unable to find location data for "+account+".\n" + bc.CEND)
+        finally:
+            return location
+
+
     def get_info(self, email, category):
         """
         Looksup user accounts by given email
@@ -27,30 +79,15 @@ class MySpaceGrabber(PageGrabber):
         url = 'https://myspace.com/search/people?q={}'.format(email)
         source = self.get_source(url)
         soup = self.get_dom(source)
-        try:
-            name = soup.select('h6')[0].text.strip()
-        except BaseException:
-            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                  bc.CYLW + "No Myspace account found.\n" + bc.CEND)
-            return
-        try:
-            accountr = soup.select('h6')[0].a.get('href').strip()
-            account = "https://myspace.com{}".format(accountr)
-        except BaseException:
-            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                  bc.CYLW + "No Myspace account found.\n" + bc.CEND)
-            return
-        try:
-            source = self.get_source(account)
-            soup = self.get_dom(source)
-            location = soup.find('div', attrs={'class': 'location_white location '})[
-                'data-display-text']
-        except BaseException:
-            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Unable to complete the request.\n" + bc.CEND)
-            return
-        if not location:
-            location = "Unknown"
+        name = self.get_name(soup)
+        location = "Unknown"
+        account = "Not found"
+
+        if name != False:
+            account = self.get_acct_dets(soup)
+            if account != False:
+                location = self.get_location_from_acct(account)
+
         print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
               bc.CRED + "Acct: " + bc.CEND + str(account))
         print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
@@ -62,5 +99,5 @@ class MySpaceGrabber(PageGrabber):
             "account": account,
             "location": location,
         })
-        #bi.outdata['myspace'] = self.info_dict
+
         return self.info_dict

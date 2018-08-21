@@ -17,6 +17,14 @@ class WhoisMindGrabber(PageGrabber):
     """
     WhoisMind scraper for registered domains by email lookups
     """
+
+    def __init__(self):
+        """
+        Load up WhoisMindGrabber plugin configs
+        """
+        super(WhoisMindGrabber, self).__init__()
+
+
     def get_info(self, email, category):
         """
         Request and processes results, sorted unique, remove blanks
