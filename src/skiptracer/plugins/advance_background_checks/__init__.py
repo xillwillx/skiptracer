@@ -53,6 +53,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
         report to STDOUT about CAPTCHA
         """
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
+
         if bi.webproxy and captcha is not None:
             try:
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
@@ -145,9 +146,11 @@ class AdvanceBackgroundGrabber(PageGrabber):
         """
         Grab the targets email
         """
+
         if str(information).split('@')[1]:
-            self.url = "https://www.advancedbackgroundchecks.com/emails/{}".format(
-                b64.b64encode(str.encode(information)))
+            email = str(b64.b64encode(information.encode('utf-8'))).split("b'")[1]
+            email = email.split("'")[0]
+            self.url = "https://www.advancedbackgroundchecks.com/emails/" + email
 
 
     def grab_name(self, information):
@@ -166,27 +169,28 @@ class AdvanceBackgroundGrabber(PageGrabber):
         empty string
         """
         script_html = ""
-        try:
-            if self.soup.find(
-                    'div', {'id': 'no-result-widgets'}):  # Report if there are no results to STDOUT
-                print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                      bc.CYLW + "No results were found.\n" + bc.CEND)
-                return script_html
-            checkres = self.soup.findAll("h1")
-            if lookup == "phone":
-                for xcheck in checkres:
-                    if xcheck.text in [
-                            "We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for " + str(self.num)]:
-                        print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                              bc.CYLW + "No results were found.\n" + bc.CEND)
-                        return script_html
-            script_html = self.soup.find_all(
-                'script', type="application/ld+json")  # Scrape for JSON within DOM
-        except Exception as findallfail:
+
+        if self.soup.find(
+                'div', {'id': 'no-result-widgets'}):  # Report if there are no results to STDOUT
             print("  [" + bc.CRED + "X" + bc.CEND + "] " +
                   bc.CYLW + "No results were found.\n" + bc.CEND)
-        finally:
             return script_html
+
+        checkres = self.soup.findAll("h1")
+
+        if lookup == "phone":
+            for xcheck in checkres:
+                if xcheck.text in [
+                        "We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for " + str(self.num)]:
+                    print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                          bc.CYLW + "No results were found.\n" + bc.CEND)
+                    return script_html
+
+        script_html = self.soup.find_all(
+            'script', type="application/ld+json")  # Scrape for JSON within DOM
+
+        return script_html
+
 
     def grab_json_data(self, script_html):
         """
@@ -199,58 +203,18 @@ class AdvanceBackgroundGrabber(PageGrabber):
         return person_list
 
 
-    def abc_try(self, lookup, information):
+    def get_person_list(person_list):
         """
-        Determins different URL constructs based on user supplied data
+        Iterate through person list 
+        and grab results
         """
-        print(lookup)
-        print(information)
-        address_list = []
-        if lookup == "phone":
-            self.grab_phone(information)
-
-        if lookup == "email":  # Make the URL for email lookup, set email True
-            self.grab_email(information)
-
-        if lookup == "name":  # Make the URL for name lookup, set email to False
-           self.grab_name(information)
-
-        print("grabbing source")
-        self.source = self.get_source(self.url)
-        print("grabbing source2")
-        self.soup = self.get_dom(self.source)
-        print("grabbing source3")
-        self.check_for_captcha()  # Check response for sign of captcha
-        print("grabbing source4")
-        script_html = self.find_results(lookup)
-
-        if len(script_html) == 2:  # Check len on results
-            # Set the desired value to iterate over
-            script_html = script_html[1]
-        else:
-            try:
-                # If that failed, try original request again (Start over)
-                self.abc_try(lookup, information)
-            except Exception as failedtry:
-                print(
-                    "  [" +
-                    bc.CRED +
-                    "X" +
-                    bc.CEND +
-                    "] " +
-                    bc.CYLW +
-                    "Unable to re-try request... Try again later...\n" +
-                    bc.CEND)
-                return
-
-        person_list = self.grab_json_data(script_html)
-        print(person_list)
-        for person in person_list:  # Iterate entries and store their values, return results in different outputs, STDOUT, Dict()
+        for person in person_list:
             addrfirst = 0
             pnext = 0
             if pnext >= 1:
                 print(" [" + bc.CGRN + "!" + bc.CEND + "] " +
                       bc.CRED + "Next finding: " + bc.CEND)
+
             self.url2 = person['@id']  # set additional 2nd level URL
             self.source2 = self.get_source(self.url2)  # request 2nd level url
             self.soup2 = self.get_dom(self.source2)  # grab 2nd level DOM
@@ -258,12 +222,15 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 'script', type="application/ld+json")  # Scrape for JSON within DOM
             print("  [" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
                   "Name: " + bc.CEND + str(person.get("name")))
+
             if person.get("birthDate"):  # Set DoB
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
                       "D.o.B: " + bc.CEND + str(person.get("birthDate")))
+
             if person.get("additionalName"):  # Set additional names AKA
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                       bc.CRED + "Alias: " + bc.CEND)
+
                 for xaka in person.get(
                         "additionalName"):  # For each AKA, select the name
                     print(
@@ -276,6 +243,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                         "AKA: " +
                         bc.CEND +
                         str(xaka))
+
             if len(script_html2) <= 1:
                 print(
                     " [" +
@@ -295,6 +263,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 person_list2 = json.loads(script_html2)  # Loads dat
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                       bc.CRED + "Phone: " + bc.CEND)
+
                 for tele in person_list2['telephone']:
                     print(
                         "    [" +
@@ -308,9 +277,11 @@ class AdvanceBackgroundGrabber(PageGrabber):
                         str(tele))
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                       bc.CRED + "Email: " + bc.CEND)
+
                 for email in person_list2['email']:
                     print("   [" + bc.CGRN + "=" + bc.CEND + "] " +
                           bc.CRED + "Addr: " + bc.CEND + str(email))
+
             if person.get("address"):  # Set Addresses
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                       bc.CRED + "Addresses.: " + bc.CEND)
@@ -377,6 +348,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                                          "state": addy.get("addressRegion"),
                                          "zip_code": addy.get("postalCode"),
                                          "address": addy.get("streetAddress")})
+
             if person.get("relatedTo"):  # Set Relatives
                 print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
                       bc.CRED + "Related: " + bc.CEND)
@@ -400,7 +372,63 @@ class AdvanceBackgroundGrabber(PageGrabber):
                                    "address_list": address_list,
                                    "related_to": [item.get("name") for item in person.get("relatedTo")]})
             pnext += 1
-        # Build out the dataset
-        bi.outdata['advancedbackground'] = self.info_list
+
+
+
+
+    def abc_try(self, information, lookup):
+        """
+        Determins different URL constructs based on user supplied data
+        """
+
+        address_list = []
+        if lookup == "phone":
+            self.grab_phone(information)
+
+        if lookup == "email":  # Make the URL for email lookup, set email True
+            self.grab_email(information)
+
+        if lookup == "name":  # Make the URL for name lookup, set email to False
+           self.grab_name(information)
+
+        self.source = self.get_source(self.url)
+        self.soup = self.get_dom(self.source)
+
+        if self.check_for_captcha() == True:
+
+            print(("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                   bc.CYLW + "Goto: {}" + bc.CEND).format(self.url)
+            )
+
+            self.iscomplete = input(
+                "  [" + bc.CRED + "!" + bc.CEND + "] " + bc.CYLW +
+                "Have you completed the CAPTCHA? " + bc.CEND
+            )
+
+            if str(self.iscomplete).lower() in ['no', False, 0]:
+                print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                      "User has not completed the CAPTCHA\n" + bc.CEND)
+                return False
+
+        script_html = self.find_results(lookup)
+
+        if len(script_html) == 2:  # Check len on results
+            # Set the desired value to iterate over
+            script_html = script_html[1]
+        else:
+            print(
+                "  [" +
+                bc.CRED +
+                "X" +
+                bc.CEND +
+                "] " +
+                bc.CYLW +
+                "Unable to complete request... Try again later...\n" +
+                bc.CEND)
+            return
+
+        person_list = self.grab_json_data(script_html)
+        self.get_person_list(person_list)
+
         print()
-        return
+        return self.info_list

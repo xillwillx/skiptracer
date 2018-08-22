@@ -50,7 +50,6 @@ class TruePeopleGrabber(PageGrabber):
 
     def check_for_captcha(self):
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
-        print(captcha)
         if bi.webproxy and captcha is not None:
             try:
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
