@@ -205,7 +205,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
 
     def get_person_list(person_list):
         """
-        Iterate through person list 
+        Iterate through person list
         and grab results
         """
         for person in person_list:

@@ -103,26 +103,42 @@ class TruthFinderGrabber(PageGrabber):
             return
 
 
-    def getlocal(citystatezip, gender, age):
+    def set_city_state_zip(self, citystatezip):
         """
-        Get city, state, zip,
-        gender and age
+        Set the city, state, zip
+        value for the object.
         """
-        try:
-            if citystatezip:
-                self.state = citystatezip
-        except BaseException:
+        if citystatezip:
+            self.state = citystatezip
+        else:
             self.state = "ALL"
-        try:
-            if age:
-                self.age = "true"
-        except BaseException:
+
+    def set_age(self, age):
+        """
+        Set the age
+        value for the object.
+        """
+        if age:
+            self.age = "true"
+        else:
             self.age = "false"
-        try:
-            if gender:
-                self.gndr = "&gender={}".format(gender)
-        except BaseException:
+
+    def set_gender(self, gender):
+        """
+        Set the gender
+        value for the object.
+        """
+        if gender:
+            self.gndr = "&gender={}".format(gender)
+        else:
             self.gndr = "&gender="
+
+
+    def split_name(self, information):
+        """
+        Split the name down into
+        first name and last name
+        """
         try:
             if len(str(information).split(' ')) in [2, 3]:
                 if len(str(information).split(' ')) == 2:
@@ -144,24 +160,25 @@ class TruthFinderGrabber(PageGrabber):
 
 
 
-    def truth_try(self, lookup, information):
+    def truth_try(self, information, lookup):
         """
         Builds out different URL constructs based on user supplied data
         """
+
         address_list = []
+
         if lookup == "phone":
             phonere = re.compile(
                 '(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
 
-            if phonere.findall(
-                    information):  # Make the URL for a phone lookup, set email to False
+            if phonere.findall(information):
                 try:
                     self.url = 'https://www.truepeoplesearch.com/results?phoneno={}'.format(
                         makephone(information))
-                    email = False
                 except Exception as e:
                     pass
-        if lookup == "name":  # Make the URL for name lookup, set email to False
+
+        if lookup == "name":  # Make the URL for name lookup
             citystatezip = input(
                 "  [" +
                 bc.CRED +
@@ -190,17 +207,22 @@ class TruthFinderGrabber(PageGrabber):
                 "Is the person older than 30? - ex: (Y|n) " +
                 bc.CEND)
 
+            self.set_city_state_zip(citystatezip)
+            self.set_age(age)
+            self.set_gender(gender)
+            self.split_name(information)
 
-            getlocal(citystatezip, gender, age)
             self.url = "https://www.truthfinder.com/results/?utm_source=VOTER&traffic%5Bsource%5D=VOTER&utm_medium=pre-pop&traffic%5Bmedium%5D=pre-pop&utm_campaign=&traffic%5Bcampaign%5D=srapi%3A&utm_term=1&traffic%5Bterm%5D=1&utm_content=&traffic%5Bcontent%5D=&s1=&s2=srapi&s3=1&s4=&s5=&city=&firstName={}&lastName={}&page=r&state={}{}&qLocation=true&qRelatives=true&qOver30={}".format(
                 self.fname,
                 self.lname,
                 self.state,
                 self.gndr,
                 self.age)
-            email = False
+
+
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)
+
         try:
             ul = self.soup.findAll("ul")
             for xul in ul:
