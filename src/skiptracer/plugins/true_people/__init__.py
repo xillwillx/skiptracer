@@ -170,7 +170,7 @@ class TruePeopleGrabber(PageGrabber):
                 rid = str(x).split(";")[1].split('"')[0]
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                  bc.CYLW + "No results were found.\n" + bc.CEND)
+                  bc.CYLW + "No more results were found.\n" + bc.CEND)
         finally:
             return rid
 
@@ -344,7 +344,7 @@ class TruePeopleGrabber(PageGrabber):
         finally:
             return asso
 
-    def grab_prev_addr(self):
+    def grab_prev_addr(self, address):
         """
         Grab previous address info
         from the DOM
@@ -481,7 +481,7 @@ class TruePeopleGrabber(PageGrabber):
                 address = self.grab_address()
                 relist = self.grab_related()
                 asso = self.grab_associate()
-                prev, lives = self.grab_prev_addr()
+                prev, lives = self.grab_prev_addr(address)
                 plist = self.grab_phone_list()
 
                 self.info_dict.update({name: {
