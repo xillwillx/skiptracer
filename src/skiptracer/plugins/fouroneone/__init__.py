@@ -1,7 +1,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from ..base import PageGrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 try:
@@ -14,13 +14,14 @@ class FourOneOneGrabber(PageGrabber):
     """
     411.com scraper for reverse telephone lookups
     """
-    def get_info(self, phone_number):
+    def get_info(self, phone_number, lookup):
         """
         returns information about given telephone number
         """
         print("[" + bc.CPRP + "?" + bc.CEND + "] " + bc.CCYN + "411" + bc.CEND)
         url = 'https://411.info/reverse/?r={}'.format(phone_number)
         source = self.get_source(url)
+
         try:
             soup = self.get_dom(source)
             name = soup.find('div', attrs={'class': 'cname'})
@@ -32,6 +33,7 @@ class FourOneOneGrabber(PageGrabber):
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "No source returned, try again later ...\n" + bc.CEND)
             return
+
         for itemText in soup.find_all(
                 'div', attrs={'class': re.compile('adr_.*')}):
             street = itemText.find('span', itemprop='streetAddress')
@@ -72,11 +74,11 @@ class FourOneOneGrabber(PageGrabber):
                 "state": state,
                 "zipcode": zipcode
             })
-        bi.outdata['fouroneone'] = self.info_dict
+
         if len(self.info_dict) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "No source returned, try again later ...\n" + bc.CEND)
-            return
+            return {}
         else:
             print()
-            return
+            return self.info_dict
