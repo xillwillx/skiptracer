@@ -71,6 +71,8 @@ class PageGrabber:
         headers = {"User-Agent": self.ua}
         reqcom = 0
         requests.packages.urllib3.disable_warnings()
+        results = ""
+    
         while reqcom < 5:
             try:
                 if bi.proxy != '':

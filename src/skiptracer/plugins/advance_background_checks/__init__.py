@@ -1,8 +1,3 @@
-#
-# Advancedbackgroundchecks.com scraper"""
-#
-
-
 from __future__ import print_function
 from __future__ import absolute_import
 
@@ -80,7 +75,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
             return False
 
 
-    def makephone(information):
+    def makephone(self, information):
         """
         Format the phone number splitting on
         whitespace or hyphens
@@ -91,6 +86,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 return dashphone
         except BaseException:
             pass
+
         try:
             if str(information).split(" ")[1]:
                 dashphone = '{}-{}-{}'.format(
@@ -98,6 +94,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 return dashphone
         except BaseException:
             pass
+
         try:
             # If len of data is 10 and is an integer, break and format
             # as needed for URL
