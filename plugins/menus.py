@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 from __future__ import print_function
-# [Experimental]
-from plugins.twitter import TwitterGrabber
-# [Experimental]
 from plugins.banner import Logo
 from plugins.fouroneone_info import FourOneOneGrabber
 from plugins.who_call_id import WhoCallIdGrabber
@@ -283,12 +280,11 @@ The following section will detail specifics about the modules offered for each c
     Logo().banner()
     print(" [{}!{}] {}ScreenName search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the email module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}2{}] {}Twitter{} - {}Run screenname and grab tweets{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}3{}] {}Knowem{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}4{}] {}NameChk{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}Tinder{} - {}Run screenname and grab information if registered{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Knowem{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}NameChk{} - {}Run screenname through to determin registered sites{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}Tinder{} - {}Run screenname and grab information if registered{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}Reset Target{} - {}Reset the Phone to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
@@ -301,24 +297,21 @@ The following section will detail specifics about the modules offered for each c
     else:
      try:
       bi.lookup = 'sn'
-      if gselect != 7:
+      if gselect != 6:
        if not bi.search_string or bi.search_string in ['',None]:
         bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
       print()
       if gselect == 1:
-       TwitterGrabber().get_info(bi.search_string)
        KnowemGrabber().get_info(bi.search_string)
        NameChkGrabber().get_info(bi.search_string)
        TinderGrabber().get_info(bi.search_string)
       if gselect == 2:
-       TwitterGrabber().get_info(bi.search_string)
-      if gselect == 3:
        KnowemGrabber().get_info(bi.search_string)
-      if gselect == 4:
+      if gselect == 3:
        NameChkGrabber().get_info(bi.search_string)
-      if gselect == 5:
+      if gselect == 4:
        TinderGrabber().get_info(bi.search_string)
-      if gselect == 6:
+      if gselect == 5:
        bi.search_string = raw_input("[{}?{}] {}Whats the target's screenname?{} [ex: (Ac1dBurn|Zer0C00l){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
      except:
       self.snmenu()
