@@ -289,11 +289,11 @@ The following section will detail specifics about the modules offered for each c
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.snmenu()
-    if gselect == 7:
+    if gselect == 6:
      try:
-      sys.exit(0)
+      self.intromenu()
      except Exception as noexit:
-      sys.exit(0)
+      self.intromenu()
     else:
      try:
       bi.lookup = 'sn'
