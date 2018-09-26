@@ -1,6 +1,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from lxml.html import fromstring
+from lxml import html
 import requests
 from itertools import cycle
 import traceback
