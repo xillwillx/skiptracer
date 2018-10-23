@@ -13,6 +13,7 @@ from plugins.truthfinder import TruthFinderGrabber
 from plugins.haveibeenpwned import HaveIBeenPwwnedGrabber
 from plugins.namechk2 import NameChkGrabber
 from plugins.plate import VinGrabber
+from plugins.crt import SubDomainGrabber
 from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
@@ -94,15 +95,16 @@ The following section will detail specifics about the modules offered for each c
     print('\t[{}3{}] {}Phone{} - {}Search targets by telephone number{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}4{}] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Domain{} - {}Search targets by Domain{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}8{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}99{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input("[{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except Exception as failintro:
      print("Failed Intro: %s" % failintro)
      self.intromenu()
-    if gselect == 8:
+    if gselect == 996:
      try:
       sys.exit(0)
      except Exception as noexit:
@@ -120,8 +122,10 @@ The following section will detail specifics about the modules offered for each c
       if gselect == 5:
        self.platemenu()
       if gselect == 6:
-       self.profiler()
+       self.domainmenu()
       if gselect == 7:
+       self.profiler()
+      if gselect == 8:
        self.helpmenu()
      except:
       self.intromenu()
@@ -353,6 +357,42 @@ The following section will detail specifics about the modules offered for each c
       self.platemenu()
      not raw_input("\nPress 'ENTER' key now to continue")
      self.platemenu()
+
+  def domainmenu(self):
+    os.system('clear')
+    Logo().banner()
+    print(" [{}!{}] {}Domain search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
+    print('\t[{}1{}] {}All{} - {}Run all modules associated to the domain module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}2{}] {}Subdomain Search{} - {}Get subdomains using AXFR techniques{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}3{}] {}Reset Target{} - {}Reset the domain to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}4{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    try:
+     gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
+    except:
+     self.domainmenu()
+    if gselect == 4:
+     try:
+      sys.exit(0)
+     except Exception as noexit:
+      sys.exit(0)
+    else:
+     try:
+      if gselect != 4:
+       if not bi.search_string or bi.search_string in ['',None]:
+        bi.search_string = raw_input("[{}?{}] {}Whats the target's domain name?{} [ex: (victim.com|blah.net){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+      bi.lookup = 'domain'
+      print()
+      if gselect == 1:
+        SubDomainGrabber().get_info(bi.search_string)
+      if gselect == 2:
+        SubDomainGrabber().get_info(bi.search_string)
+      if gselect == 3:
+       bi.search_string = raw_input("[{}?{}] {}Whats the target's domain name?{} [ex: (victim.com|blah.net){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+       self.domainmenu()
+     except:
+      self.domainmenu()
+     not raw_input("\nPress 'ENTER' key now to continue")
+     self.domainmenu()
 
   def profiler(self):
     os.system('clear')
