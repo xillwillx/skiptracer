@@ -153,7 +153,6 @@ The following section will detail specifics about the modules offered for each c
      try:
       if gselect != 7:
        if not bi.search_string or bi.search_string in ['',None]:
-        #print("\n[{}PROFILE{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
         bi.search_string = raw_input("\n  [{}PROFILE{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CBLU,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
       bi.lookup = "email"
       print()
@@ -179,7 +178,7 @@ The following section will detail specifics about the modules offered for each c
      self.emailmenu()
 
   def namemenu(self):
-    #os.system('clear')
+    os.system('clear')
     Logo().banner()
     print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
