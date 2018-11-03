@@ -1,5 +1,5 @@
 from __future__ import absolute_import, print_function
-
+from time import sleep
 import re
 
 from plugins.base import PageGrabber
@@ -23,8 +23,15 @@ class VinGrabber(PageGrabber):  # faxvin.com scraper for plate lookups
         state = raw_input("  ["+bc.CRED+"!"+bc.CEND+"] "+bc.CYLW+ "Please enter 2 letter abbreviated state - ex: (AL=Alabama|CO=Colorado) "+bc.CEND).upper()
         plate = plate.upper()
         url = 'https://www.faxvin.com/license-plate-lookup/result?plate={}&state={}'.format(plate,state)
-        source = self.get_source(url)
-        soup = self.get_html(source)
+        #print("URL generated: %s" %url)
+        try:
+         source = self.get_source(url)
+         sleep(0.5)
+         soup = self.get_html(source)
+         sleep(0.5)
+        except Exception as e:
+         print("Fault: %s" % e)
+        #print("Soup returned: %s" % soup)
         if soup.body.find_all(string=re.compile('.*{0}.*'.format('Sorry, the plate your currently looking for is not available.')), recursive=True):
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No plate found.\n"+bc.CEND)
             return
