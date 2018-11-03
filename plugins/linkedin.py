@@ -47,22 +47,22 @@ class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email look
         if not login_information['session_key']:
             if login_information['session_password'] == '':  # If no modifications of default u/p, print error, return
                 print ("  ["+bc.CRED+"ATTENTION"+bc.CEND+"] " + \
-                             bc.CYLW+"This module requires authentication to use it properly."+bc.CEND)
+                             bc.CYLW+"\tThis module requires authentication to use it properly.\n\tIt will store Credential pairs in plain-text."+bc.CEND)
                 print ("  ["+bc.CRED+"ATTENTION"+bc.CEND+"] " + \
                              bc.CYLW + "This could produce a trail and identify the used account."+bc.CEND)
                 print()
                 savecreds = raw_input("[{}?{}] {}Would you like to save credentials now? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
                 print()
+                luser = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
+                                          bc.CYLW+"What is your throw-away linkedin username: "+bc.CEND)
+                lpass = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
+                                          bc.CYLW+"What is your throw-away linkedin password: "+bc.CEND)
+                login_information = {
+                     'session_key':luser,
+                     'session_password':lpass,
+                     'loginCsrfParam': csrf,
+                }
                 if str(savecreds).lower() in ['y','yes']:
-                    luser = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
-                                              bc.CYLW+"What is your throw-away linkedin username: "+bc.CEND)
-                    lpass = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
-                                              bc.CYLW+"What is your throw-away linkedin password: "+bc.CEND)
-                    login_information = {
-                         'session_key':luser,
-                         'session_password':lpass,
-                         'loginCsrfParam': csrf,
-                    }
                     try:
                         with open('./storage/fb_login','w') as fbinfo:
                             fbinfo.write(json.dumps(login_information))
