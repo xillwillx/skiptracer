@@ -68,20 +68,6 @@ class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email look
                             fbinfo.write(json.dumps(login_information))
                     except Exception as failedtowrite:
                         print(("Failed to write fbinfo to file: %s") % failedtowrite)
-                else:
-                    savecreds = raw_input("[{}?{}] {}Would you like to enter credentials now? {}(Y/n){}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
-                    if str(savecreds).lower() in ['y','yes']:
-                        luser = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
-                                                  bc.CYLW+"What is your throw-away linkedin username: "+bc.CEND)
-                        lpass = raw_input("    ["+bc.CRED+"?"+bc.CEND+"] " + \
-                                                  bc.CYLW+"What is your throw-away linkedin password: "+bc.CEND)
-                        login_information = {
-                            'session_key':luser,
-                            'session_password':lpass,
-                            'loginCsrfParam': csrf,
-                        }
-            else:
-                pass
         try:
              client.post(LOGIN_URL, data=login_information)
              results = client.get('https://linkedin.com/sales/gmail/profile/viewByEmail/'+str(email)).text
