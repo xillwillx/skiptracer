@@ -74,7 +74,13 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 email = True
         if lookup == "name":  # Make the URL for name lookup, set email to False
             if str(information).split(' ')[1]:
-                self.url = "https://www.advancedbackgroundchecks.com/name/{}".format(str(information).replace(' ','-'))
+                age = raw_input("[{}?{}] {}Whats the target's suspected age?{} [ex: 40{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+                loc = raw_input("[{}?{}] {}Whats the target's area of residency?{} [ex: MO/11123/Chicago{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
+
+                #age = raw_input(" [{}?{}] {}What is the targets suspected/known age?:{} ".format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+                #loc = raw_input(" [{}?{}] {}What is the targets suspected/known area of residency?:{} ".format(bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+                self.url = "https://www.advancedbackgroundchecks.com/name/{}_{}_age_{}".format(str(information).replace(' ','-'), loc, age)
+                print("full url: %s" % self.url)
                 email = False
         try:
             self.source = self.get_source(self.url)
@@ -102,7 +108,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
             return
         if len(script_html) == 3:  # Check len on results
-            print("Script is 3")
+            #print("Script is 3")
             script_html = script_html[2]  # Set the desired value to iterate over
             #print(script_html)
         try:
