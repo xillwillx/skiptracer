@@ -6,7 +6,6 @@ from plugins.fouroneone_info import FourOneOneGrabber
 from plugins.who_call_id import WhoCallIdGrabber
 from plugins.advance_background_checks import AdvanceBackgroundGrabber
 from plugins.myspace import MySpaceGrabber
-from plugins.whoismind import WhoisMindGrabber
 from plugins.linkedin import LinkedInGrabber
 from plugins.true_people import TruePeopleGrabber
 from plugins.truthfinder import TruthFinderGrabber
@@ -72,7 +71,6 @@ The following section will detail specifics about the modules offered for each c
   -:  LinkedIn - Check if user exposes information through LinkedIn
   -:  HaveIBeenPwned - Check email against known compromised networks
   -:  Myspace - Check if users account has a registered account
-  -:  WhoisMind - Check email to registered domains
   -:  AdvancedBackgroundChecks - Run email through public page of paid access
 
 
@@ -96,15 +94,14 @@ The following section will detail specifics about the modules offered for each c
     print('\t[{}4{}] {}ScreenName{} - {}Search targets by known alias{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}6{}] {}Domain{} - {}Search targets by Domain{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Profiler{} - {}Interactive Q&A for bulk lookups{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}99{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input("[{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except Exception as failintro:
      print("Failed Intro: %s" % failintro)
      self.intromenu()
-    if gselect == 996:
+    if gselect == 99:
      try:
       sys.exit(0)
      except Exception as noexit:
@@ -124,8 +121,6 @@ The following section will detail specifics about the modules offered for each c
       if gselect == 6:
        self.domainmenu()
       if gselect == 7:
-       self.profiler()
-      if gselect == 8:
        self.helpmenu()
      except:
       self.intromenu()
@@ -142,22 +137,21 @@ The following section will detail specifics about the modules offered for each c
     print('\t[{}2{}] {}LinkedIn{} - {}Check if user exposes information through LinkedIn{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}3{}] {}HaveIBeenPwned{} - {}Check email against known compromised networks{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}4{}] {}Myspace{} - {}Check if users account has a registered account{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}5{}] {}WhoisMind{} - {}Check email to registered domains{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}6{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}7{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
-    print('\t[{}8{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}5{}] {}AdvancedBackgroundChecks{} - {}Run email through public page of paid access{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}6{}] {}Reset Target{} - {}Reset the Email to new target address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}7{}] {}Back{} - {}Return to main menu{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input(" [{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
     except:
      self.emailmenu()
-    if gselect == 8:
+    if gselect == 7:
      try:
       sys.exit(0)
      except Exception as noexit:
       sys.exit(0)
     else:
      try:
-      if gselect != 8:
+      if gselect != 7:
        if not bi.search_string or bi.search_string in ['',None]:
         #print("\n[{}PROFILE{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
         bi.search_string = raw_input("\n  [{}PROFILE{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CBLU,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
@@ -167,7 +161,6 @@ The following section will detail specifics about the modules offered for each c
        LinkedInGrabber().get_info(bi.search_string)
        MySpaceGrabber().get_info(bi.search_string)
        HaveIBeenPwwnedGrabber().get_info(bi.search_string)
-       WhoisMindGrabber().get_info(bi.search_string)
        AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
       if gselect == 2:
        LinkedInGrabber().get_info(bi.search_string)
@@ -176,10 +169,8 @@ The following section will detail specifics about the modules offered for each c
       if gselect == 4:
        MySpaceGrabber().get_info(bi.search_string)
       if gselect == 5:
-       WhoisMindGrabber().get_info(bi.search_string)
-      if gselect == 6:
        AdvanceBackgroundGrabber().get_info(bi.lookup,bi.search_string)
-      if gselect == 7:
+      if gselect == 6:
        bi.search_string = raw_input("[{}?{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CRED,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
        self.emailmenu()
      except:
@@ -188,7 +179,7 @@ The following section will detail specifics about the modules offered for each c
      self.emailmenu()
 
   def namemenu(self):
-    os.system('clear')
+    #os.system('clear')
     Logo().banner()
     print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
