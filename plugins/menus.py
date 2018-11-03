@@ -66,15 +66,55 @@ The following section will detail specifics about the modules offered for each c
 
   -: Format: username@domain.tld
 
-  This class of searches includes the following modules:
+  This class of searches include the following modules:
 
   -:  LinkedIn - Check if user exposes information through LinkedIn
   -:  HaveIBeenPwned - Check email against known compromised networks
   -:  Myspace - Check if users account has a registered account
   -:  AdvancedBackgroundChecks - Run email through public page of paid access
 
+:: NAME ::
+  Requires a user to supply a First and Last name:
 
+  -: Format: Alice Smith
 
+  This class of searches include the following modules:
+
+  -: Truth Finder - Check if a targets name using Truth Finder
+  -: True People - Check a targets name using True People
+  -: AdvancedBackgroundChecks - Checks targets name through ABC
+
+:: PHONE ::
+  Requires a user to supply a US based telephone number
+
+  -: Format: 123 456 7890
+
+  This class of searches include the following modules
+
+  -: True People - Check if targets phone number using True People
+  -: WhoCalled - WhoCalled reverse lookup of telephone number
+  -: 411 - Reverse telephone lookup from 411 of telephone number
+  -: AdvancedBackgroundChecks - Checks targets phone number through ABC
+
+:: SCNAME ::
+  Requires a user to supply a known screenname:
+
+ -: Format: crazy8s
+
+ This class of searches icludes the following modules:
+
+  -: Knowem - Checks screen name against numerous sites for registered account
+  -: NameChk - Checks screen name against numerous sites for registered account
+  -: Tinder - Checks if screen name against Tinder known users
+
+:: PLATE ::
+  Requires user to supply a known plate
+
+  -: Format: 123456
+
+  This class of searche include the following modules:
+
+  -: Plate Search - Runs known plates through nationwide Database
 
 """)
      not raw_input("\nPress 'ENTER' key now to continue")
@@ -153,6 +193,7 @@ The following section will detail specifics about the modules offered for each c
      try:
       if gselect != 7:
        if not bi.search_string or bi.search_string in ['',None]:
+        #print("\n[{}PROFILE{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
         bi.search_string = raw_input("\n  [{}PROFILE{}] {}Whats the target's email address?{} [ex: username@domain.tld{}]: ".format(bc.CBLU,bc.CEND,bc.CRED,bc.CYLW,bc.CEND))
       bi.lookup = "email"
       print()
@@ -178,7 +219,7 @@ The following section will detail specifics about the modules offered for each c
      self.emailmenu()
 
   def namemenu(self):
-    os.system('clear')
+    #os.system('clear')
     Logo().banner()
     print(" [{}!{}] {}Name search menu: Target info{} - {}{}".format(bc.CYLW,bc.CEND,bc.CBLU,bc.CYLW,bi.search_string,bc.CEND))
     print('\t[{}1{}] {}All{} - {}Run all modules associated to the name module group{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
