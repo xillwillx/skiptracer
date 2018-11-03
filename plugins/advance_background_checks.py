@@ -11,6 +11,8 @@ from plugins.base import PageGrabber
 import base64 as b64
 from .colors import BodyColors as bc
 from time import sleep
+from bs4 import BeautifulSoup
+
 try:
     import __builtin__ as bi
 except:
@@ -20,7 +22,9 @@ import sys
 class AdvanceBackgroundGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA
         captcha = self.soup.find('div', attrs={'class':'g-recaptcha'})
-        if captcha != None:
+        if not captcha:
+            captcha = self.soup.body.findAll(text=re.compile('Custom Script'))
+        if captcha:
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Captcha detected, use a proxy or complete challenge in browser\n"+bc.CEND)
             return True
         else:
@@ -75,7 +79,9 @@ class AdvanceBackgroundGrabber(PageGrabber):
         try:
             self.source = self.get_source(self.url)
             self.soup = self.get_dom(self.source)
+            #print(self.soup)
             if self.check_for_captcha() == True:  # Check responce for sign of captcha
+                print("Captcha Detected")
                 return
         except Exception as e:
             print(e)
@@ -86,85 +92,110 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 return
             checkres = self.soup.findAll("h1")
             if lookup == "phone":
-                for xcheck in checkres:
-                    if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
-                        print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
-                        return
-            script_html = self.soup.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
+             for xcheck in checkres:
+              if xcheck.text in ["We could not find any results based on your search criteria.  Please review your search and try again, or try our sponsors for more information.", "Top Results for "+str(self.num)]:
+               print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
+               return
+            script_html = self.soup.find_all('script', type="application/ld+json") #.contents  # Scrape for JSON within DOM
         except Exception as findallfail:
+            print("failed with findall: %s" % (findallfail))
             print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found.\n"+bc.CEND)
             return
-        if len(script_html) == 2:  # Check len on results
-            script_html = script_html[1]  # Set the desired value to iterate over
-        """else:
-            try:
-                self.abc_try(lookup,information)  # If that failed, try original request again (Start over)
-            except Exception as failedtry:
-                print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
-                return"""
-        script_html = script_html.get_text().strip()  # Format data for JSON load
-        script_html = script_html.replace("\n","")
-        script_html = script_html.replace("\t","")
-        person_list = json.loads(script_html)  # Loads data as JSON
+        if len(script_html) == 3:  # Check len on results
+            print("Script is 3")
+            script_html = script_html[2]  # Set the desired value to iterate over
+            #print(script_html)
+        try:
+         #print(script_html)
+         script_htmla = script_html.get_text().strip()  # Format data for JSON load
+         #print("script htmla: %s" % script_htmla)
+         script_htmla = str(script_htmla).strip()  # Format data for JSON load
+         script_htmla = script_htmla.replace("\n","")
+         script_htmla = script_htmla.replace("\t","")
+         person_list = json.loads(script_htmla)  # Loads data as JSON
+         #print("person list length: %s" % len(person_list))
+         #print("person list contents: %s" % person_list)
+        except Exception as e:
+         pass
+         #print("scripthtml failed: %s" % (e))
         for person in person_list:  # Iterate entries and store their values, return results in different outputs, STDOUT, Dict()
-            addrfirst = 0
-            pnext = 0
-            if pnext >= 1:
-                print(" ["+bc.CGRN+"!"+bc.CEND+"] "+bc.CRED+"Next finding: "+bc.CEND)
-            self.url2 = person['@id']  # set additional 2nd level URL
-            self.source2 = self.get_source(self.url2)  # request 2nd level url
-            self.soup2 = self.get_dom(self.source2)  # grab 2nd level DOM
-            script_html2 = self.soup2.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+ str(person.get("name")))
-            if person.get("birthDate"):  # Set DoB
+            #print("Person in person list: %s" % person)
+            try:
+             #print("Next person in person list: %s" %(person))
+             addrfirst = 0
+             pnext = 0
+             if pnext >= 1:
+              print(" ["+bc.CGRN+"!"+bc.CEND+"] "+bc.CRED+"Next finding: "+bc.CEND)
+             #print("person url: %s" % person['@id'])
+             self.url2 = person['@id']  # set additional 2nd level URL
+             self.source2 = self.get_source(self.url2)  # request 2nd level url
+             self.soup2 = self.get_dom(self.source2)  # grab 2nd level DOM
+             script_html2 = self.soup2.find_all('script', type="application/ld+json")  # Scrape for JSON within DOM
+             print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+ str(person.get("name")))
+             if person.get("birthDate"):  # Set DoB
                 print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"D.o.B: "+bc.CEND+ str(person.get("birthDate")))
-            if person.get("additionalName"):  # Set additional names AKA
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Alias: "+bc.CEND)
-                for xaka in person.get("additionalName"):  # For each AKA, select the name
-                    print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+ str(xaka))
-            if len(script_html2) <=1:
-                #print (" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
-                return
-            else:
-                script_html2 = script_html2[1]
-                script_html2 = script_html2.get_text().strip()  # Format data for JSON load
-                script_html2 = script_html2.replace("\n","")
-                script_html2 = script_html2.replace("\t","")
-                person_list2 = json.loads(script_html2)  # Loads dat
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Phone: "+bc.CEND)
-                for tele in person_list2['telephone']:
+             if person.get("additionalName"):  # Set additional names AKA
+                 print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Alias: "+bc.CEND)
+                 for xaka in person.get("additionalName"):  # For each AKA, select the name
+                     print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"AKA: "+bc.CEND+ str(xaka))
+             if len(script_html2) <=1:
+                 print (" ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"Unable to re-try request... Try again later...\n"+bc.CEND)
+                 return
+             else:
+                 #print("Script html2: %s" % script_html2)
+                 script_html2 = script_html2[2]
+                 script_html2 = script_html2.get_text().strip()  # Format data for JSON load
+                 script_html2 = script_html2.replace("\n","")
+                 script_html2 = script_html2.replace("\t","")
+                 person_list2 = json.loads(script_html2)  # Loads dat
+                 #print(len(person_list2))
+                 #print("Person list contents: %s" % person_list2)
+                 if len(person_list2) > 1:
+                  try:
+                   print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Phone: "+bc.CEND)
+                   for tele in person_list2['telephone']:
                     print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"#: "+bc.CEND+ str(tele))
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Email: "+bc.CEND)
-                for email in person_list2['email']:
+                  except Exception as e:
+                   #print(e)
+                   print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"#: Not found"+bc.CEND)
+                   pass
+                  try:
+                   print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Email: "+bc.CEND)
+                   for email in person_list2['email']:
                     print("   ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Addr: "+bc.CEND+ str(email))
-            if person.get("address"):  # Set Addresses
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Addresses.: "+bc.CEND)
-                for addy in person.get("address"):  # For each address, select the information and store 
-                    addrfirst += 1
-                    if addrfirst == 1:
-                        print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Current Address: "+bc.CEND)
-                    else:
-                        print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Prev. Address: "+bc.CEND)
-                    print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"Street: "+bc.CEND+str(addy.get("streetAddress")))
-                    print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"City: "+bc.CEND+str(addy.get("addressLocality")))
-                    print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"State: "+bc.CEND+str(addy.get("addressRegion")))
-                    print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"ZipCode: "+bc.CEND+str(addy.get("postalCode")))
-                    address_list.append({"city": addy.get("addressLocality"),
-                                         "state": addy.get("addressRegion"),
-                                         "zip_code": addy.get("postalCode"),
-                                         "address": addy.get("streetAddress")})
-            if person.get("relatedTo"):  # Set Relatives
-                print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Related: "+bc.CEND)
-                for xrelate in [item.get("name") for item in person.get("relatedTo")]:  # For each relative, select the information and store
+                  except Exception as e:
+                   print("   ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Addr: "+bc.CEND)
+                   pass
+             if person.get("address"):  # Set Addresses
+                 print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Addresses.: "+bc.CEND)
+                 for addy in person.get("address"):  # For each address, select the information and store 
+                     addrfirst += 1
+                     if addrfirst == 1:
+                         print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Current Address: "+bc.CEND)
+                     else:
+                         print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Prev. Address: "+bc.CEND)
+                     print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"Street: "+bc.CEND+str(addy.get("streetAddress")))
+                     print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"City: "+bc.CEND+str(addy.get("addressLocality")))
+                     print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"State: "+bc.CEND+str(addy.get("addressRegion")))
+                     print("      ["+bc.CGRN+"-"+bc.CEND+"] "+bc.CRED+"ZipCode: "+bc.CEND+str(addy.get("postalCode")))
+                     address_list.append({"city": addy.get("addressLocality"),
+                                          "state": addy.get("addressRegion"),
+                                          "zip_code": addy.get("postalCode"),
+                                          "address": addy.get("streetAddress")})
+             if person.get("relatedTo"):  # Set Relatives
+                 print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Related: "+bc.CEND)
+                 for xrelate in [item.get("name") for item in person.get("relatedTo")]:  # For each relative, select the information and store
                      print("    ["+bc.CGRN+"="+bc.CEND+"] "+bc.CRED+"Known Relative: "+bc.CEND+str(xrelate))
-            self.info_list.append({"name": person.get("name"),
-                                   "birth_date": person.get("birthDate"),
-                                   "additional_names": person.get("additionalName"),
-                                   "telephone": person_list2['telephone'],
-                                   "email": person_list2['email'],
-                                   "address_list": address_list,
-                                   "related_to": [item.get("name") for item in person.get("relatedTo")]})
-            pnext += 1
+             self.info_list.append({"name": person.get("name"),
+                                    "birth_date": person.get("birthDate"),
+                                    "additional_names": person.get("additionalName"),
+                                    "telephone": person_list2['telephone'],
+                                    "email": person_list2['email'],
+                                    "address_list": address_list,
+                                    "related_to": [item.get("name") for item in person.get("relatedTo")]})
+             pnext += 1
+            except Exception as forloopperperson:
+             print("For loop per person failed: %s"  % (forlooperperson))
         bi.outdata['advancedbackground'] = self.info_list  # Build out the dataset
         print()
         return
