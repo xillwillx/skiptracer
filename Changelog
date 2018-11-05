@@ -1,0 +1,12 @@
+This file documents any additions or modifications to the project
+  +---------+-----------------+--------------------------------------------------+
+  | AUTHOR  |     DATE        |                    DESCRIPTION                   |
+  +---------+-----------------+--------------------------------------------------+
+    WSC -:  Oct. 31st, 2018 :-  Fixed handling of selection menus and pausing between executed modules
+    WSC -:  Oct. 31st, 2018 :-  Fixed ABC module for JSON parsing of returned datasets
+    WSC -:  Nov. 1st, 2018  :-  Fixed Linkedin module to stow credential pairs for Authed Scanning
+     *       *    *     *       | -- Module will produce a clear text file on disk (caution)
+    WSC -:  Nov. 5th, 2018  :-  Added reporter.py to plugins directory for report generation
+    WSC -:  Nov. 5th, 2018  :-  Added DOCX report generator to intro menu
+     *       *    *     *       | --  Option 88 to execute module
+    WSC -:  Nov. 5th, 2018  :-  Added Changelog, as requested by: 'Maxe'
