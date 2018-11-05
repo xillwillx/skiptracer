@@ -16,6 +16,8 @@ from plugins.crt import SubDomainGrabber
 from plugins.knowem import KnowemGrabber
 from plugins.tinder import TinderGrabber
 from plugins.colors import BodyColors as bc
+from plugins.reporter import ReportGenerator
+import json
 import re, os, sys, signal
 
 def signal_handler(signal, frame):
@@ -125,7 +127,7 @@ The following section will detail specifics about the modules offered for each c
   def intromenu(self):
     bi.search_string = None
     bi.lookup = None
-    os.system('clear')
+    #os.system('clear')
     Logo().banner()
     print(" [{}!{}] {}Lookup menu:{}".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND))
     print('\t[{}1{}] {}Email{} - {}Search targets by email address{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
@@ -135,6 +137,7 @@ The following section will detail specifics about the modules offered for each c
     print('\t[{}5{}] {}Plate{} - {}Search targets by license plate{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}6{}] {}Domain{} - {}Search targets by Domain{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}7{}] {}Help{} - {}Details the application and use cases{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
+    print('\t[{}88{}] {}Report{} - {}Generates a docx report from queries{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     print('\t[{}99{}] {}Exit{} - {}Terminate the application{}'.format(bc.CBLU, bc.CEND,bc.CRED,bc.CEND,bc.CYLW,bc.CEND))
     try:
      gselect = int(raw_input("[{}!{}] {}Select a number to continue:{} ".format(bc.CYLW,bc.CEND,bc.CBLU, bc.CEND)))
@@ -162,9 +165,51 @@ The following section will detail specifics about the modules offered for each c
        self.domainmenu()
       if gselect == 7:
        self.helpmenu()
+      if gselect == 88:
+       self.repgen()
      except:
       self.intromenu()
      self.intromenu()
+
+  def repgen(self):
+   try:
+    bi.document = ''
+    ReportGenerator().newdoc()
+    #print("new docx created")
+    ReportGenerator().addtitle('SkipTracer Report')
+    for header in bi.outdata.keys():
+     #print("%s Contents: %s" % (header, bi.outdata[header]))
+     ReportGenerator().addheader(header, 1)
+     def sorttype(feed):
+      try:
+       feed = eval(str(json.dumps(feed)))
+      except Exception as e:
+       #print(e)
+       pass
+      try:
+       if type(feed) == type(dict()):
+        #print("its a dict")
+        feedkeys = feed.keys()
+        #print(feedkeys)
+        for feedvalue in feedkeys:
+         ReportGenerator().addheader(feedvalue, 2)
+         sorttype(bi.outdata[header][feedvalue])
+       if type(feed) == type(list()):
+        #print("List Data: %s" % (feed))
+        for feedlist in feed:
+         #print(feedlist)
+         ReportGenerator().unorderedlist(feedlist)
+       if type(feed) == type(str()):
+        #print("Str. Data: %s" % (feed))
+        #print(feed)
+        ReportGenerator().unorderedlist(str(feed))
+      except Exception as e:
+       print("Key failed: %s" % e)
+     sorttype(bi.outdata[header])
+    ReportGenerator().savefile('/var/www/html/demo.docx')
+    #print("Report was saved to disk")
+   except Exception as e:
+    print("Failed in report gen: %s" % e)
 
   def emailmenu(self):
     os.system('clear')
