@@ -11,14 +11,14 @@ Example:
 [![asciicast](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ.png)](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ)
 
 
-Installation
+Docker Installation
 ----
 ```
 $ docker run -it --name skiptracer xshuden/skiptracer 
 OR
 $ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
 ```
-Docker Installation
+Installation
 ----
 ```
 $ git clone https://github.com/xillwillx/skiptracer.git skiptracer
