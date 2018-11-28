@@ -206,7 +206,7 @@ The following section will detail specifics about the modules offered for each c
       except Exception as e:
        print("Key failed: %s" % e)
      sorttype(bi.outdata[header])
-    ReportGenerator().savefile('/var/www/html/demo.docx')
+    ReportGenerator().savefile('./skiptracer.docx')
     #print("Report was saved to disk")
    except Exception as e:
     print("Failed in report gen: %s" % e)
