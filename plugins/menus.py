@@ -122,7 +122,7 @@ The following section will detail specifics about the modules offered for each c
      not raw_input("\nPress 'ENTER' key now to continue")
      self.intromenu()
     except Exception as helpfail:
-     print(("Help failed: %s") & helpfail)
+     print(("Help failed: %s") % helpfail)
 
   def intromenu(self):
     bi.search_string = None
