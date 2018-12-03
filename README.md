@@ -23,7 +23,7 @@ $ pip install -r requirements.txt
 ```
 __Run__
 ```
-$ python skiptracer.py -l (phone|email|sn|name|plate)
+$ python skiptracer.py
 ```
 
 Usage
