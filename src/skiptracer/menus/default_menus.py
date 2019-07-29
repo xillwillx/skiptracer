@@ -169,6 +169,8 @@ class DefaultMenus():
         print()
         self.useproxy()
         if gselect != "all":
+            print(self.search_string, mtype)
+            print(self.plugin_list[gselect]())
             self.plugin_list[gselect]().get_info(self.search_string, mtype)
 
         if gselect == "all":
