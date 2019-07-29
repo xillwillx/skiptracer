@@ -114,9 +114,13 @@ class LinkedInSalesGrabber(PageGrabber):
         """
         Grab CSRF token
         """
-
-        csrf = self.soup.find(id="loginCsrfParam-login")['value']
-        self.login_information['loginCsrfParam'] = csrf
+        csrf = ""
+        try:
+            csrf = self.soup.find(id="loginCsrfParam-login")['value']
+        except:
+            print ("No CSRF token found, skipping")
+        finally:
+            self.login_information['loginCsrfParam'] = csrf
 
 
     def get_info(self, email, category):

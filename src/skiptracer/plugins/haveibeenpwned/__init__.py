@@ -37,7 +37,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
         while self.resurl == 0:
 
             self.count += 1
-            url = 'https://haveibeenpwned.com/api/v2/breachedaccount/{}'.format(
+            url = 'https://haveibeenpwned.com/api/v3/breachedaccount/{}'.format(
                 email)
 
             scraper = cfscrape.create_scraper()

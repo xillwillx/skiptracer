@@ -46,7 +46,7 @@ import os
 
 
 class TwitterGrabber(PageGrabber):
-    def get_info(self, screenname):
+    def get_info(self, screenname, type):
         print("[" + bc.CPRP + "?" + bc.CEND + "] " +
               bc.CCYN + "Twitter" + bc.CEND)
         print(" [" + bc.CGRN + "!" + bc.CEND + "] " + bc.CRED +

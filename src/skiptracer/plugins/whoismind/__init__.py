@@ -32,7 +32,7 @@ class WhoisMindGrabber(PageGrabber):
         try:
             print("[" + bc.CPRP + "?" + bc.CEND + "] " +
                   bc.CCYN + "WhoisMind" + bc.CEND)
-            url = 'http://www.whoismind.com/email/{}{}'.format(email, '.html')
+            url = 'https://whoisamped.com/email/{}{}'.format(email, '.html')
             source = self.get_source(url)
             soup = self.get_dom(source)
             href = soup.findAll('a')
