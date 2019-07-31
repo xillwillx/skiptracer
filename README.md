@@ -8,9 +8,8 @@ Initial attack vectors for recon usually involve utilizing pay-for-data/API (Rec
 
 Background:
 -----------
-The following recording from DEFCON 26 Recon Village provides background on Skiptracer
-
-[![defconreconvillageyoutube](https://www.youtube.com/watch?v=3mEOkwrxfsU)](https://www.youtube.com/watch?v=3mEOkwrxfsU)
+The following recording from DEFCON 26 Recon Village provides background on Skiptracer:
+[DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)]
 
 
 Installation
@@ -32,13 +31,14 @@ Usage
 Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
 
 
-### Extending and configuring Skiptracer
+Extending and configuring Skiptracer
+------------------------------------
 
 The following section describes how to configure and extend
 Skiptracer's functionality using plugins and .cfg files.
 
-Plugins
--------
+### Plugins
+
 
 Skiptracer uses a plugin architecture.
 
@@ -64,8 +64,8 @@ For example:
 ```
 
 
-Plugin Menu Configuration
--------------------------
+### Plugin Menu Configuration
+
 The menus in Skiptracer are configurable and handled by the setup.cfg file
 located in the package/source code.
 
