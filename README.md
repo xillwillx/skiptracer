@@ -21,7 +21,7 @@ There are a number of ways to install/access Skiptracer. These are as follows.
 ```
 $ git clone https://github.com/xillwillx/skiptracer.git skiptracer
 ```
-__Install requirements__
+__Install source__
 ```
 $ pip3 install -e skiptracer
 ```
@@ -29,6 +29,24 @@ __Run__
 ```
 $ python3 -m skiptracer
 ```
+
+### From requirements
+
+```
+$ git clone https://github.com/xillwillx/skiptracer.git skiptracer
+cd skiptracer
+```
+
+__Install requirements__
+```
+$ pip3 install -r requirements.txt
+```
+
+__Run__
+```
+$ python3 -m skiptracer
+```
+
 
 ### From Buscador
 
@@ -43,7 +61,7 @@ You can obtain a copy from the IntelTechniques website:
 Usage
 ----
 
-Once Skiptarce ris launched, the menu system can be used to navigate betwene plugins and
+Once Skiptarcer is launched, the menu system can be used to navigate between plugins and
 execute them, passing in parameters from the command line.
 
 Currently supported features include:
