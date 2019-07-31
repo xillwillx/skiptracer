@@ -3,6 +3,8 @@
 #
 from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc
+from sys import platform
+
 try:
     import __builtin__ as bi
 except BaseException:
@@ -46,12 +48,24 @@ import os
 
 
 class TwitterGrabber(PageGrabber):
+    """
+    Class for grabbing a Twitter screenname
+    to extract OSINT
+    """
+
     def get_info(self, screenname, type):
+        """
+        Grab the info from
+        the screen name passed in
+        """
+
         print("[" + bc.CPRP + "?" + bc.CEND + "] " +
               bc.CCYN + "Twitter" + bc.CEND)
         print(" [" + bc.CGRN + "!" + bc.CEND + "] " + bc.CRED +
               "Module takes some time to load, please wait!" + bc.CEND)
+
         options = Options()
+
         try:
             options.add_argument('--headless')
             b = Firefox(
@@ -111,7 +125,7 @@ class TwitterGrabber(PageGrabber):
                     time.sleep(nap)
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Failed at scrolling site: {}\n" + bc.CEND)#.format(e)
+                  "Failed at scrolling site: {}\n" + bc.CEND)
         try:
             h = b.page_source
             soup = bs(h, 'lxml')
@@ -178,10 +192,14 @@ class TwitterGrabber(PageGrabber):
                   "Can not make soup, phase 2: {}\n" + bc.CEND)#.format(e)
 
 
-
         try:
-            os.popen(
-                'ps -A xf | grep firefox | grep marionette | sed -r "s/^[ ]{1,4}([0-9]{1,7})(.*)/\1/g" | xargs kill -9 2>/dev/null')
+            if platform == 'linux' or platform == 'linux2':
+                os.popen(
+                    'ps -A xf | grep firefox | grep marionette | sed -r "s/^[ ]{1,4}([0-9]{1,7})(.*)/\1/g" | xargs kill -9 2>/dev/null')
+            elif platform == 'darwin':
+                os.popen(
+                    'ps -Axf | grep firefox | grep marionette | sed "s/^[ ]{1,4}([0-9]{1,7})(.*)/\1/g" | xargs kill -9 2>/dev/null')
+
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "Unable to kill Firefox headless: {}\n" + bc.CEND).format(e)
