@@ -2,22 +2,17 @@
 # KnowEm Module - 0daysimpson & illwill
 #
 from ..base import PageGrabber
-#from plugins.colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 import requests
-
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
 
 
 class KnowemGrabber(PageGrabber):
     """
     knowem.com scraper for screenname lookups
     """
-    def get_info(self, username):
+    def get_info(self, username, type):
         """
         returns information about given hndle
         """
@@ -47,17 +42,13 @@ class KnowemGrabber(PageGrabber):
                     self.info_dict.update({
                         "Account": social})
         except Exception as staging:
-            if bi.debug:
-                print(("  [" + bc.CRED + "DEBUG" + bc.CEND + "] " +
-                       bc.CYLW + "Failed at staging: " + bc.CEND) % staging)
-        bi.outdata['knowem'] = self.info_dict
-        if bi.debug:
-            print("  [" + bc.CRED + "DEBUG" + bc.CEND + "] " +
-                  bc.CYLW + "Passed dictionary production" + bc.CEND)
+            print(("  [" + bc.CRED + "DEBUG" + bc.CEND + "] " +
+                bc.CYLW + "Failed at staging: " + bc.CEND) % staging)
+
         if len(self.info_dict) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "No source returned, try again later ...\n" + bc.CEND)
             return
         else:
-            print
+            print("")
             return
