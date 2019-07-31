@@ -9,11 +9,15 @@ Initial attack vectors for recon usually involve utilizing pay-for-data/API (Rec
 Background:
 -----------
 The following recording from DEFCON 26 Recon Village provides background on Skiptracer:
-[DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)]
+[DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)
 
 
 Installation
-----
+-------------
+There are a number of ways to install/access Skiptracer. These are as follows.
+
+### From source
+
 ```
 $ git clone https://github.com/xillwillx/skiptracer.git skiptracer
 ```
@@ -26,9 +30,35 @@ __Run__
 $ python3 -m skiptracer
 ```
 
+### From Buscador
+
+Skiptracer is included in the Buscador OS.
+
+You can obtain a copy from the IntelTechniques website:
+
+[Buscador - Intel Techniques](https://inteltechniques.com/buscador/)
+
+
+
 Usage
 ----
-Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
+
+Once Skiptarce ris launched, the menu system can be used to navigate betwene plugins and
+execute them, passing in parameters from the command line.
+
+Currently supported features include:
+
+* Phone
+* Email
+* Screen names
+* Real names
+* Addresses
+* IP
+* Hostname
+* Breach Credentials
+
+The plugin framework will allow contributors to submit new modules for different websites to help collect as much data as possible with minimal work. This makes Skiptracer your one-stop-shop to help you collect relevant information about a target to help expand your attack surface.
+
 
 
 Extending and configuring Skiptracer
@@ -64,6 +94,20 @@ For example:
 ```
 
 
+If your plugin requires parameters, please add these to the setup.cfg. For
+example:
+
+```
+[plugin.myplugin]
+homepageurl = https://www.example.com
+loginurl = https://www.example.com/uas/login-submit
+logouturl = https://www.example.com/m/logout
+viewbyemail = https://example.com/sales/gmail/profile/viewByEmail/
+sessionkey = ""
+sessionpassword = ""
+```
+
+
 ### Plugin Menu Configuration
 
 The menus in Skiptracer are configurable and handled by the setup.cfg file
@@ -82,17 +126,4 @@ the menu you wish it to appear under, for example:
 ```
 [menu.email]
 myplugin = ["My Plugin","Check if user exposes information through some site"]
-```
-
-If your plugin requires parameters, please add these to the setup.cfg too. For
-example:
-
-```
-[plugin.myplugin]
-homepageurl = https://www.example.com
-loginurl = https://www.example.com/uas/login-submit
-logouturl = https://www.example.com/m/logout
-viewbyemail = https://example.com/sales/gmail/profile/viewByEmail/
-sessionkey = ""
-sessionpassword = ""
 ```
