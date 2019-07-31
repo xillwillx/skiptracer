@@ -17,17 +17,13 @@ try:
 except ImportError:
     from urllib.parse import urlencode
 
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
 
 
 class NameChkGrabber(PageGrabber):
     """
     Myspace.com scraper for email lookups
     """
-    def get_info(self, email):
+    def get_info(self, email, type):
         """
         Looksup user accounts by given email
         """
@@ -35,8 +31,11 @@ class NameChkGrabber(PageGrabber):
               bc.CCYN + "NameChk" + bc.CEND)
         username = str(email).split("@")[0]
         ses = requests.Session()
-        if bi.webproxy:
-            proto = bi.proxy.split("/")[0].split(":")[0]
+        webproxy = False # this needs to be a setting
+        proxy = "" # placeholder for now
+
+        if webproxy:
+            proto = proxy.split("/")[0].split(":")[0]
             r = ses.get('https://namechk.com/', proxies={proto: bi.proxy})
         else:
             r = ses.get('https://namechk.com/')
@@ -100,14 +99,14 @@ class NameChkGrabber(PageGrabber):
             ('q', username),
             ('m', ''),
         ]
-        if bi.webproxy:
-            proto = bi.proxy.split("/")[0].split(":")[0]
+        if webproxy:
+            proto = proxy.split("/")[0].split(":")[0]
             r = ses.post(
                 'https://namechk.com/',
                 headers=headers,
                 data=data,
                 proxies={
-                    proto: bi.proxy})
+                    proto: proxy})
         else:
             r = ses.post('https://namechk.com/', headers=headers, data=data)
         try:
@@ -124,6 +123,7 @@ class NameChkGrabber(PageGrabber):
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "Could not load results into JSON format.\n" + bc.CEND)
             return  # print e
+
         for xservice in services:
             for dictkey in encresdic.keys():
                 datareq["token"] = quote(encresdic[dictkey], safe="")
