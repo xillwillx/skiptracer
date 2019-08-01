@@ -65,6 +65,7 @@ setup(
         'numpy',
         'simplejson',
         'tqdm',
-        'selenium'
+        'selenium',
+        'python-dotenv'
     ]
 )
