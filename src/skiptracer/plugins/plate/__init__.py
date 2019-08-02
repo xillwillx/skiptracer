@@ -1,13 +1,8 @@
 from __future__ import absolute_import, print_function
 from ..base import PageGrabber
-#from .colors import BodyColors as bc
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 
-
-try:
-    import __builtin__ as bi
-except ImportError:
-    import builtins as bi
 
 try:
     raw_input          # Python 2
@@ -19,7 +14,7 @@ class VinGrabber(PageGrabber):
     """
     faxvin.com scraper for plate lookups
     """
-    def get_info(self, plate):
+    def get_info(self, plate, type):
         """
         returns information about given plate number
         """
@@ -108,7 +103,7 @@ class VinGrabber(PageGrabber):
             "plant": plant,
             "age": age
         })
-        bi.outdata['faxvin'] = self.info_dict
+
         if len(self.info_dict) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "No source returned, try again later ...\n" + bc.CEND)
