@@ -41,11 +41,11 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
                 email)
 
             scraper = cfscrape.create_scraper()
-            header = {
+            headers = {
                 'user-agent': self.ua,
                 'hibp-api-key': self.env['HAVEIBEENPWNED_API_KEY']
             }
-            self.source = scraper.get(url, header=header).content
+            self.source = scraper.get(url, headers=headers).content
             self.source = str(
                 self.source).replace(
                 "true",
