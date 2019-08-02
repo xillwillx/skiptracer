@@ -2,13 +2,15 @@ from __future__ import print_function
 from __future__ import absolute_import
 from lxml.html import fromstring
 from itertools import cycle
-#from .colors import BodyColors as bc
+from ..colors.default_colors import DefaultBodyColors as bc
+
 import requests
 import traceback
 import os
 import random
 import time
 import random
+
 try:
     import __builtin__ as bi
 except BaseException:
