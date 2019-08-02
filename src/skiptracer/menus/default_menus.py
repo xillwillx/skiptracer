@@ -2,11 +2,13 @@
 #!/usr/bin/env python
 from __future__ import print_function
 from pkg_resources import get_distribution
+from .help_menu import HelpMenu
 
 import sys
 import configparser
 import pkg_resources
 import ast
+
 
 try:
     import __builtin__ as bi
@@ -70,7 +72,7 @@ class DefaultMenus():
         Display help text
         to user
         """
-        print("Skiptracer")
+        HelpMenu()
 
 
     def intromenu(self):
