@@ -23,3 +23,13 @@ $ python skiptracer.py
 Usage
 ----
 Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
+
+To-Do
+----
+Skiptracer is intedned to be a community driven application. If you are interested in helping out drop us a note.
+
+* Finish converting to Python3 - Py2 EoL is 1/1/20
+* Add more API support
+* More Options from other countries so not so U.S.-centric results
+* Bypass some of the methods being used to block scapers, i.e. headless selenium
+* Ideas?
