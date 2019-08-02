@@ -8,10 +8,7 @@ from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
 import requests
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
+
 
 
 class TinderGrabber(PageGrabber):
@@ -19,7 +16,7 @@ class TinderGrabber(PageGrabber):
     Tinder scraper for screenname lookups
     """
 
-    def get_info(self, username):  # returns information about given hndle
+    def get_info(self, username, type):  # returns information about given hndle
         print(
             "[" +
             bc.CPRP +
@@ -92,7 +89,7 @@ class TinderGrabber(PageGrabber):
             "bio": teaser,
             "age": age
         })
-        bi.outdata['knowem'] = self.info_dict
+
         if len(self.info_dict) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
                   "No source returned, try again later ...\n" + bc.CEND)
