@@ -11,6 +11,7 @@ import json
 # monkey patch socket to use only IPv4
 import socket
 import pkg_resources
+from dotenv import dotenv_values
 
 try:
     import __builtin__ as bi
@@ -53,6 +54,7 @@ class PageGrabber:
         """
         Initialize defaults as needed
         """
+        self.env = dotenv_values()
         self.info_dict = {}
         self.info_list = []
         self.ua = random_line()
