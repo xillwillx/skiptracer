@@ -145,3 +145,13 @@ the menu you wish it to appear under, for example:
 [menu.email]
 myplugin = ["My Plugin","Check if user exposes information through some site"]
 ```
+
+### Dockerize Environment
+
+You may run this application in a dockerized environment using the command:
+
+```bash
+docker-compose run --rm skiptracer
+```
+
+Note: the `--rm` flag will remove the container after execution.
