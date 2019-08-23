@@ -8,12 +8,7 @@ import sys
 import configparser
 import pkg_resources
 import ast
-
-
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
+import builtins as bi
 
 
 class DefaultMenus():
