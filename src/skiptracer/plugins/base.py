@@ -4,6 +4,8 @@ from __future__ import absolute_import
 from lxml import etree
 from bs4 import BeautifulSoup
 from . import proxygrabber
+from dotenv import dotenv_values
+
 import requests
 import random
 import requests
@@ -11,16 +13,9 @@ import json
 # monkey patch socket to use only IPv4
 import socket
 import pkg_resources
-from dotenv import dotenv_values
-
-try:
-    import __builtin__ as bi
-except Exception as e:
-    import builtins as bi
-    print(e)
+import builtins as bi
 
 og = socket.getaddrinfo
-
 
 def ng(*args, **kwargs):
     res = og(*args, **kwargs)
@@ -58,12 +53,7 @@ class PageGrabber:
         self.info_dict = {}
         self.info_list = []
         self.ua = random_line()
-        if bi.proxy != '':
-            proxy = str(bi.proxy).split(":")[1].strip()
-            xproto = str(bi.proxy).split(":")[0].strip()
-            self.proxy = {str(xproto): str(proxy).strip()}
-        else:
-            self.proxy = {}
+        self.proxy = {}
 
 
     def get_source(self, url):
