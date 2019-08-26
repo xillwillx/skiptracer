@@ -135,6 +135,7 @@ sessionkey = ""
 sessionpassword = ""
 ```
 
+These values can then be set either through the commandline or via the .env file.
 
 ### Plugin Menu Configuration
 
@@ -155,4 +156,13 @@ the menu you wish it to appear under, for example:
 [menu.email]
 myplugin = ["My Plugin","Check if user exposes information through some site"]
 ```
+
+### Tests
+
+Tests are handled via doc test. They can be run via:
+
+```
+python3 -m doctest test_runner.py
+```
+
 
