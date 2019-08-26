@@ -29,6 +29,7 @@ class DefaultMenus():
     ]
 
     ltypes = [
+        {'key':'proxy', 'text':'Proxy - Set a request proxy'},
         {'key':'email', 'text':'Email - Search targets by email address'},
         {'key':'name', 'text':'Name - Search targets by First Last name combination'},
         {'key':'phone', 'text':'Phone - Search targets by telephone number'},
@@ -95,6 +96,8 @@ class DefaultMenus():
             self.intromenu()
         if gselect == "exit":
             sys.exit()
+        if gselect == "proxy":
+            self.proxymenu()
         if gselect == "email":
             self.emailmenu()
         if gselect == "name":
@@ -173,6 +176,13 @@ class DefaultMenus():
                 self.plugin_list[i]().get_info(self.search_string, mtype)
         menu()
 
+
+    def proxymenu(self):
+        """
+        Set a proxy for requests
+        """
+
+        print ("proxy menu")
 
     def emailmenu(self):
         """
