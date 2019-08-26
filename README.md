@@ -5,6 +5,14 @@
 
 Initial attack vectors for recon usually involve utilizing pay-for-data/API (Recon-NG), or paying to utilize transforms (Maltego) to get data mining results. Skiptracer utilizes some basic python webscraping (BeautifulSoup) of PII paywall sites to compile passive information on a target on a ramen noodle budget.
 
+Docker Installation
+----
+```
+$ docker run -it --name skiptracer xshuden/skiptracer 
+OR
+$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
+```
+
 Installation
 ----
 ```
