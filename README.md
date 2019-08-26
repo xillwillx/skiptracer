@@ -13,13 +13,6 @@ OR
 $ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
 ```
 
-Docker Installation
-----
-```
-$ docker run -it --name skiptracer xshuden/skiptracer 
-OR
-$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
-```
 Installation
 ----
 ```
