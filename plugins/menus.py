@@ -122,7 +122,7 @@ The following section will detail specifics about the modules offered for each c
      not raw_input("\nPress 'ENTER' key now to continue")
      self.intromenu()
     except Exception as helpfail:
-     print(("Help failed: %s") & helpfail)
+     print(("Help failed: %s") % helpfail)
 
   def intromenu(self):
     bi.search_string = None
@@ -206,7 +206,7 @@ The following section will detail specifics about the modules offered for each c
       except Exception as e:
        print("Key failed: %s" % e)
      sorttype(bi.outdata[header])
-    ReportGenerator().savefile('/var/www/html/demo.docx')
+    ReportGenerator().savefile('./skiptracer.docx')
     #print("Report was saved to disk")
    except Exception as e:
     print("Failed in report gen: %s" % e)

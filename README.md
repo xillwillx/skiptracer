@@ -5,11 +5,13 @@
 
 Initial attack vectors for recon usually involve utilizing pay-for-data/API (Recon-NG), or paying to utilize transforms (Maltego) to get data mining results. Skiptracer utilizes some basic python webscraping (BeautifulSoup) of PII paywall sites to compile passive information on a target on a ramen noodle budget.
 
-Example:
+Docker Installation
 ----
-
-[![asciicast](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ.png)](https://asciinema.org/a/RosGkr3mie2s6hjwUJC1TT2lJ)
-
+```
+$ docker run -it --name skiptracer xshuden/skiptracer 
+OR
+$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
+```
 
 Docker Installation
 ----
@@ -30,9 +32,19 @@ $ pip install -r requirements.txt
 ```
 __Run__
 ```
-$ python skiptracer.py -l (phone|email|sn|name|plate)
+$ python skiptracer.py
 ```
 
 Usage
 ----
 Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
+
+To-Do
+----
+Skiptracer is intedned to be a community driven application. If you are interested in helping out drop us a note.
+
+* Finish converting to Python3 - Py2 EoL is 1/1/20
+* Add more API support
+* More Options from other countries so not so U.S.-centric results
+* Bypass some of the methods being used to block scapers, i.e. headless selenium
+* Ideas?
