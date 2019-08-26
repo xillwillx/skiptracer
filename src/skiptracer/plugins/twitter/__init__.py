@@ -5,11 +5,9 @@ from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc
 from sys import platform
 
-try:
-    import __builtin__ as bi
-except BaseException:
-    import builtins as bi
+import builtins as bi
 import time
+
 try:
     from bs4 import BeautifulSoup as bs
 except Exception as e:
