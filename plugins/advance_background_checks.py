@@ -18,6 +18,8 @@ try:
 except:
     import builtins as bi
 import sys
+if sys.version_info[0] == 3:
+  raw_input = input
 
 class AdvanceBackgroundGrabber(PageGrabber):
     def check_for_captcha(self):  # Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else report to STDOUT about CAPTCHA

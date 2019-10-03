@@ -13,6 +13,10 @@ try:
     import __builtin__ as bi
 except:
     import builtins as bi
+import sys
+
+if sys.version_info[0] == 3:
+  raw_input = input
 
 
 class LinkedInGrabber(PageGrabber):  # LinkedIN.com sales scraper for email lookups

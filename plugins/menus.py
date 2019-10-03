@@ -19,6 +19,10 @@ from plugins.colors import BodyColors as bc
 from plugins.reporter import ReportGenerator
 import json
 import re, os, sys, signal
+import sys
+
+if sys.version_info[0] == 3:
+  raw_input = input
 
 def signal_handler(signal, frame):
  print("")
