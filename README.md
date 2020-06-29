@@ -16,13 +16,6 @@ Background:
 The following recording from DEFCON 26 Recon Village provides background on Skiptracer:
 [DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)
 
-Docker Installation
-----
-```
-$ docker run -it --name skiptracer xshuden/skiptracer 
-OR
-$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
-```
 
 Installation
 -------------
@@ -78,6 +71,14 @@ docker-compose run --rm skiptracer
 ```
 
 Note: the `--rm` flag will remove the container after execution.
+
+To use the DockerHub image run:
+
+```
+$ docker run -it --name skiptracer xshuden/skiptracer 
+OR
+$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
+```
 
 
 Usage
