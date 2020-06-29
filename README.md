@@ -3,9 +3,6 @@
 ## Python 3 migration in progress, please do not report issues yet.
 
 
-
-
-
 ## Skiptracer - OSINT scraping framework
 ![python](https://img.shields.io/badge/python-2.7-green.svg) ![version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg) ![licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg) [![](https://images.microbadger.com/badges/image/xshuden/skiptracer.svg)](https://microbadger.com/images/xshuden/skiptracer "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/xshuden/skiptracer.svg)](https://microbadger.com/images/xshuden/skiptracer "Get your own version badge on microbadger.com")
 
@@ -19,7 +16,6 @@ Background:
 The following recording from DEFCON 26 Recon Village provides background on Skiptracer:
 [DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)
 
-=======
 Docker Installation
 ----
 ```
@@ -27,7 +23,6 @@ $ docker run -it --name skiptracer xshuden/skiptracer
 OR
 $ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
 ```
->>>>>>> 2768781984287110d279fffda4cd38413f4ae498
 
 Installation
 -------------
