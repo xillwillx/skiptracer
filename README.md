@@ -1,5 +1,14 @@
+
+
+## Python 3 migration in progress, please do not report issues yet.
+
+
+
+
+
 ## Skiptracer - OSINT scraping framework
-![python](https://img.shields.io/badge/python-3.6-green.svg) ![version](https://img.shields.io/badge/version-3.0.0-brightgreen.svg) ![licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)
+![python](https://img.shields.io/badge/python-2.7-green.svg) ![version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg) ![licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg) [![](https://images.microbadger.com/badges/image/xshuden/skiptracer.svg)](https://microbadger.com/images/xshuden/skiptracer "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/xshuden/skiptracer.svg)](https://microbadger.com/images/xshuden/skiptracer "Get your own version badge on microbadger.com")
+
 ![screen](https://i.imgur.com/gG0KZ0F.png)
 
 Initial attack vectors for recon usually involve utilizing pay-for-data/API (Recon-NG), or paying to utilize transforms (Maltego) to get data mining results. Skiptracer utilizes some basic python webscraping (BeautifulSoup) of PII paywall sites to compile passive information on a target on a ramen noodle budget.
@@ -10,6 +19,15 @@ Background:
 The following recording from DEFCON 26 Recon Village provides background on Skiptracer:
 [DEFCON 26 Recon Village Skiptracer Talk](https://www.youtube.com/watch?v=3mEOkwrxfsU)
 
+=======
+Docker Installation
+----
+```
+$ docker run -it --name skiptracer xshuden/skiptracer 
+OR
+$ docker run --rm -it --name skiptracer xshuden/skiptracer  # container is deleted when you're done
+```
+>>>>>>> 2768781984287110d279fffda4cd38413f4ae498
 
 Installation
 -------------
@@ -69,6 +87,7 @@ Note: the `--rm` flag will remove the container after execution.
 
 Usage
 ----
+<<<<<<< HEAD
 
 Once Skiptarcer is launched, the menu system can be used to navigate between plugins and
 execute them, passing in parameters from the command line.
@@ -165,3 +184,16 @@ python3 -m doctest test_runner.py
 ```
 
 
+=======
+Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
+
+To-Do
+----
+Skiptracer is intedned to be a community driven application. If you are interested in helping out drop us a note.
+
+* Finish converting to Python3 - Py2 EoL is 1/1/20
+* Add more API support
+* More Options from other countries so not so U.S.-centric results
+* Bypass some of the methods being used to block scapers, i.e. headless selenium
+* Ideas?
+>>>>>>> 2768781984287110d279fffda4cd38413f4ae498
