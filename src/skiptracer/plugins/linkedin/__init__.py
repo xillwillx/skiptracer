@@ -19,11 +19,10 @@ class LinkedInSalesGrabber(PageGrabber):
     logouturl = ""
     viewbyemail = ""
     login_information = {
-            'session_key': '',
-            'session_password': '',
-            'loginCsrfParam': '',
+        'session_key': '',
+        'session_password': '',
+        'loginCsrfParam': '',
     }
-
 
     def __init__(self):
         """
@@ -31,7 +30,8 @@ class LinkedInSalesGrabber(PageGrabber):
         """
         super(LinkedInSalesGrabber, self).__init__()
         self.config = configparser.ConfigParser()
-        get_plugin_cats = pkg_resources.resource_filename('skiptracer','../../setup.cfg')
+        get_plugin_cats = pkg_resources.resource_filename(
+            'skiptracer', '../../setup.cfg')
         self.config.read(get_plugin_cats)
         self.homepageurl = self.config['plugin.linkedin']['homepageurl']
         self.loginurl = self.config['plugin.linkedin']['loginurl']
@@ -42,8 +42,6 @@ class LinkedInSalesGrabber(PageGrabber):
         self.client = requests.Session()  # Establish the session()
         source = self.client.get(self.homepageurl).content  # Request source
         self.soup = self.get_dom(source)  # BS DOM
-
-
 
     def grab_data(self, el, attr, attrval, title, gettext):
         """
@@ -61,13 +59,13 @@ class LinkedInSalesGrabber(PageGrabber):
                 val = self.grab_data_text(el, attr, attrval, gettext)
 
             print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                  bc.CRED + title +": " + bc.CEND + str(company))
+                  bc.CRED + title + ": " + bc.CEND + str(company))
         except BaseException:
             val = ""
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No "+title+" can be found.\n"+bc.CEND)
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                  "No " + title + " can be found.\n" + bc.CEND)
             pass
         return val
-
 
     def grab_data_text(self, el, attr, attrval):
         """
@@ -77,8 +75,7 @@ class LinkedInSalesGrabber(PageGrabber):
         attrval = attribute value to find e.g. li-profile-name
         """
 
-        return self.soup.find(el,{attr: attrval}).get_text()
-
+        return self.soup.find(el, {attr: attrval}).get_text()
 
     def grab_data_attr(self, el, attr, attrval, title):
         """
@@ -91,7 +88,6 @@ class LinkedInSalesGrabber(PageGrabber):
 
         return self.soup.find(el, attrs={attr: attrval})[gettext]
 
-
     def grab_name(self):
         """
         Grabs a first + last name from LinkedIn DOM
@@ -99,16 +95,26 @@ class LinkedInSalesGrabber(PageGrabber):
         """
 
         try:
-            fname = self.grab_data('span','id','li-profile-name','First name','data-fname')
-            lname = self.grab_data('span','id','li-profile-name','Last name','data-lname')
+            fname = self.grab_data(
+                'span',
+                'id',
+                'li-profile-name',
+                'First name',
+                'data-fname')
+            lname = self.grab_data(
+                'span',
+                'id',
+                'li-profile-name',
+                'Last name',
+                'data-lname')
             name = str(fname) + " " + str(lname)
             print("  [" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
                   "Name: " + bc.CEND + str(fname) + " " + str(lname))
         except BaseException:
             name = ""
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No username can be found.\n"+bc.CEND)
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                  bc.CYLW + "No username can be found.\n" + bc.CEND)
         return name
-
 
     def grab_csrf(self):
         """
@@ -117,18 +123,18 @@ class LinkedInSalesGrabber(PageGrabber):
         csrf = ""
         try:
             csrf = self.soup.find(id="loginCsrfParam-login")['value']
-        except:
-            print ("No CSRF token found, skipping")
+        except BaseException:
+            print("No CSRF token found, skipping")
         finally:
             self.login_information['loginCsrfParam'] = csrf
-
 
     def get_info(self, email, category):
         """
         Requires AUTH, login and request AUTHENTICATED pages from linkedin
         """
 
-        print("[" + bc.CPRP + "?" + bc.CEND + "] " + bc.CCYN + "LinkedIn" + bc.CEND)
+        print("[" + bc.CPRP + "?" + bc.CEND + "] " +
+              bc.CCYN + "LinkedIn" + bc.CEND)
         self.grab_csrf()
 
         if self.login_information['session_key'] == '':
@@ -163,14 +169,14 @@ class LinkedInSalesGrabber(PageGrabber):
         self.soup = self.get_dom(results)
         self.get_source(self.logouturl)  # Log out of LinkedIn, kills sessionID
         profile = self.grab_data('a', 'class', 'li-hover-under li-txt-black-85',
-                       'Profile', 'href')
+                                 'Profile', 'href')
         name = self.grab_name()
         location = self.grab_data('div', 'class', 'li-user-location',
-                       'Location', False)
+                                  'Location', False)
         company = self.grab_data('span', 'class', 'li-user-title-company',
-                       'Company', False)
+                                 'Company', False)
         title = self.grab_data('div', 'class', 'li-user-title',
-                       'Job Title', False)
+                               'Job Title', False)
         email = self.grab_data('span', 'id', 'email', 'Email', False)
 
         self.info_dict.update({

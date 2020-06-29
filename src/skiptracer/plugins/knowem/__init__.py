@@ -12,6 +12,7 @@ class KnowemGrabber(PageGrabber):
     """
     knowem.com scraper for screenname lookups
     """
+
     def get_info(self, username, type):
         """
         returns information about given hndle
@@ -43,7 +44,7 @@ class KnowemGrabber(PageGrabber):
                         "Account": social})
         except Exception as staging:
             print(("  [" + bc.CRED + "DEBUG" + bc.CEND + "] " +
-                bc.CYLW + "Failed at staging: " + bc.CEND) % staging)
+                   bc.CYLW + "Failed at staging: " + bc.CEND) % staging)
 
         if len(self.info_dict) == 0:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +

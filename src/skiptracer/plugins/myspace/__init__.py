@@ -65,10 +65,9 @@ class MySpaceGrabber(PageGrabber):
                 'data-display-text']
         except BaseException:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Unable to find location data for "+account+".\n" + bc.CEND)
+                  "Unable to find location data for " + account + ".\n" + bc.CEND)
         finally:
             return location
-
 
     def get_info(self, email, category):
         """

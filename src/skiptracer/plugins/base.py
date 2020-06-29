@@ -17,6 +17,7 @@ import builtins as bi
 
 og = socket.getaddrinfo
 
+
 def ng(*args, **kwargs):
     res = og(*args, **kwargs)
     return [r for r in res if r[0] == socket.AF_INET]
@@ -29,7 +30,8 @@ def random_line():
     """
     Gets random User-Agent string from local DB file
     """
-    get_user_agents = pkg_resources.resource_filename('skiptracer','../../storage/user-agents.db')
+    get_user_agents = pkg_resources.resource_filename(
+        'skiptracer', '../../storage/user-agents.db')
     afile = open(get_user_agents)
     line = next(afile)
     for num, aline in enumerate(afile):
@@ -55,7 +57,6 @@ class PageGrabber:
         self.ua = random_line()
         self.proxy = {}
 
-
     def get_source(self, url):
         """
         Returns source code from given URL
@@ -64,7 +65,7 @@ class PageGrabber:
         reqcom = 0
         requests.packages.urllib3.disable_warnings()
         results = ""
-    
+
         while reqcom < 5:
             try:
                 if bi.proxy != '':

@@ -23,23 +23,23 @@ class DefaultMenus():
     search_string = ''
 
     default_items = [
-        {'key':'all', 'text':'All - Run all modules associated with this group'},
-        {'key':'back', 'text':'Back - Return to main menu'},
-        {'key':'exit', 'text':'Exit - Terminate the application'}
+        {'key': 'all', 'text': 'All - Run all modules associated with this group'},
+        {'key': 'back', 'text': 'Back - Return to main menu'},
+        {'key': 'exit', 'text': 'Exit - Terminate the application'}
     ]
 
     ltypes = [
-        {'key':'proxy', 'text':'Proxy - Set a request proxy'},
-        {'key':'email', 'text':'Email - Search targets by email address'},
-        {'key':'name', 'text':'Name - Search targets by First Last name combination'},
-        {'key':'phone', 'text':'Phone - Search targets by telephone number'},
-        {'key':'screen', 'text':'Screen Name - Search targets by known alias'},
-        {'key':'license', 'text':'License Plate - Search targets by license plate'},
-        {'key':'profiler', 'text':'Profiler - A "Guess Who" Q&A interactive user interface'},
-        {'key':'help', 'text':'Help - Details the application and use cases'},
-        {'key':'exit', 'text':'Exit - Terminate the application'}
+        {'key': 'proxy', 'text': 'Proxy - Set a request proxy'},
+        {'key': 'email', 'text': 'Email - Search targets by email address'},
+        {'key': 'name', 'text': 'Name - Search targets by First Last name combination'},
+        {'key': 'phone', 'text': 'Phone - Search targets by telephone number'},
+        {'key': 'screen', 'text': 'Screen Name - Search targets by known alias'},
+        {'key': 'license', 'text': 'License Plate - Search targets by license plate'},
+        {'key': 'profiler',
+         'text': 'Profiler - A "Guess Who" Q&A interactive user interface'},
+        {'key': 'help', 'text': 'Help - Details the application and use cases'},
+        {'key': 'exit', 'text': 'Exit - Terminate the application'}
     ]
-
 
     def __init__(self, plugins):
         """
@@ -47,9 +47,9 @@ class DefaultMenus():
         """
         self.plugin_list = plugins
         self.config = configparser.ConfigParser()
-        get_plugin_cats = pkg_resources.resource_filename('skiptracer','../../setup.cfg')
+        get_plugin_cats = pkg_resources.resource_filename(
+            'skiptracer', '../../setup.cfg')
         self.config.read(get_plugin_cats)
-
 
     def useproxy(self):
         """
@@ -62,14 +62,12 @@ class DefaultMenus():
         else:
             return False
 
-
     def helpmenu(self):
         """
         Display help text
         to user
         """
         HelpMenu()
-
 
     def intromenu(self):
         """
@@ -79,16 +77,16 @@ class DefaultMenus():
         bi.lookup = ''
         if self.useproxy():
             print("\t  [" + bc.CRED + "::ATTENTION::" + bc.CEND + "]" +
-                bc.CYLW + " Proxied requests are unreliable " + bc.CEND +
-                "[" + bc.CRED + "::ATTENTION::" + bc.CEND + "]")
+                  bc.CYLW + " Proxied requests are unreliable " + bc.CEND +
+                  "[" + bc.CRED + "::ATTENTION::" + bc.CEND + "]")
 
         gselect = ""
-        for i,v in enumerate(self.ltypes):
-            print('['+str(i+1)+'] -' + self.ltypes[i]['text'])
+        for i, v in enumerate(self.ltypes):
+            print('[' + str(i + 1) + '] -' + self.ltypes[i]['text'])
 
         try:
             selection = int(input("[!] Lookup menu - Please select a number:"))
-            gselect = self.ltypes[selection-1]['key']
+            gselect = self.ltypes[selection - 1]['key']
         except Exception as failselect:
             print("Please use an integer value for your selection!")
 
@@ -113,7 +111,6 @@ class DefaultMenus():
         if gselect == "help":
             self.helpmenu()
 
-
     def grabplugins(self, plugin_type, plugin_list):
         """
         Grab a list of relevant plugins.
@@ -126,9 +123,6 @@ class DefaultMenus():
 
         return plugin_type + self.default_items
 
-
-
-
     def grabuserchoice(self, plugin_type, textsub):
         """
         Function to grab user choice.
@@ -137,19 +131,18 @@ class DefaultMenus():
         """
         gselect = ""
 
-        print(" [!] "+textsub+" search menu - Please select a number")
+        print(" [!] " + textsub + " search menu - Please select a number")
 
-        for i,v in enumerate(plugin_type):
-            print(' ['+str(i+1)+'] -' + plugin_type[i]['text'])
+        for i, v in enumerate(plugin_type):
+            print(' [' + str(i + 1) + '] -' + plugin_type[i]['text'])
 
         try:
             selection = int(input(" [!] Select a number to continue: "))
-            gselect = plugin_type[selection-1]['key']
+            gselect = plugin_type[selection - 1]['key']
         except Exception as failselect:
             print("Please use an integer value for your selection!")
 
         return gselect
-
 
     def selectchoice(self, menu, mtype, error, plugins, gselect):
         """
@@ -176,13 +169,12 @@ class DefaultMenus():
                 self.plugin_list[i]().get_info(self.search_string, mtype)
         menu()
 
-
     def proxymenu(self):
         """
         Set a proxy for requests
         """
 
-        print ("proxy menu")
+        print("proxy menu")
 
     def emailmenu(self):
         """
@@ -191,7 +183,8 @@ class DefaultMenus():
         """
 
         self.emodules = []
-        self.emodules = self.grabplugins(self.emodules, self.config['menu.email'])
+        self.emodules = self.grabplugins(
+            self.emodules, self.config['menu.email'])
         gselect = self.grabuserchoice(self.emodules, "E-Mail")
 
         self.selectchoice(
@@ -208,7 +201,8 @@ class DefaultMenus():
         name matching plugins
         """
         self.nmodules = []
-        self.nmodules = self.grabplugins(self.nmodules, self.config['menu.name'])
+        self.nmodules = self.grabplugins(
+            self.nmodules, self.config['menu.name'])
         gselect = self.grabuserchoice(self.nmodules, "Name")
 
         self.selectchoice(
@@ -225,7 +219,8 @@ class DefaultMenus():
         menu to the user.
         """
         self.pmodules = []
-        self.pmodules = self.grabplugins(self.pmodules, self.config['menu.phone'])
+        self.pmodules = self.grabplugins(
+            self.pmodules, self.config['menu.phone'])
         gselect = self.grabuserchoice(self.pmodules, "Phone")
         self.selectchoice(
             self.phonemenu,
@@ -239,7 +234,8 @@ class DefaultMenus():
         """
         Screen Name grabbing tools menu
         """
-        self.snmodules = self.grabplugins(self.snmodules, self.config['menu.screenname'])
+        self.snmodules = self.grabplugins(
+            self.snmodules, self.config['menu.screenname'])
         gselect = self.grabuserchoice(self.snmodules, "Screen Name")
         self.selectchoice(
             self.snmenu,
@@ -253,7 +249,8 @@ class DefaultMenus():
         """
         Enter a plate number
         """
-        self.plmodules = self.grabplugins(self.plmodules, self.config['menu.plate'])
+        self.plmodules = self.grabplugins(
+            self.plmodules, self.config['menu.plate'])
         gselect = self.grabuserchoice(self.plmodules, "Plate Number")
 
         self.selectchoice(

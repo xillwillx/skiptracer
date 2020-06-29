@@ -14,6 +14,7 @@ class VinGrabber(PageGrabber):
     """
     faxvin.com scraper for plate lookups
     """
+
     def get_info(self, plate, type):
         """
         returns information about given plate number

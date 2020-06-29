@@ -1,5 +1,6 @@
 from .colors.default_colors import DefaultBodyColors as bc
 
+
 class Banner():
     """
     Display the SkipTracer banner

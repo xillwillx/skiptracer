@@ -36,7 +36,6 @@ class TruthFinderGrabber(PageGrabber):
         # Actual logic to run + re-try request
         self.truth_try(lookup, information)
 
-
     def check_for_captcha(self):
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
         if bi.webproxy and captcha is not None:
@@ -61,7 +60,6 @@ class TruthFinderGrabber(PageGrabber):
             return True
         else:
             return False
-
 
     def makephone(information):
         """
@@ -102,7 +100,6 @@ class TruthFinderGrabber(PageGrabber):
                 bc.CEND)
             return
 
-
     def set_city_state_zip(self, citystatezip):
         """
         Set the city, state, zip
@@ -133,7 +130,6 @@ class TruthFinderGrabber(PageGrabber):
         else:
             self.gndr = "&gender="
 
-
     def split_name(self, information):
         """
         Split the name down into
@@ -157,8 +153,6 @@ class TruthFinderGrabber(PageGrabber):
                 bc.CYLW +
                 "Failed to parse serarch string, lookup name.\n" +
                 bc.CEND)
-
-
 
     def truth_try(self, information, lookup):
         """
@@ -218,7 +212,6 @@ class TruthFinderGrabber(PageGrabber):
                 self.state,
                 self.gndr,
                 self.age)
-
 
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)

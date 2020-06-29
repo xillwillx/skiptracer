@@ -1,6 +1,7 @@
 from .skiptracer import SkipTracer
 from .banner import Banner
 
+
 def main():
     """
     Start skip tracer

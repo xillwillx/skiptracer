@@ -24,7 +24,6 @@ class WhoisMindGrabber(PageGrabber):
         """
         super(WhoisMindGrabber, self).__init__()
 
-
     def get_info(self, email, category):
         """
         Request and processes results, sorted unique, remove blanks

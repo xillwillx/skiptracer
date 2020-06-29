@@ -2,6 +2,7 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 import io
 
+
 def read(*filenames, **kwargs):
     encoding = kwargs.get('encoding', 'utf-8')
     sep = kwargs.get('sep', '\n')
@@ -25,8 +26,8 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     packages=find_packages('src'),
-    plugins = [],
-    hello = [],
+    plugins=[],
+    hello=[],
     entry_points={
         'console_script': [
             'skiptracer = skiptracer.__main__:main'

@@ -20,6 +20,7 @@ except NameError:
 
 import operator
 
+
 class TruePeopleGrabber(PageGrabber):
     """
     Check for CAPTCHA, if proxy enabled,try new proxy w/ request, else
@@ -28,14 +29,13 @@ class TruePeopleGrabber(PageGrabber):
     source = ""
     soup = ""
     url = ""
-    url2 = "" #rid URL
+    url2 = ""  # rid URL
 
     def __init__(self):
         """
         Load up True People plugin configs
         """
         super(TruePeopleGrabber, self).__init__()
-
 
     def get_info(self, information, lookup):
         """
@@ -46,7 +46,6 @@ class TruePeopleGrabber(PageGrabber):
               bc.CCYN + "TruePeopleSearch" + bc.CEND)
 
         self.true_try(lookup, information)
-
 
     def check_for_captcha(self):
         captcha = self.soup.find('div', attrs={'class': 'g-recaptcha'})
@@ -74,7 +73,6 @@ class TruePeopleGrabber(PageGrabber):
             return True
         else:
             return False
-
 
     def makephone(self, information):
         """
@@ -118,12 +116,12 @@ class TruePeopleGrabber(PageGrabber):
         """
         Create the URL with the phone number
         """
-        phonere = re.compile('(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
+        phonere = re.compile(
+            r'(\d\d\d\d\d\d\d\d\d\d|\d\d\d[\s.-]\d\d\d[\s.-]\d\d\d\d)')
 
         if phonere.findall(information):
             self.url = 'https://www.truepeoplesearch.com/results?phoneno={}'.format(
-                        self.makephone(information))
-
+                self.makephone(information))
 
     def name(self, information):
         """
@@ -140,7 +138,6 @@ class TruePeopleGrabber(PageGrabber):
             self.url = "https://www.truepeoplesearch.com/results?name={}&agerange={}&citystatezip={}".format(
                 str(information).replace(' ', '%20'), agerange, citystatezip)
 
-
     def find_all_shallow(self):
         """
         Check if any records were found
@@ -154,8 +151,6 @@ class TruePeopleGrabber(PageGrabber):
             return False
 
         return True
-
-
 
     def get_rid(self, lookup, x):
         """
@@ -174,7 +169,6 @@ class TruePeopleGrabber(PageGrabber):
         finally:
             return rid
 
-
     def get_rid_source(self):
         """
         Grab the source of the page linked to
@@ -190,7 +184,6 @@ class TruePeopleGrabber(PageGrabber):
         finally:
             return got_source
 
-
     def grab_name(self):
         """
         Grab the users name from
@@ -202,7 +195,7 @@ class TruePeopleGrabber(PageGrabber):
             nc1 = str(nc).split(">")[3]
             name = str(" ".join(str(nc1).split())).split("<")[0]
             print(("  [" + bc.CGRN + "+" + bc.CEND + "] " +
-                    bc.CRED + "Name: " + bc.CEND + "%s") % (name))
+                   bc.CRED + "Name: " + bc.CEND + "%s") % (name))
         except Exception as e:
             print(e)
         finally:
@@ -224,7 +217,6 @@ class TruePeopleGrabber(PageGrabber):
             print(e)
         finally:
             return age
-
 
     def grab_akalist(self):
         """
@@ -264,7 +256,6 @@ class TruePeopleGrabber(PageGrabber):
             print(e)
         finally:
             return aklist
-
 
     def grab_address(self):
         """
@@ -311,7 +302,6 @@ class TruePeopleGrabber(PageGrabber):
             print(e)
         finally:
             return rellist
-
 
     def grab_associate(self):
         """
@@ -394,7 +384,6 @@ class TruePeopleGrabber(PageGrabber):
         finally:
             return prev, lives
 
-
     def grab_phone_list(self):
         """
         Grab a list of phone numbers
@@ -436,7 +425,6 @@ class TruePeopleGrabber(PageGrabber):
         finally:
             return plist
 
-
     def find_all_deep(self, lookup):
         """
         Deep search for records
@@ -450,7 +438,6 @@ class TruePeopleGrabber(PageGrabber):
         lives = ""
         plist = ""
 
-
         try:
 
             deep = self.soup.find_all(
@@ -458,7 +445,7 @@ class TruePeopleGrabber(PageGrabber):
                     'class': [
                         'btn', 'btn-success', 'btn-lg',
                         'detail-link', 'shadow-form'
-                     ]}
+                    ]}
             )
 
             for x in set(deep):
@@ -496,7 +483,6 @@ class TruePeopleGrabber(PageGrabber):
         except Exception as e:
             print(e)
 
-
     def get_source_html(self):
         """
         grab the source files
@@ -521,7 +507,7 @@ class TruePeopleGrabber(PageGrabber):
         if self.check_for_captcha() == True:
             print(("  [" + bc.CRED + "X" + bc.CEND + "] " +
                    bc.CYLW + "Goto: {}" + bc.CEND).format(self.url)
-            )
+                  )
 
             self.iscomplete = raw_input(
                 "  [" + bc.CRED + "!" + bc.CEND + "] " + bc.CYLW +
@@ -539,7 +525,6 @@ class TruePeopleGrabber(PageGrabber):
             self.find_all_deep(lookup)
         else:
             return False
-
 
         print()
         return self.info_dict

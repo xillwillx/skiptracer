@@ -23,7 +23,6 @@ class HelpMenu():
     def __init__(self):
         self.display_help()
 
-
     def display_help(self):
         """
         Help text

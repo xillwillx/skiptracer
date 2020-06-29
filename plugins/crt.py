@@ -15,33 +15,40 @@ import re
 import json
 import requests
 
-class SubDomainGrabber(PageGrabber):  # crt.sh scraper for abusing Certificate Transparency log lookups
+
+class SubDomainGrabber(
+        PageGrabber):  # crt.sh scraper for abusing Certificate Transparency log lookups
     def get_info(self, domain):  # returns information about a domains subdomains
-        print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "crt.sh " + bc.CEND)
-        domain2 = domain.split("//")[-1].split("/")[0].split('?')[0] #strip the input to just the domain name and TLD only
-        req = requests.get("https://crt.sh/?q=%.{}&output=json".format(domain2))
+        print("[" + bc.CPRP + "?" + bc.CEND + "] " +
+              bc.CCYN + "crt.sh " + bc.CEND)
+        # strip the input to just the domain name and TLD only
+        domain2 = domain.split("//")[-1].split("/")[0].split('?')[0]
+        req = requests.get(
+            "https://crt.sh/?q=%.{}&output=json".format(domain2))
         if req.status_code != 200:
-            print("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No results were found ...\n"+bc.CEND)
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                  bc.CYLW + "No results were found ...\n" + bc.CEND)
             exit(1)
         jsondata = json.loads('[{}]'.format(req.text.replace('}{', '},{')))
-        
-        subdomainlist = []     
-        for (key,value) in enumerate(jsondata):
+
+        subdomainlist = []
+        for (key, value) in enumerate(jsondata):
             subdomainlist.append(value['name_value'])
 
         subdomainlist = sorted(set(subdomainlist))
 
         for subdomain in subdomainlist:
-            if not (re.search("^\*\.", subdomain)):
-                print("["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Subdomain: "+bc.CEND+"{}".format(subdomain))
- 
+            if not (re.search(r"^\*\.", subdomain)):
+                print("[" + bc.CGRN + "+" + bc.CEND + "] " + bc.CRED +
+                      "Subdomain: " + bc.CEND + "{}".format(subdomain))
 
         self.info_dict.update({
             "subdomain": subdomain
         })
         bi.outdata['crt'] = self.info_dict
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                  "No source returned, try again later ...\n" + bc.CEND)
             return
         else:
             print()

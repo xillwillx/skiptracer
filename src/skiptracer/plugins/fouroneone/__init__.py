@@ -14,6 +14,7 @@ class FourOneOneGrabber(PageGrabber):
     """
     411.com scraper for reverse telephone lookups
     """
+
     def get_info(self, phone_number, lookup):
         """
         returns information about given telephone number

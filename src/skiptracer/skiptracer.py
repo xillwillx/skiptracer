@@ -49,9 +49,9 @@ class SkipTracer:
         self.loaded_colors_plugin_dict = self.load_plugins(
             self.colors_plugin)
 
-        #only supporting default menu for now
-        self.loaded_menus_plugin_dict['default_menus'](self.loaded_plugins_plugin_dict).intromenu()
-
+        # only supporting default menu for now
+        self.loaded_menus_plugin_dict['default_menus'](
+            self.loaded_plugins_plugin_dict).intromenu()
 
     def load_plugins(self, plugin):
         """
@@ -61,5 +61,5 @@ class SkipTracer:
         plugin_dict = {}
 
         for p in pkg_resources.iter_entry_points(plugin):
-                plugin_dict[p.name] = p.load()
+            plugin_dict[p.name] = p.load()
         return plugin_dict

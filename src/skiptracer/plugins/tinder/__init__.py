@@ -10,7 +10,6 @@ import logging
 import requests
 
 
-
 class TinderGrabber(PageGrabber):
     """
     Tinder scraper for screenname lookups

@@ -13,6 +13,7 @@ except Exception as e:
     print(e)
 import json
 
+
 def random_line():  # Gets random User-Agent string from local DB file
     afile = open("storage/user-agents.db")
     line = next(afile)
@@ -22,8 +23,10 @@ def random_line():  # Gets random User-Agent string from local DB file
         line = aline
     return line.strip()
 
+
 class PageGrabber:  # base function to import request functionality in modules
     """Base PageGrabber Class"""
+
     def __init__(self):  # Initialize defaults as needed
         self.info_dict = {}
         self.info_list = []
@@ -36,16 +39,17 @@ class PageGrabber:  # base function to import request functionality in modules
         while reqcom == 0:
             try:
                 results = requests.get(
-			url,
-			headers=headers,
-			timeout=10,
-			verify=False,
-			allow_redirects=True
-			).text
+                    url,
+                    headers=headers,
+                    timeout=10,
+                    verify=False,
+                    allow_redirects=True
+                ).text
                 reqcom = 1
             except Exception as failedreq:
                 pass
         return results.encode('ascii', 'ignore').decode("utf-8")
+
     def post_data(self, url, data):  # Sends POST request of given DATA, URL
         headers = {"User-Agent": self.ua}
         reqcom = 0
@@ -53,19 +57,21 @@ class PageGrabber:  # base function to import request functionality in modules
         while reqcom == 0:
             try:
                 results = requests.post(
-                            url,
-                            headers=headers,
-                            timeout=10,
-                            verify=False,
-                            allow_redirects=True,
-                            data=postdata
-                            ).text
+                    url,
+                    headers=headers,
+                    timeout=10,
+                    verify=False,
+                    allow_redirects=True,
+                    data=postdata
+                ).text
                 reqcom = 1
                 return results.encode('ascii', 'ignore').decode("utf-8")
             except Exception as failedreq:
                 pass
         return
+
     def get_dom(self, source):  # Returns BeautifulSoup DOM
         return BeautifulSoup(source, 'lxml')
+
     def get_html(self, source):  # Returns BeautifulSoup DOM
         return BeautifulSoup(source, 'html.parser')

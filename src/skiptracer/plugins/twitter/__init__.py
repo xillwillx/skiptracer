@@ -81,7 +81,7 @@ class TwitterGrabber(PageGrabber):
                 "] " +
                 bc.CYLW +
                 "Failed at making the initial request: {}\n" +
-                bc.CEND)#.format(e)
+                bc.CEND)  # .format(e)
 
         try:
             soup = bs(b.page_source, 'lxml')
@@ -93,7 +93,7 @@ class TwitterGrabber(PageGrabber):
             profnav = soup.find_all('span', {'class', 'ProfileNav-value'})
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Unable to make initial soup: {}\n" + bc.CEND)#.format(e)
+                  "Unable to make initial soup: {}\n" + bc.CEND)  # .format(e)
         try:
             if len(profnav) >= 5:
                 datal = list()
@@ -109,7 +109,7 @@ class TwitterGrabber(PageGrabber):
                 estt = page * nap / 60
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Failed at making the datalist: {}\n" + bc.CEND)#.format(e)
+                  "Failed at making the datalist: {}\n" + bc.CEND)  # .format(e)
 
         try:
             scrapeall = raw_input(
@@ -187,8 +187,7 @@ class TwitterGrabber(PageGrabber):
                 pass
         except Exception as e:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                  "Can not make soup, phase 2: {}\n" + bc.CEND)#.format(e)
-
+                  "Can not make soup, phase 2: {}\n" + bc.CEND)  # .format(e)
 
         try:
             if platform == 'linux' or platform == 'linux2':

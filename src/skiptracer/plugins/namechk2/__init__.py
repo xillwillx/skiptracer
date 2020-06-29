@@ -18,11 +18,11 @@ except ImportError:
     from urllib.parse import urlencode
 
 
-
 class NameChkGrabber(PageGrabber):
     """
     Myspace.com scraper for email lookups
     """
+
     def get_info(self, email, type):
         """
         Looksup user accounts by given email
@@ -31,8 +31,8 @@ class NameChkGrabber(PageGrabber):
               bc.CCYN + "NameChk" + bc.CEND)
         username = str(email).split("@")[0]
         ses = requests.Session()
-        webproxy = False # this needs to be a setting
-        proxy = "" # placeholder for now
+        webproxy = False  # this needs to be a setting
+        proxy = ""  # placeholder for now
 
         if webproxy:
             proto = proxy.split("/")[0].split(":")[0]

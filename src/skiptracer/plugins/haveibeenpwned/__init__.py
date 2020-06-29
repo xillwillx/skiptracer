@@ -20,6 +20,7 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
     """
     HackedEmails.com scraper for email compromise lookups
     """
+
     def get_info(self, email, category):
         """
         Uniform call for framework
@@ -53,9 +54,9 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
                 "false",
                 "False")
 
-            self.source = ast.literal_eval(self.source) #cast string to bytes
-            self.source = self.source.decode('utf8') #decode string
-            self.source = ast.literal_eval(self.source) #cast string to dict
+            self.source = ast.literal_eval(self.source)  # cast string to bytes
+            self.source = self.source.decode('utf8')  # decode string
+            self.source = ast.literal_eval(self.source)  # cast string to dict
 
             self.resurl = 1
             for dataset in self.source:

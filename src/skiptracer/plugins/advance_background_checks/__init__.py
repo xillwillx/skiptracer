@@ -24,12 +24,12 @@ class AdvanceBackgroundGrabber(PageGrabber):
     site
     """
     url = ""
+
     def __init__(self):
         """
         Load up AdvanceBackgroundGrabber plugin configs
         """
         super(AdvanceBackgroundGrabber, self).__init__()
-
 
     def get_info(self, lookup, information):
         """
@@ -40,7 +40,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
               bc.CCYN + "AdvanceBackgroundChecks" + bc.CEND)
 
         self.abc_try(lookup, information)
-
 
     def check_for_captcha(self):
         """
@@ -58,7 +57,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 return True
             except Exception as badproxy:
                 print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
-                          "Bad proxy...\n" + bc.CEND)
+                      "Bad proxy...\n" + bc.CEND)
                 pass
         if captcha is not None:
             print(
@@ -73,7 +72,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
             return True
         else:
             return False
-
 
     def makephone(self, information):
         """
@@ -138,17 +136,17 @@ class AdvanceBackgroundGrabber(PageGrabber):
                 bc.CEND)
             return
 
-
     def grab_email(self, information):
         """
         Grab the targets email
         """
 
         if str(information).split('@')[1]:
-            email = str(b64.b64encode(information.encode('utf-8'))).split("b'")[1]
+            email = str(
+                b64.b64encode(
+                    information.encode('utf-8'))).split("b'")[1]
             email = email.split("'")[0]
             self.url = "https://www.advancedbackgroundchecks.com/emails/" + email
-
 
     def grab_name(self, information):
         """
@@ -157,7 +155,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
         if str(information).split(' ')[1]:
             self.url = "https://www.advancedbackgroundchecks.com/name/{}".format(
                 str(information).replace(' ', '-'))
-
 
     def find_results(self, lookup):
         """
@@ -188,7 +185,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
 
         return script_html
 
-
     def grab_json_data(self, script_html):
         """
         Grab the JSON data and load it
@@ -198,7 +194,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
         script_html = script_html.replace("\t", "")
         person_list = json.loads(script_html)  # Loads data as JSON
         return person_list
-
 
     def get_person_list(person_list):
         """
@@ -370,9 +365,6 @@ class AdvanceBackgroundGrabber(PageGrabber):
                                    "related_to": [item.get("name") for item in person.get("relatedTo")]})
             pnext += 1
 
-
-
-
     def abc_try(self, information, lookup):
         """
         Determins different URL constructs based on user supplied data
@@ -386,7 +378,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
             self.grab_email(information)
 
         if lookup == "name":  # Make the URL for name lookup, set email to False
-           self.grab_name(information)
+            self.grab_name(information)
 
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)
@@ -395,7 +387,7 @@ class AdvanceBackgroundGrabber(PageGrabber):
 
             print(("  [" + bc.CRED + "X" + bc.CEND + "] " +
                    bc.CYLW + "Goto: {}" + bc.CEND).format(self.url)
-            )
+                  )
 
             self.iscomplete = input(
                 "  [" + bc.CRED + "!" + bc.CEND + "] " + bc.CYLW +

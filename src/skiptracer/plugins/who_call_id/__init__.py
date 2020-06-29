@@ -48,7 +48,6 @@ class WhoCallIdGrabber(PageGrabber):
         finally:
             return location
 
-
     def get_phone_type(self):
         """
         Get the phone type
@@ -64,7 +63,6 @@ class WhoCallIdGrabber(PageGrabber):
             pass
         finally:
             return phone_type
-
 
     def get_carrier(self, phone_number):
         """
@@ -151,7 +149,7 @@ class WhoCallIdGrabber(PageGrabber):
         """
         print("[" + bc.CPRP + "?" + bc.CEND + "] " +
               bc.CCYN + "WhoCalld" + bc.CEND)
-        #Get phone info
+        # Get phone info
         self.url = 'https://whocalld.com/+1{}'.format(phone_number)
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)

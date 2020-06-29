@@ -41,4 +41,3 @@ class Logo:
                 bc.CBLU,
                 bc.CEND))
         print(("\t\t\t      {}  https://illmob.org {}\n").format(bc.CYLW, bc.CEND))
-
