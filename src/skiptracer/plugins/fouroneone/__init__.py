@@ -1,19 +1,27 @@
 from __future__ import print_function
 from __future__ import absolute_import
+from ..base import PageGrabber
+from ...colors.default_colors import DefaultBodyColors as bc
 import re
 import logging
-from plugins.base import PageGrabber
-from .colors import BodyColors as bc
 try:
     import __builtin__ as bi
-except:
+except BaseException:
     import builtins as bi
 
-class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone lookups
-    def get_info(self, phone_number):  # returns information about given telephone number
-        print("["+bc.CPRP+"?"+bc.CEND+"] "+bc.CCYN + "411" + bc.CEND)
+
+class FourOneOneGrabber(PageGrabber):
+    """
+    411.com scraper for reverse telephone lookups
+    """
+    def get_info(self, phone_number, lookup):
+        """
+        returns information about given telephone number
+        """
+        print("[" + bc.CPRP + "?" + bc.CEND + "] " + bc.CCYN + "411" + bc.CEND)
         url = 'https://411.info/reverse/?r={}'.format(phone_number)
         source = self.get_source(url)
+
         try:
             soup = self.get_dom(source)
             name = soup.find('div', attrs={'class': 'cname'})
@@ -21,10 +29,13 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
                 name = name.text.strip()
             else:
                 name = "Unknown"
-        except:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
+        except BaseException:
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                  "No source returned, try again later ...\n" + bc.CEND)
             return
-        for itemText in soup.find_all('div', attrs={'class': re.compile('adr_.*')}):
+
+        for itemText in soup.find_all(
+                'div', attrs={'class': re.compile('adr_.*')}):
             street = itemText.find('span', itemprop='streetAddress')
             if street:
                 street = street.text.replace("\t", "").replace(",", "")
@@ -46,11 +57,16 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
                 zipcode = zipcode.text.strip()
             else:
                 zipcode = "Unknown"
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Name: "+bc.CEND+ str(name))
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Street: "+bc.CEND+ str(street))
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"State: "+bc.CEND+ str(state))
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"City: "+bc.CEND+ str(town))
-            print("  ["+bc.CGRN+"+"+bc.CEND+"] "+bc.CRED+"Zip: "+bc.CEND+ str(zipcode))
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + "Name: " + bc.CEND + str(name))
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + "Street: " + bc.CEND + str(street))
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + "State: " + bc.CEND + str(state))
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + "City: " + bc.CEND + str(town))
+            print("  [" + bc.CGRN + "+" + bc.CEND + "] " +
+                  bc.CRED + "Zip: " + bc.CEND + str(zipcode))
             self.info_dict.update({
                 "name": name,
                 "street": street,
@@ -58,10 +74,11 @@ class FourOneOneGrabber(PageGrabber):  # 411.com scraper for reverse telephone l
                 "state": state,
                 "zipcode": zipcode
             })
-        bi.outdata['fouroneone'] = self.info_dict
+
         if len(self.info_dict) == 0:
-            print ("  ["+bc.CRED+"X"+bc.CEND+"] "+bc.CYLW+"No source returned, try again later ...\n"+bc.CEND)
-            return
+            print("  [" + bc.CRED + "X" + bc.CEND + "] " + bc.CYLW +
+                  "No source returned, try again later ...\n" + bc.CEND)
+            return {}
         else:
             print()
-            return
+            return self.info_dict

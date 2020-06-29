@@ -10,3 +10,5 @@ cfscrape
 numpy
 simplejson
 tqdm
+selenium
+python-dotenv
