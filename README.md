@@ -82,7 +82,6 @@ Note: the `--rm` flag will remove the container after execution.
 
 Usage
 ----
-<<<<<<< HEAD
 
 Once Skiptarcer is launched, the menu system can be used to navigate between plugins and
 execute them, passing in parameters from the command line.
@@ -179,7 +178,6 @@ python3 -m doctest test_runner.py
 ```
 
 
-=======
 Full details on how to use Skiptracer are on the wiki located [here](https://github.com/xillwillx/skiptracer/wiki)
 
 To-Do
@@ -191,4 +189,3 @@ Skiptracer is intedned to be a community driven application. If you are interest
 * More Options from other countries so not so U.S.-centric results
 * Bypass some of the methods being used to block scapers, i.e. headless selenium
 * Ideas?
->>>>>>> 2768781984287110d279fffda4cd38413f4ae498
