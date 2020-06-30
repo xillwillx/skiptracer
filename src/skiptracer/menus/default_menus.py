@@ -174,7 +174,7 @@ class DefaultMenus():
         Set a proxy for requests
         """
 
-        print("proxy menu")
+        print("Proxy development in progress")
 
     def emailmenu(self):
         """
