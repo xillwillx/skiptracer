@@ -54,13 +54,24 @@ class HaveIBeenPwwnedGrabber(PageGrabber):
 
             self.source = ast.literal_eval(self.source)  # cast string to bytes
             self.source = self.source.decode('utf8')  # decode string
-            self.source = ast.literal_eval(self.source)  # cast string to dict
+            try:
+                self.source = ast.literal_eval(self.source)  # cast string to dict
+            except:
+                print("Probably being rate limited/blocked")
+                print(self.source)
+                return {}
 
             self.resurl = 1
+            if self.source['statusCode'] and self.source['statusCode'] == 401:
+                print(str(self.source['statusCode']) +" : "+ self.source['message'])
+                return {}
+
             for dataset in self.source:
                 self.result = dataset
+ 
 
                 if self.result:
+                    print (self.result)
                     self.breach = self.result['BreachDate']
                     self.domain = self.result['Domain']
                     self.title = self.result['Title']

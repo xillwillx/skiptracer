@@ -153,11 +153,16 @@ class WhoCallIdGrabber(PageGrabber):
         self.url = 'https://whocalld.com/+1{}'.format(phone_number)
         self.source = self.get_source(self.url)
         self.soup = self.get_dom(self.source)
-        if self.soup.body.find_all(string=re.compile(
-                '.*{0}.*'.format('country')), recursive=True):
+        
+        try:
+            if self.soup.body.find_all(string=re.compile(
+                    '.*{0}.*'.format('country')), recursive=True):
+                print("  [" + bc.CRED + "X" + bc.CEND + "] " +
+                      bc.CYLW + "No WhoCallID data returned\n" + bc.CEND)
+                return
+        except:
             print("  [" + bc.CRED + "X" + bc.CEND + "] " +
-                  bc.CYLW + "No WhoCallID data returned\n" + bc.CEND)
-            return
+                  bc.CYLW + "Unable to extract data. Is the site online?\n" + bc.CEND)
 
         name = self.get_name()
         location = self.get_location()
