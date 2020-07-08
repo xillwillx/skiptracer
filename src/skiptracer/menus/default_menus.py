@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
 from __future__ import print_function
 from pkg_resources import get_distribution
 from .help_menu import HelpMenu
@@ -149,6 +148,7 @@ class DefaultMenus():
         Select a menu item and then
         action it.
         """
+        print ("mtype is: "+str(mtype))
         if gselect == "":
             menu()
         if gselect == "exit":
@@ -284,3 +284,5 @@ class DefaultMenus():
             "\t[Does the mark have a known license plate? - ex: (ABC1234|XYZ123)]: ")
         bi.email = input(
             "\t[What is the marks email address? - ex: username@domain.tld]: ")
+
+        self.intromenu()
