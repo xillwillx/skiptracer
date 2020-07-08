@@ -296,7 +296,8 @@ class TruthFinderGrabber(PageGrabber):
                                   (age))
                             pass
                         try:
-                            locloc = broken.index('<li class="location">') + 2
+                            locloc = broken.index('<li class="address">') + 2
+                            print(broken)
                             locations = broken[locloc]
                             locations = locations.replace(
                                 ", <span>",
