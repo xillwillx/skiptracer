@@ -1,11 +1,9 @@
 from __future__ import print_function
 from __future__ import absolute_import
-#######################################################################
-#   haveibeenpwned scraper - returns breach name and date for email     #
-#######################################################################
 from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc
 from .. import proxygrabber
+
 import logging
 import json
 import ast

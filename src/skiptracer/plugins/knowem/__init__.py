@@ -1,6 +1,3 @@
-#
-# KnowEm Module - 0daysimpson & illwill
-#
 from ..base import PageGrabber
 from ...colors.default_colors import DefaultBodyColors as bc
 import re
@@ -11,6 +8,7 @@ import requests
 class KnowemGrabber(PageGrabber):
     """
     knowem.com scraper for screenname lookups
+    by: 0daysimpson & illwill
     """
 
     def get_info(self, username, type):
