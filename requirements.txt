@@ -20,7 +20,7 @@ pickleshare==0.7.5
 pprint==0.1
 prompt-toolkit==3.0.5
 ptyprocess==0.6.0
-Pygments==2.6.1
+Pygments==2.7.4
 python-dotenv==0.13.0
 requests==2.24.0
 selenium==3.141.0
