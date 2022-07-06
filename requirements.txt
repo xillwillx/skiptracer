@@ -12,7 +12,7 @@ ipdb==0.13.3
 ipython==7.16.1
 ipython-genutils==0.2.0
 jedi==0.17.1
-lxml==4.5.1
+lxml==4.9.1
 numpy==1.19.0
 parso==0.7.0
 pexpect==4.8.0
